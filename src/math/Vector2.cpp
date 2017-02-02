@@ -5,7 +5,7 @@
  *      Author: zxi
  */
 
-#include "Vector2.h"
+#include "math/Vector2.h"
 
 #include <cmath>
 #include <algorithm>
