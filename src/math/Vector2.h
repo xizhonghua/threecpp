@@ -19,6 +19,9 @@ public:
   Vector2& operator=(const Vector2& v) = default;
   ~Vector2();
 
+  // return this
+  inline Vector2& set(double x = 0, double y = 0);
+
   // get
   const double operator[](int index) const;
   // set
@@ -35,9 +38,6 @@ public:
   // return a new copy of this
   Vector2 clone();
 
-  // return this
-  inline Vector2& set(double x, double y);
-
   Vector2& copy(const Vector2& v);
   Vector2& min(const Vector2& v);
   Vector2& max(const Vector2& v);
@@ -46,7 +46,6 @@ public:
   inline Vector2& normailize();
 
   // Operators
-
 
   Vector2 operator+(const double scalar) const;
   Vector2 operator-(const double scalar) const;
@@ -71,8 +70,8 @@ public:
   Vector2& operator*=(const Vector2& v);
   Vector2& operator/=(const Vector2& v);
 
-  double x;
-  double y;
+  double x = 0;
+  double y = 0;
 };
 
 } /* namespace three */
