@@ -12,7 +12,7 @@ namespace three {
 
 class Color {
 public:
-  Color(float r, float g, float b);
+  Color(float r = 0, float g = 0, float b = 0);
   Color(long long hex);
 
   ~Color();

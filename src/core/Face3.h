@@ -17,18 +17,18 @@ namespace three {
 
 class Face3 {
 public:
-  Face3(const Vector3& a, const Vector3& b, const Vector3& c);
-  Face3(const Vector3& a, const Vector3& b, const Vector3& c,
-      const Vector3& normal);
+  Face3() = delete;
+  Face3(int a, int b, int c);
+  Face3(int a, int b, int c, const Vector3& normal);
 
   Face3(const Face3& f) = default;
   Face3(Face3&& f) = default;
 
   ~Face3();
 
-  Vector3 a;
-  Vector3 b;
-  Vector3 c;
+  int a;
+  int b;
+  int c;
   Vector3 normal;
 
   Color color;

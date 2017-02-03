@@ -9,9 +9,13 @@
 
 namespace three {
 
-Face3::Face3(const Vector3& a, const Vector3& b, const Vector3& c) :
+Face3::Face3(int a, int b, int c) :
     Face3(a, b, c, Vector3 { 0, 0, 0 }) {
 
+}
+
+Face3::Face3(int a, int b, int c, const Vector3& normal) :
+    a(a), b(b), c(c), normal(normal) {
 }
 
 Face3::~Face3() {
