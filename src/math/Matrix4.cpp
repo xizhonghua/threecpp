@@ -16,8 +16,16 @@ Matrix4::Matrix4() {
 Matrix4::~Matrix4() {
 }
 
+Matrix4& Matrix4::toArray(std::vector<double>& array, int offset) {
+  return this->toArray(&array[0], offset);
+}
 
+Matrix4& Matrix4::toArray(double* array, int offset) {
+  for (int i = 0; i < 16; ++i) {
+    array[offset + i] = this->elements[i];
+  }
 
-
+  return *this;
+}
 
 } /* namespace three */

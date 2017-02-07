@@ -9,6 +9,7 @@
 #define MATH_MATRIX4_H_
 
 #include <array>
+#include <vector>
 
 namespace three {
 
@@ -87,6 +88,9 @@ public:
     }
     return *this;
   }
+
+  Matrix4& toArray(std::vector<double>& array, int offset = 0);
+  Matrix4& toArray(double* array, int offset = 0);
 
   // column wise
   std::array<double, 16> elements;
