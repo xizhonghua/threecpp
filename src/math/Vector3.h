@@ -21,6 +21,35 @@ public:
 
   inline Vector3& set(double x = 0, double y = 0, double z = 0);
 
+  inline Vector3 operator+(const Vector3& v) const {
+    return Vector3 { x + v.x, y + v.y, z + v.z};
+  }
+
+  inline Vector3& operator+=(const Vector3& v) {
+    this->x += v.x;
+    this->y += v.y;
+    this->z += v.z;
+
+    return *this;
+  }
+
+  inline Vector3 operator-(const Vector3& v) const {
+    return Vector3 { x - v.x, y - v.y, z - v.z };
+  }
+
+  inline Vector3& operator-=(const Vector3& v) {
+    this->x -= v.x;
+    this->y -= v.y;
+    this->z -= v.z;
+
+    return *this;
+  }
+
+  // Dot product
+  inline double operator*(const Vector3& v) const {
+    return x * v.x + y * v.y + z * v.z;
+  }
+
   double x = 0;
   double y = 0;
   double z = 0;
