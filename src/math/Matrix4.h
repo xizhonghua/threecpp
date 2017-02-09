@@ -11,6 +11,8 @@
 #include <array>
 #include <vector>
 
+#include "math/Vector4.h"
+
 namespace three {
 
 class Matrix4 {
@@ -89,6 +91,25 @@ public:
     return *this;
   }
 
+  ////////////////////////////////////////////////////////////
+  // Matrix4 * Vector4 (4x4)(4x1) = 4x1
+  ////////////////////////////////////////////////////////////
+  inline Vector4 operator*(const Vector4& v) {
+    double x = elements[0] * v.x + elements[4] * v.y + elements[8] * v.z
+        + elements[12] * v.w;
+    double y = elements[1] * v.x + elements[5] * v.y + elements[9] * v.z
+        + elements[13] * v.w;
+    double z = elements[2] * v.x + elements[6] * v.y + elements[10] * v.z
+        + elements[14] * v.w;
+    double w = elements[3] * v.x + elements[7] * v.y + elements[11] * v.z
+        + elements[15] * v.w;
+
+    return Vector4(x, y, z, w);
+  }
+
+  /////////////////////////////////////////////////////////////
+  // Convert to array
+  /////////////////////////////////////////////////////////////
   Matrix4& toArray(std::vector<double>& array, int offset = 0);
   Matrix4& toArray(double* array, int offset = 0);
 

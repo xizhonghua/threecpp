@@ -1,7 +1,7 @@
 #!/bin/bash
 echo generating...
 
-SRC_DIR="../../src"
+SRC_DIR="../../"
 
 mkdir -p build/debug
 cd build/debug

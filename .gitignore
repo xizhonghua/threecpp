@@ -1,4 +1,5 @@
 build/*
-src/.cproject
-src/.project
+.cproject
+.project
+.settings/*
 src/.settings/*
