@@ -19,6 +19,10 @@ public:
   ~Camera();
 
 
+  Camera& lookAt(const Vector3& target);
+
+
+
 protected:
   Matrix4 projectionMatrix_;
   Matrix4 matrixWorldInverse_;

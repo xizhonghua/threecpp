@@ -11,6 +11,7 @@
 #include <cmath>
 
 #include "math/Vector3.h"
+#include "math/Matrix4.h"
 
 namespace three {
 
@@ -30,6 +31,11 @@ public:
     this->z = z;
     this->w = w;
 
+    return *this;
+  }
+
+  inline Quaternion& setFromRotationMatrix(const Matrix4& m) {
+    //TODO(zxi)
     return *this;
   }
 

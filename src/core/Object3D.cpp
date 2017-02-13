@@ -11,6 +11,7 @@
 
 namespace three {
 
+const Vector3 Object3D::defaultUp { 0, 1, 0 };
 long long Object3D::object3DId = 0;
 
 Object3D::Object3D() {

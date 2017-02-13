@@ -100,7 +100,7 @@ public:
   // Non-inline methods
   ////////////////////////////////////////////////////////////
 
-  // Modify this as a rotation matrix
+  // Modify this as a rotation matrix, will not modify translation part
   Matrix4& lookAt(const Vector3& eye, const Vector3& target, const Vector3& up);
 
 

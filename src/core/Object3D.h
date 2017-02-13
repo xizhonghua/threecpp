@@ -33,12 +33,17 @@ public:
 
   bool visible { true };
   Vector3 position { 0, 0, 0 };
+  Vector3 up { defaultUp };
+
   Euler rotation { 0, 0, 0, EulerOrder::XYZ };
   Vector3 scale { 1, 1, 1 };
   Quaternion quaternion { 0, 0, 0, 1 };
 
   Object3D* parent { nullptr };
   std::vector<Object3D*> children;
+
+  // Default is {0, 1, 0}
+  const static Vector3 defaultUp;
 
   static long long object3DId;
 };

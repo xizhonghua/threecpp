@@ -77,6 +77,26 @@ public:
     return x * v.x + y * v.y + z * v.z;
   }
 
+  // Cross product
+  inline Vector3 operator%(const Vector3& v) const {
+    Vector3 a(*this);
+
+    return a %= v;
+  }
+
+  inline Vector3& operator%=(const Vector3& v) {
+
+    double tx = x;
+    double ty = y;
+    double tz = z;
+
+    this->x = y * v.z - z * v.y;
+    this->y = z * v.x - x * v.z;
+    this->z = x * v.y - y * v.x;
+
+    return *this;
+  }
+
   //
   inline Vector3& operator*=(double s) {
     this->x *= s;

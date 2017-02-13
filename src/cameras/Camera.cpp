@@ -10,12 +10,19 @@
 namespace three {
 
 Camera::Camera() {
-  // TODO Auto-generated constructor stub
-
 }
 
 Camera::~Camera() {
-  // TODO Auto-generated destructor stub
+}
+
+Camera& Camera::lookAt(const Vector3& target) {
+
+  Matrix4 m;
+  m.lookAt(this->position, target, this->up);
+
+  this->quaternion.setFromRotationMatrix(m);
+
+  return *this;
 }
 
 } /* namespace three */
