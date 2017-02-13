@@ -16,6 +16,15 @@ Matrix4::Matrix4() {
 Matrix4::~Matrix4() {
 }
 
+////////////////////////////////////////////////////////////////////
+Matrix4& Matrix4::lookAt(const Vector3& eye, const Vector3& target, const Vector3& up)
+{
+
+  const Vector3 direction = eye - target;
+
+  return *this;
+}
+
 Matrix4& Matrix4::toArray(std::vector<double>& array, int offset) {
   return this->toArray(&array[0], offset);
 }

@@ -11,6 +11,8 @@
 #include <vector>
 #include <functional>
 
+#include "math/Euler.h"
+#include "math/Quaternion.h"
 #include "math/Vector3.h"
 
 namespace three {
@@ -31,7 +33,9 @@ public:
 
   bool visible { true };
   Vector3 position { 0, 0, 0 };
+  Euler rotation { 0, 0, 0, EulerOrder::XYZ };
   Vector3 scale { 1, 1, 1 };
+  Quaternion quaternion { 0, 0, 0, 1 };
 
   Object3D* parent { nullptr };
   std::vector<Object3D*> children;

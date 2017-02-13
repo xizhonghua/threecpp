@@ -9,6 +9,7 @@
 #define CAMERAS_CAMERA_H_
 
 #include "core/Object3D.h"
+#include "math/Matrix4.h"
 
 namespace three {
 
@@ -16,6 +17,11 @@ class Camera: public Object3D {
 public:
   Camera();
   ~Camera();
+
+
+protected:
+  Matrix4 projectionMatrix_;
+  Matrix4 matrixWorldInverse_;
 };
 
 } /* namespace three */

@@ -8,12 +8,48 @@
 #ifndef SRC_MATH_QUATERNION_H_
 #define SRC_MATH_QUATERNION_H_
 
+#include <cmath>
+
+#include "math/Vector3.h"
+
 namespace three {
 
 class Quaternion {
 public:
-  Quaternion();
-  ~Quaternion();
+
+  Quaternion(double x = 0.0, double y = 0.0, double z = 0.0, double w = 1.0) {
+    this->set(x, y, z, w);
+  }
+
+  ~Quaternion() {
+  }
+
+  inline Quaternion& set(double x, double y, double z, double w) {
+    this->x = x;
+    this->y = y;
+    this->z = z;
+    this->w = w;
+
+    return *this;
+  }
+
+  inline Quaternion& setFromAxisAngle(const Vector3& axis, double angle) {
+
+    double halfAngle = angle / 2;
+    double s = sin(halfAngle);
+
+    this->x = axis.x * s;
+    this->y = axis.y * s;
+    this->z = axis.z * s;
+    this->w = cos(halfAngle);
+
+    return *this;
+  }
+
+  double x { 0.0 };
+  double y { 0.0 };
+  double z { 0.0 };
+  double w { 0.0 };
 };
 
 } /* namespace three */

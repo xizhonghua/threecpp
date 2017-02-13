@@ -81,4 +81,13 @@ TEST_CASE( "Vector3 operators", "[Vector3]") {
   // *, dot product
   REQUIRE(v1 * v2 == 2 + 8 + 18);
 
+  // *=
+  {
+    Vector3 v(v1);
+    v *= 2;
+    REQUIRE(v.x == 2);
+    REQUIRE(v.y == 4);
+    REQUIRE(v.z == 6);
+  }
+
 }

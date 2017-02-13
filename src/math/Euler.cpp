@@ -9,13 +9,5 @@
 
 namespace three {
 
-Euler::Euler() {
-  // TODO Auto-generated constructor stub
-
-}
-
-Euler::~Euler() {
-  // TODO Auto-generated destructor stub
-}
 
 } /* namespace three */

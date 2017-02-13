@@ -9,13 +9,5 @@
 
 namespace three {
 
-Quaternion::Quaternion() {
-  // TODO Auto-generated constructor stub
-
-}
-
-Quaternion::~Quaternion() {
-  // TODO Auto-generated destructor stub
-}
 
 } /* namespace three */

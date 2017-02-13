@@ -8,16 +8,20 @@
 #ifndef MATH_MATRIX4_H_
 #define MATH_MATRIX4_H_
 
+#include <cmath>
 #include <array>
 #include <vector>
 
+#include "math/Vector3.h"
 #include "math/Vector4.h"
 
 namespace three {
 
 class Matrix4 {
 public:
+  // Create an identity matrix
   Matrix4();
+
   ~Matrix4();
   Matrix4(const Matrix4& m) = default;
   Matrix4(Matrix4&& m) = default;
@@ -90,6 +94,15 @@ public:
     }
     return *this;
   }
+
+
+  ////////////////////////////////////////////////////////////
+  // Non-inline methods
+  ////////////////////////////////////////////////////////////
+
+  // Modify this as a rotation matrix
+  Matrix4& lookAt(const Vector3& eye, const Vector3& target, const Vector3& up);
+
 
   ////////////////////////////////////////////////////////////
   // Matrix4 * Vector4 (4x4)(4x1) = 4x1

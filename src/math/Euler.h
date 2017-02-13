@@ -16,7 +16,9 @@ enum class EulerOrder {
 
 class Euler {
 public:
-  Euler() {
+  Euler(double x = 0, double y = 0, double z = 0, EulerOrder order =
+      EulerOrder::XYZ) :
+      x { x }, y { y }, z { z }, order { order } {
 
   }
 
@@ -29,7 +31,9 @@ public:
     return *this;
   }
 
-  ~Euler();
+  ~Euler() {
+
+  }
 
   double x { 0 };
   double y { 0 };
