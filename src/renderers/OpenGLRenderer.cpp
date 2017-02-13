@@ -7,6 +7,9 @@
 
 #include <renderers/OpenGLRenderer.h>
 
+#include <scenes/Scene.h>
+#include <cameras/Camera.h>
+
 namespace three {
 
 OpenGLRenderer::OpenGLRenderer() {
@@ -16,6 +19,10 @@ OpenGLRenderer::OpenGLRenderer() {
 
 OpenGLRenderer::~OpenGLRenderer() {
   // TODO Auto-generated destructor stub
+}
+
+void render(Scene* scene, Camera* camera) {
+  //TODO(zxi)
 }
 
 } /* namespace three */

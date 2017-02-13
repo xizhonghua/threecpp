@@ -4,12 +4,22 @@ project(threecpp)
 # Modules
 add_subdirectory(cameras)
 add_subdirectory(core)
+add_subdirectory(geometries)
+add_subdirectory(materials)
 add_subdirectory(math)
+add_subdirectory(objects)
+add_subdirectory(renderers)
+add_subdirectory(scenes)
 
 set(LIBS
   cameras
   core
-  math)
+  geometries
+  materials
+  math
+  objects
+  renderers
+  scenes)
 
 # Combine All
 add_library(threecpp three.cc)
