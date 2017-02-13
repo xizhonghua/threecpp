@@ -24,6 +24,8 @@ public:
   Face3(const Face3& f) = default;
   Face3(Face3&& f) = default;
 
+  Face3& operator=(const Face3& f) = default;
+
   ~Face3();
 
   int a;

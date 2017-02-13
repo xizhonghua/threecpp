@@ -14,8 +14,17 @@ namespace three {
 
 class BoxGeometry: public Geometry {
 public:
-  BoxGeometry();
+  BoxGeometry(double width, double height, double depth, int widthSegments = 1,
+      int heightSegments = 1, int depthSegments = 1);
+
   ~BoxGeometry();
+private:
+  double width;
+  double height;
+  double depth;
+  int widthSegments;
+  int heightSegments;
+  int depthSegments;
 };
 
 } /* namespace three */

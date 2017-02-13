@@ -31,8 +31,10 @@ int main(void) {
   glfwMakeContextCurrent(window);
 
   PerspectiveCamera camera { 75, 640 / 480.0, 1, 1000 };
+  camera.position.z = 1000;
+
   Scene scene;
-  BoxGeometry geometry;
+  BoxGeometry geometry { 200, 200, 200 };
   MeshBasicMaterial material;
   Mesh mesh(&geometry, &material);
   scene.add(&mesh);
@@ -42,6 +44,10 @@ int main(void) {
   while (!glfwWindowShouldClose(window)) {
     /* Render here */
     glClear(GL_COLOR_BUFFER_BIT);
+
+    // Rotate the mesh
+    mesh.rotation.x += 0.01;
+    mesh.rotation.y += 0.02;
 
     // Render the scene from the camera
     render.render(&scene, &camera);
