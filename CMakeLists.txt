@@ -1,5 +1,14 @@
 cmake_minimum_required(VERSION 3.7)
 
+enable_testing()
+
+find_package(PkgConfig REQUIRED)
+pkg_search_module(GLFW REQUIRED glfw3)
+find_package(OpenGL REQUIRED)
+
+include_directories(${GLFW_INCLUDE_DIRS})
+link_directories(/opt/local/lib)
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 

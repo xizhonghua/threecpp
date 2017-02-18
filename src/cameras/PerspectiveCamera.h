@@ -15,11 +15,7 @@ namespace three {
 class PerspectiveCamera: public Camera {
 public:
   PerspectiveCamera(double fov = 50, double aspect = 1.0, double near = 0.1,
-      double far = 2000) :
-      fov(fov), aspect(aspect), near(near), far(far) {
-
-    this->updateProjectionMatrix();
-  }
+      double far = 2000);
   ~PerspectiveCamera() {
   }
 

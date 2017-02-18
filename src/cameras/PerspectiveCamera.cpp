@@ -9,5 +9,10 @@
 
 namespace three {
 
+PerspectiveCamera::PerspectiveCamera(double fov, double aspect, double near,
+    double far) :
+    fov(fov), aspect(aspect), near(near), far(far) {
+  this->updateProjectionMatrix();
+}
 
 } /* namespace three */

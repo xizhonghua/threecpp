@@ -94,4 +94,16 @@ TEST_CASE( "Vector4 operators", "[Vector4]") {
   // *, dot product
   REQUIRE(v1 * v2 == 2 + 8 + 18 + 32);
 
+  // ^ component-wise multiplication
+  {
+    Vector4 v = v1 ^ v2;
+    REQUIRE(v == Vector4(2, 8, 18, 32));
+  }
+
+  // ^=
+  {
+    Vector4 v(v1);
+    v ^= v2;
+    REQUIRE(v == Vector4(2, 8, 18, 32));
+  }
 }

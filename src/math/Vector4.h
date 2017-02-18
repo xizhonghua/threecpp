@@ -27,10 +27,6 @@ public:
     return *this;
   }
 
-  inline Vector4 operator+(const Vector4& v) const {
-    return Vector4 { x + v.x, y + v.y, z + v.z, w + v.w };
-  }
-
   inline Vector4& operator+=(const Vector4& v) {
     this->x += v.x;
     this->y += v.y;
@@ -40,8 +36,10 @@ public:
     return *this;
   }
 
-  inline Vector4 operator-(const Vector4& v) const {
-    return Vector4 { x - v.x, y - v.y, z - v.z, w - v.w };
+  inline Vector4 operator+(const Vector4& v) const {
+    Vector4 out(*this);
+    out += v;
+    return out;
   }
 
   inline Vector4& operator-=(const Vector4& v) {
@@ -53,9 +51,40 @@ public:
     return *this;
   }
 
+  inline Vector4 operator-(const Vector4& v) const {
+    Vector4 out(*this);
+    out -= v;
+    return out;
+  }
+
   // Dot product
   inline double operator*(const Vector4& v) const {
     return x * v.x + y * v.y + z * v.z + w * v.w;
+  }
+
+  // Component-wise multiplication
+  inline Vector4& operator^=(const Vector4& v) {
+    this->x *= v.x;
+    this->y *= v.y;
+    this->z *= v.z;
+    this->w *= v.w;
+    return *this;
+  }
+
+  inline Vector4 operator^(const Vector4& v) const {
+    Vector4 out(*this);
+    out ^= v;
+    return out;
+  }
+
+  inline bool operator==(const Vector4& v) const {
+    return (this->x == v.x) && (this->y == v.y) && (this->z == v.z)
+        && (this->w == v.w);
+  }
+
+  inline bool operator!=(const Vector4& v) const {
+    return (this->x != v.x) || (this->y != v.y) || (this->z != v.z)
+        || (this->w != v.w);
   }
 
   double x = 0;
