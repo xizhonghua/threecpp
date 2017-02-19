@@ -11,6 +11,7 @@
 #include <cmath>
 #include <array>
 #include <vector>
+#include <iostream>
 
 #include "math/Vector3.h"
 #include "math/Vector4.h"
@@ -129,6 +130,11 @@ public:
     return Vector4(x, y, z, w);
   }
 
+  Matrix4& asPerspective(double left, double right, double top, double bottom,
+      double near, double far);
+  Matrix4& asLookAt(const Vector3& eye, const Vector3& target,
+      const Vector3& up);
+
   /////////////////////////////////////////////////////////////
   // Convert to array
   /////////////////////////////////////////////////////////////
@@ -139,13 +145,19 @@ public:
   // Factory methods
   ////////////////////////////////////////////////////////////
   static Matrix4 makeTranslation(const Vector3& t);
+  static Matrix4 makePerspective(double left, double right, double top,
+      double bottom, double near, double far);
+  static Matrix4 makeLookAt(const Vector3& eye, const Vector3& target,
+      const Vector3& up);
 
   ////////////////////////////////////////////////////////////
   // Data members
   ////////////////////////////////////////////////////////////
 
   // column wise
-  std::array<double, 16> elements;
+  double elements[16];
+
+  friend std::ostream& operator<<(std::ostream& out, const Matrix4& m);
 };
 
 } /* namespace three */

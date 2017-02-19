@@ -19,11 +19,7 @@ public:
   ~PerspectiveCamera() {
   }
 
-  void updateProjectionMatrix() {
-    //TODO(zxi)
-
-//    this->projectionMatrix_.
-  }
+  void updateProjectionMatrix();
 
   double fov { 0.0 };
   double zoom { 1.0 };

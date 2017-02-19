@@ -37,12 +37,12 @@ public:
   }
 
   // The squared length of the vector
-  inline double lengthSqr() const {
+  inline double lengthSq() const {
     return x * x + y * y + z * z;
   }
 
   inline double length() const {
-    return sqrt(lengthSqr());
+    return sqrt(lengthSq());
   }
 
   // Modify this
@@ -92,9 +92,9 @@ public:
     double ty = y;
     double tz = z;
 
-    this->x = y * v.z - z * v.y;
-    this->y = z * v.x - x * v.z;
-    this->z = x * v.y - y * v.x;
+    this->x = ty * v.z - tz * v.y;
+    this->y = tz * v.x - tx * v.z;
+    this->z = tx * v.y - ty * v.x;
 
     return *this;
   }

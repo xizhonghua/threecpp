@@ -11,7 +11,7 @@ using namespace three;
 class BasicWindowApp: public WindowApp {
 private:
   Scene scene;
-  PerspectiveCamera camera { 75, width_ * 1.0 / height_, 0, 1e5 };
+  PerspectiveCamera camera{ 75, width_ * 1.0 / height_, 1, 10000};
   BoxGeometry geometry { 200, 200, 200 };
   MeshBasicMaterial material;
   Mesh mesh { &geometry, &material };

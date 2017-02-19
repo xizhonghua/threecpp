@@ -49,21 +49,17 @@ void OpenGLRenderer::updateProjectionMatrix(Camera* camera) {
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
-  if (dynamic_cast<PerspectiveCamera*>(camera) != nullptr) {
-
-    PerspectiveCamera* c = dynamic_cast<PerspectiveCamera*>(camera);
-
-    auto projection_matrix = GLKMatrix4MakePerspective(
-        GLKMathDegreesToRadians(c->fov), c->aspect, c->near, c->far);
-
-    glMultMatrixf(projection_matrix.m);
-
-  }
+  glMultMatrixd(camera->projectionMatrix().elements);
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  auto view_matrix = GLKMatrix4MakeLookAt(camera->position.x, camera->position.y, camera->position.z, 0,0,0, 0, 1, 0);
-  glMultMatrixf(view_matrix.m);
+
+  //TODO(zxi) use camera up
+  glMultMatrixd(
+      Matrix4::makeLookAt(camera->position, Vector3 { 0, 0, 0 }, Vector3 { 0, 1,
+          0 }).elements);
+
+//  GLKMatrix4MakeLookAt()
 }
 
 void OpenGLRenderer::renderObject(Object3D* object) {

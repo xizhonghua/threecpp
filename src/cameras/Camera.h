@@ -18,10 +18,11 @@ public:
   Camera();
   ~Camera();
 
-
   Camera& lookAt(const Vector3& target);
 
-
+  const Matrix4& projectionMatrix() const {
+    return projectionMatrix_;
+  }
 
 protected:
   Matrix4 projectionMatrix_;
