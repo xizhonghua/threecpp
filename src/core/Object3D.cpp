@@ -8,6 +8,7 @@
 #include "core/Object3D.h"
 
 #include <stdexcept>
+#include <algorithm>
 
 namespace three {
 

@@ -125,7 +125,7 @@ Vector2 Vector2::operator-(const double scalar) const {
 
 Vector2 Vector2::operator*(const double scalar) const {
 
-  if (isfinite(scalar)) {
+  if (std::isfinite(scalar)) {
     return Vector2(x * scalar, y * scalar);
   } else {
     return Vector2 { 0, 0 };
@@ -141,7 +141,7 @@ Vector2& Vector2::operator+=(const double scalar) {
 }
 
 Vector2& Vector2::operator*=(const double scalar) {
-  if (isfinite(scalar)) {
+  if (std::isfinite(scalar)) {
     return this->set(x * scalar, y * scalar);
   } else {
     return this->set(0, 0);

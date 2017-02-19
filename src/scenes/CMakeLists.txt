@@ -1,4 +1,4 @@
 add_library(scenes
-  scene.cpp)
+  Scene.cpp)
 
 add_dependencies(scenes core)
