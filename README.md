@@ -1,6 +1,6 @@
 ## threecpp
 
-A C++ version of [three.js](https://threejs.org/)
+Another C++ version of [three.js](https://threejs.org/)
 
 
 ### Example
@@ -47,3 +47,7 @@ int main(void) {
 ```
 
 ### Current Status
+For demo purpose
+
+### Contact
+xizhonghua AT gmail
