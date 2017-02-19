@@ -10,12 +10,9 @@
 namespace three {
 
 MeshBasicMaterial::MeshBasicMaterial() {
-  // TODO Auto-generated constructor stub
-
 }
 
 MeshBasicMaterial::~MeshBasicMaterial() {
-  // TODO Auto-generated destructor stub
 }
 
 } /* namespace three */

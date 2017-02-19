@@ -10,12 +10,22 @@
 
 #include <materials/Material.h>
 
+#include <math/Color.h>
+
 namespace three {
 
 class MeshBasicMaterial: public Material {
 public:
   MeshBasicMaterial();
   ~MeshBasicMaterial();
+
+  bool wireframe() const {
+    return wireframe_;
+  }
+
+protected:
+  Color color_;
+  bool wireframe_ { false };
 };
 
 } /* namespace three */

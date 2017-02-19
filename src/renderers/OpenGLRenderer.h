@@ -22,11 +22,19 @@ public:
   OpenGLRenderer();
   ~OpenGLRenderer();
 
+  void setSize(int width, int height);
+
   void render(Scene* scene, Camera* camera);
 
 protected:
+  void updateProjectionMatrix(Camera* camera);
   void renderObject(Object3D* object);
   void renderMesh(Mesh* mesh);
+
+  int width_ {0};
+  int height_ {0};
+
+  bool first_ {true};
 };
 
 } /* namespace three */

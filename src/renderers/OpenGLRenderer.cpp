@@ -7,13 +7,16 @@
 
 #include <renderers/OpenGLRenderer.h>
 
+#include <cmath>
 #include <iostream>
 
 #include <GLFW/glfw3.h>
 #include <GL/glu.h>
 #include <GLKit/GLKMatrix4.h>
+#include <GLKit/GLKMath.h>
 
 #include <cameras/Camera.h>
+#include <cameras/PerspectiveCamera.h>
 #include <scenes/Scene.h>
 #include <objects/Mesh.h>
 
@@ -22,47 +25,57 @@ using namespace std;
 namespace three {
 
 OpenGLRenderer::OpenGLRenderer() {
-  // TODO Auto-generated constructor stub
-
 }
 
 OpenGLRenderer::~OpenGLRenderer() {
-  // TODO Auto-generated destructor stub
+}
+
+void OpenGLRenderer::setSize(int width, int height) {
+  width_ = width;
+  height_ = height;
 }
 
 void OpenGLRenderer::render(Scene* scene, Camera* camera) {
 
-  //glViewport(0, 0, 640, 640);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluPerspective(90, 1.0, 0, 1e5);
-
-//  glMultMatrix( GLKMatrix4MakePerspective(60, 1.0, -100, 1e5));
+  updateProjectionMatrix(camera);
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-//  gluLookAt(camera->position.x, camera->position.y, camera->position.z, 0, 0, 0,
-//      0, 1, 0);
+  gluLookAt(camera->position.x, camera->position.y, camera->position.z, 0, 0,
+      0, 0, 1, 0);
 
   glColor3f(1.0, 0.0, 0.0);
 
   glMatrixMode(GL_MODELVIEW);
-  glPushMatrix();
 
   auto f = [=](Object3D* object) {
     this->renderObject(object);
   };
 
   scene->traverseVisible(f);
+}
 
-  glPopMatrix();
+void OpenGLRenderer::updateProjectionMatrix(Camera* camera) {
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
 
-  glMatrixMode(GL_MODELVIEW);
+  if (dynamic_cast<PerspectiveCamera*>(camera) != nullptr) {
+
+    PerspectiveCamera* c = dynamic_cast<PerspectiveCamera*>(camera);
+
+    auto projection_matrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(c->fov),
+        c->aspect, c->near, c->far);
+
+    glMultMatrixf(projection_matrix.m);
+
+    return;
+  }
+
 }
 
 void OpenGLRenderer::renderObject(Object3D* object) {
 
-//  glPushMatrix();
+  glPushMatrix();
   glRotated(object->rotation.x, 1, 0, 0);
   glRotated(object->rotation.y, 0, 1, 0);
   glRotated(object->rotation.z, 0, 0, 1);
@@ -73,7 +86,7 @@ void OpenGLRenderer::renderObject(Object3D* object) {
     this->renderMesh(mesh);
   }
 
-//  glPopMatrix();
+  glPopMatrix();
 }
 
 void OpenGLRenderer::renderMesh(Mesh* mesh) {

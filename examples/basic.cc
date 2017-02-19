@@ -20,8 +20,12 @@ int main(void) {
   if (!glfwInit())
     return -1;
 
+  const int window_width = 640;
+  const int window_height = 640;
+
   /* Create a windowed mode window and its OpenGL context */
-  window = glfwCreateWindow(640, 640, "Hello World", NULL, NULL);
+  window = glfwCreateWindow(window_width, window_height, "ThreeCPP", NULL,
+  NULL);
   if (!window) {
     glfwTerminate();
     return -1;
@@ -30,20 +34,24 @@ int main(void) {
   /* Make the window's context current */
   glfwMakeContextCurrent(window);
 
-  PerspectiveCamera camera { 75, 640.0 / 640.0, 1, 1000 };
-  camera.position.z = 3;
-  std::cerr << "Camera position " << camera.position << std::endl;
+  std::unique_ptr<Camera> camera(
+      new PerspectiveCamera { 75, window_width * 1.0 / window_height, 0, 1e5 });
+  camera->position.z = 1000;
 
-  Scene scene;
-  std::unique_ptr<Geometry> geometry(new BoxGeometry { 1, 1, 1 });
+  std::unique_ptr<Scene> scene(new Scene);
+
+  std::unique_ptr<Geometry> geometry(new BoxGeometry { 200, 200, 200 });
   std::unique_ptr<Material> material(new MeshBasicMaterial());
   std::unique_ptr<Mesh> mesh(new Mesh(geometry.get(), material.get()));
-  scene.add(mesh.get());
-  OpenGLRenderer render;
+  scene->add(mesh.get());
+
+  std::unique_ptr<OpenGLRenderer> render(new OpenGLRenderer);
+  render->setSize(window_width, window_height);
 
   glShadeModel(GL_SMOOTH);
-  glEnable(GL_DEPTH_TEST);
+//  glEnable(GL_DEPTH_TEST);
   glClearColor(1.0, 1.0, 1.0, 1.0);
+  glfwSwapInterval(1);
 
   /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(window)) {
@@ -51,11 +59,11 @@ int main(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Rotate the mesh
-    mesh->rotation.x += 0.1;
-    mesh->rotation.y += 0.2;
+    mesh->rotation.x += 0.5;
+    mesh->rotation.y += 1.0;
 
     // Render the scene from the camera
-    render.render(&scene, &camera);
+    render->render(scene.get(), camera.get());
 
     /* Swap front and back buffers */
     glfwSwapBuffers(window);
