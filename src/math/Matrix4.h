@@ -55,6 +55,17 @@ public:
     return *this;
   }
 
+  inline Matrix4& setPosition(const Vector3& v) {
+    return this->setPosition(v.x, v.y, v.z);
+  }
+
+  inline Matrix4& setPosition(double x, double y, double z) {
+    elements[12] = x;
+    elements[13] = y;
+    elements[14] = z;
+    return *this;
+  }
+
   // Set self to identity matrix
   inline Matrix4& identity() {
     return set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
@@ -95,14 +106,12 @@ public:
     return *this;
   }
 
-
   ////////////////////////////////////////////////////////////
   // Non-inline methods
   ////////////////////////////////////////////////////////////
 
   // Modify this as a rotation matrix, will not modify translation part
   Matrix4& lookAt(const Vector3& eye, const Vector3& target, const Vector3& up);
-
 
   ////////////////////////////////////////////////////////////
   // Matrix4 * Vector4 (4x4)(4x1) = 4x1
@@ -125,6 +134,15 @@ public:
   /////////////////////////////////////////////////////////////
   Matrix4& toArray(std::vector<double>& array, int offset = 0);
   Matrix4& toArray(double* array, int offset = 0);
+
+  ////////////////////////////////////////////////////////////
+  // Factory methods
+  ////////////////////////////////////////////////////////////
+  static Matrix4 makeTranslation(const Vector3& t);
+
+  ////////////////////////////////////////////////////////////
+  // Data members
+  ////////////////////////////////////////////////////////////
 
   // column wise
   std::array<double, 16> elements;

@@ -15,4 +15,16 @@ Geometry::Geometry() {
 Geometry::~Geometry() {
 }
 
+Geometry& Geometry::applyMatrix(const Matrix4& m) {
+
+  for (Vector3& v : vertices) {
+    v *= m;
+  }
+
+  //TODO(zxi)
+  // face normals, etc.
+
+  return *this;
+}
+
 } /* namespace three */

@@ -11,9 +11,11 @@
 #include <vector>
 
 #include "core/Face3.h"
+#include "math/Color.h"
+#include "math/Matrix4.h"
 #include "math/Vector2.h"
 #include "math/Vector3.h"
-#include "math/Color.h"
+
 
 
 namespace three {
@@ -22,6 +24,8 @@ class Geometry {
 public:
   Geometry();
   ~Geometry();
+
+  Geometry& applyMatrix(const Matrix4& m);
 
   std::vector<Vector3> vertices;
   std::vector<Face3> faces;

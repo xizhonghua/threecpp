@@ -52,10 +52,15 @@ BoxGeometry::BoxGeometry(double width, double height, double depth,
 
   this->faces = {f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11};
 
+  // Translate center to (0,0,0);
+  Matrix4 m = Matrix4::makeTranslation(
+      Vector3(-width / 2, -height / 2, -depth / 2));
+
+  this->applyMatrix(m);
+
 }
 
 BoxGeometry::~BoxGeometry() {
-  // TODO Auto-generated destructor stub
 }
 
 } /* namespace three */

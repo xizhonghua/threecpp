@@ -62,4 +62,14 @@ Matrix4& Matrix4::toArray(double* array, int offset) {
   return *this;
 }
 
+////////////////////////////////////////////////////////////
+// Factory methods
+////////////////////////////////////////////////////////////
+Matrix4 Matrix4::makeTranslation(const Vector3& t) {
+  Matrix4 m;
+  m.setPosition(t);
+
+  return m;
+}
+
 } /* namespace three */

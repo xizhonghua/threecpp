@@ -32,10 +32,10 @@ OpenGLRenderer::~OpenGLRenderer() {
 
 void OpenGLRenderer::render(Scene* scene, Camera* camera) {
 
-  glViewport(0, 0, 640, 640);
+  //glViewport(0, 0, 640, 640);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluPerspective(60, 1.0, -1e5, 1e5);
+  gluPerspective(90, 1.0, 0, 1e5);
 
 //  glMultMatrix( GLKMatrix4MakePerspective(60, 1.0, -100, 1e5));
 
@@ -56,6 +56,8 @@ void OpenGLRenderer::render(Scene* scene, Camera* camera) {
   scene->traverseVisible(f);
 
   glPopMatrix();
+
+  glMatrixMode(GL_MODELVIEW);
 }
 
 void OpenGLRenderer::renderObject(Object3D* object) {
