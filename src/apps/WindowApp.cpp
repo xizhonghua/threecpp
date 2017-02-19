@@ -5,8 +5,7 @@
  *      Author: zxi
  */
 
-#include <app/WindowApp.h>
-
+#include <apps/WindowApp.h>
 #include <cstdlib>
 #include <GLFW/glfw3.h>
 

@@ -5,8 +5,8 @@
  *      Author: zxi
  */
 
-#ifndef SRC_APP_WINDOWAPP_H_
-#define SRC_APP_WINDOWAPP_H_
+#ifndef SRC_APPS_WINDOWAPP_H_
+#define SRC_APPS_WINDOWAPP_H_
 
 // forward declaration
 class GLFWwindow;
@@ -42,4 +42,4 @@ protected:
 
 } /* namespace three */
 
-#endif /* SRC_APP_WINDOWAPP_H_ */
+#endif /* SRC_APPS_WINDOWAPP_H_ */

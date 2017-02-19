@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.0)
 project(threecpp)
 
 # Modules
-add_subdirectory(app)
+add_subdirectory(apps)
 add_subdirectory(cameras)
 add_subdirectory(core)
 add_subdirectory(geometries)

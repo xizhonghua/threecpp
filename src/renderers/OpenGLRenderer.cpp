@@ -37,11 +37,6 @@ void OpenGLRenderer::render(Scene* scene, Camera* camera) {
   updateProjectionMatrix(camera);
 
   glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  gluLookAt(camera->position.x, camera->position.y, camera->position.z, 0, 0, 0,
-      0, 1, 0);
-
-  glMatrixMode(GL_MODELVIEW);
 
   auto f = [=](Object3D* object) {
     this->renderObject(object);
@@ -63,9 +58,12 @@ void OpenGLRenderer::updateProjectionMatrix(Camera* camera) {
 
     glMultMatrixf(projection_matrix.m);
 
-    return;
   }
 
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  auto view_matrix = GLKMatrix4MakeLookAt(camera->position.x, camera->position.y, camera->position.z, 0,0,0, 0, 1, 0);
+  glMultMatrixf(view_matrix.m);
 }
 
 void OpenGLRenderer::renderObject(Object3D* object) {
