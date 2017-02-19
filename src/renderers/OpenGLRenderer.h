@@ -9,8 +9,10 @@
 #define SRC_RENDERERS_OPENGLRENDERER_H_
 
 namespace three {
-class Scene;
 class Camera;
+class Mesh;
+class Object3D;
+class Scene;
 }
 
 namespace three {
@@ -21,6 +23,10 @@ public:
   ~OpenGLRenderer();
 
   void render(Scene* scene, Camera* camera);
+
+protected:
+  void renderObject(Object3D* object);
+  void renderMesh(Mesh* mesh);
 };
 
 } /* namespace three */

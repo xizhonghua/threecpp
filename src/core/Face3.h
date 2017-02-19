@@ -28,9 +28,9 @@ public:
 
   ~Face3();
 
-  int a;
-  int b;
-  int c;
+  int a { -1 };
+  int b { -1 };
+  int c { -1 };
   Vector3 normal;
 
   Color color;

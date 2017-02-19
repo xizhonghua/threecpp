@@ -40,12 +40,7 @@ TEST_CASE( "Vector3 operators", "[Vector3]") {
 
   // +
   {
-
-    Vector3 v = v1 + v2;
-
-    REQUIRE(v.x == 3);
-    REQUIRE(v.y == 6);
-    REQUIRE(v.z == 9);
+    REQUIRE(v1 + v2 == Vector3(3, 6, 9));
   }
 
   // +=
@@ -54,9 +49,7 @@ TEST_CASE( "Vector3 operators", "[Vector3]") {
     Vector3 v(v1);
     v += v2;
 
-    REQUIRE(v.x == 3);
-    REQUIRE(v.y == 6);
-    REQUIRE(v.z == 9);
+    REQUIRE(v == Vector3(3, 6, 9));
   }
 
   // -
@@ -81,13 +74,24 @@ TEST_CASE( "Vector3 operators", "[Vector3]") {
   // *, dot product
   REQUIRE(v1 * v2 == 2 + 8 + 18);
 
-  // *=
+  // *= Scalar
   {
     Vector3 v(v1);
     v *= 2;
     REQUIRE(v.x == 2);
     REQUIRE(v.y == 4);
     REQUIRE(v.z == 6);
+  }
+
+  // *= Scalar
+  {
+    REQUIRE((Vector3(v1) *= 2) == Vector3(2, 4, 6));
+  }
+
+  // / Scalar
+  {
+    REQUIRE(v2 / 2 == v1);
+    REQUIRE((Vector3(v2) /= 2) == v1);
   }
 
 }

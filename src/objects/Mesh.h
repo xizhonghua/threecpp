@@ -21,6 +21,15 @@ public:
   // if any of the parameter is null, will create and own it
   Mesh(Geometry* geometry, Material* material);
   ~Mesh();
+
+  Geometry* const getGeomtry() const {
+    return geometry_;
+  }
+
+  Material* const getMaterial() const {
+    return material_;
+  }
+
 protected:
   Geometry* geometry_;
   bool own_geometry_ { false };

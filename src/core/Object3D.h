@@ -20,7 +20,7 @@ namespace three {
 class Object3D {
 public:
   Object3D();
-  ~Object3D();
+  virtual ~Object3D();
 
   Object3D& add(Object3D* child);
   Object3D& remove(Object3D* child);
