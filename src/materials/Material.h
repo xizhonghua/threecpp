@@ -13,7 +13,7 @@ namespace three {
 class Material {
 public:
   Material();
-  ~Material();
+  virtual ~Material();
 };
 
 } /* namespace three */

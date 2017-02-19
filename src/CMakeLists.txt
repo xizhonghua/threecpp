@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8.0)
 project(threecpp)
 
 # Modules
+add_subdirectory(app)
 add_subdirectory(cameras)
 add_subdirectory(core)
 add_subdirectory(geometries)
@@ -12,6 +13,7 @@ add_subdirectory(renderers)
 add_subdirectory(scenes)
 
 set(LIBS
+  apps
   cameras
   core
   geometries

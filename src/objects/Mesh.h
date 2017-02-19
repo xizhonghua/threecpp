@@ -16,6 +16,7 @@ namespace three {
 
 class Mesh: public Object3D {
 public:
+
   // Create a mesh with geometry and material
   // does not own any of non-null objects
   // if any of the parameter is null, will create and own it

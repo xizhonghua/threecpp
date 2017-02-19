@@ -15,10 +15,7 @@
 #include <GLKit/GLKMatrix4.h>
 #include <GLKit/GLKMath.h>
 
-#include <cameras/Camera.h>
-#include <cameras/PerspectiveCamera.h>
-#include <scenes/Scene.h>
-#include <objects/Mesh.h>
+#include "three.h"
 
 using namespace std;
 
@@ -41,10 +38,8 @@ void OpenGLRenderer::render(Scene* scene, Camera* camera) {
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(camera->position.x, camera->position.y, camera->position.z, 0, 0,
-      0, 0, 1, 0);
-
-  glColor3f(1.0, 0.0, 0.0);
+  gluLookAt(camera->position.x, camera->position.y, camera->position.z, 0, 0, 0,
+      0, 1, 0);
 
   glMatrixMode(GL_MODELVIEW);
 
@@ -63,8 +58,8 @@ void OpenGLRenderer::updateProjectionMatrix(Camera* camera) {
 
     PerspectiveCamera* c = dynamic_cast<PerspectiveCamera*>(camera);
 
-    auto projection_matrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(c->fov),
-        c->aspect, c->near, c->far);
+    auto projection_matrix = GLKMatrix4MakePerspective(
+        GLKMathDegreesToRadians(c->fov), c->aspect, c->near, c->far);
 
     glMultMatrixf(projection_matrix.m);
 
@@ -89,7 +84,16 @@ void OpenGLRenderer::renderObject(Object3D* object) {
   glPopMatrix();
 }
 
+void OpenGLRenderer::prepareMaterial(Material* material) {
+  if (dynamic_cast<MeshBasicMaterial*>(material) != nullptr) {
+    MeshBasicMaterial* mat = dynamic_cast<MeshBasicMaterial*>(material);
+    glColor3f(mat->color().r, mat->color().g, mat->color().b);
+  }
+}
+
 void OpenGLRenderer::renderMesh(Mesh* mesh) {
+
+  prepareMaterial(mesh->getMaterial());
 
   Geometry* const geom = mesh->getGeomtry();
   glBegin(GL_LINES);

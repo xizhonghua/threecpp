@@ -10,6 +10,7 @@
 
 namespace three {
 class Camera;
+class Material;
 class Mesh;
 class Object3D;
 class Scene;
@@ -27,9 +28,10 @@ public:
   void render(Scene* scene, Camera* camera);
 
 protected:
-  void updateProjectionMatrix(Camera* camera);
+  void prepareMaterial(Material* material);
   void renderObject(Object3D* object);
   void renderMesh(Mesh* mesh);
+  void updateProjectionMatrix(Camera* camera);
 
   int width_ {0};
   int height_ {0};

@@ -13,7 +13,10 @@ namespace three {
 class Color {
 public:
   Color(float r = 0, float g = 0, float b = 0);
-  Color(long long hex);
+  Color(int hex);
+  Color(const Color& c) = default;
+  Color(Color&& c) = default;
+  Color& operator=(const Color& c) = default;
 
   ~Color();
 
