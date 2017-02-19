@@ -3,3 +3,5 @@ add_library(geometries
 
 add_dependencies(geometries
   core)
+target_link_libraries(geometries
+ core)

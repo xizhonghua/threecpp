@@ -12,8 +12,6 @@
 
 #include <GLFW/glfw3.h>
 #include <GL/glu.h>
-#include <GLKit/GLKMatrix4.h>
-#include <GLKit/GLKMath.h>
 
 #include "three.h"
 
