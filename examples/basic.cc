@@ -13,17 +13,15 @@ private:
   Scene scene;
   PerspectiveCamera camera { 60, width_ * 1.0 / height_, 1, 10000 };
   BoxGeometry geometry { 200, 200, 200 };
-  MeshBasicMaterial material1, material2;
+  MeshBasicMaterial material1;
+  MeshBasicMaterial material2;
   Mesh mesh1 { &geometry, &material1 };
   Mesh mesh2 { &geometry, &material2 };
   OpenGLRenderer renderer;
 
 public:
   BasicWindowApp() :
-      WindowApp(800, 450) {
-  }
-
-  virtual ~BasicWindowApp() {
+      WindowApp(800, 450, "examples/Basic") {
   }
 
   void initScene() override {
@@ -31,11 +29,11 @@ public:
 
     camera.position.z = 800;
 
-    mesh1.position.x -= 300;
-    mesh2.position.x += 300;
-
     material1.color(Color(0x0000ff)).wireframe(true);
     material2.color(Color(0xff0000)).wireframe(false);
+
+    mesh1.position.x -= 300;
+    mesh2.position.x += 300;
 
     scene.add(&mesh1);
     scene.add(&mesh2);
@@ -53,8 +51,5 @@ public:
 };
 
 int main(void) {
-  BasicWindowApp app;
-  app.init();
-  app.run();
-  return 0;
+  return BasicWindowApp().init().run();
 }

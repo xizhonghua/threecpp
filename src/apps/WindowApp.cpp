@@ -11,14 +11,14 @@
 
 namespace three {
 
-void WindowApp::init() {
+WindowApp& WindowApp::init() {
 
   /* Initialize the library */
   if (!glfwInit())
     exit(-1);
 
   /* Create a windowed mode window and its OpenGL context */
-  window_ = glfwCreateWindow(width_, height_, "ThreeCPP", NULL,
+  window_ = glfwCreateWindow(width_, height_, title_.c_str(), NULL,
   NULL);
   if (!window_) {
     glfwTerminate();
@@ -33,9 +33,11 @@ void WindowApp::init() {
   glfwSwapInterval(1);
 
   this->initScene();
+
+  return *this;
 }
 
-void WindowApp::run() {
+int WindowApp::run() {
   /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(window_)) {
     /* Render here */
@@ -44,13 +46,15 @@ void WindowApp::run() {
     this->animate();
 
     /* Swap front and back buffers */
-    glfwSwapBuffers (window_);
+    glfwSwapBuffers(window_);
 
     /* Poll for and process events */
     glfwPollEvents();
   }
 
   glfwTerminate();
+
+  return 0;
 }
 
 } /* namespace three */

@@ -11,6 +11,8 @@
 // forward declaration
 class GLFWwindow;
 
+#include <string>
+
 namespace three {
 
 class WindowApp {
@@ -19,13 +21,13 @@ public:
 
   }
 
-  WindowApp(int width, int height) :
-      width_(width), height_(height) {
+  WindowApp(int width, int height, std::string title = "ThreeCpp") :
+      width_(width), height_(height), title_(title) {
 
   }
 
-  void init();
-  void run();
+  WindowApp& init();
+  int run();
 
   // implement following methods
   virtual void initScene()=0;
@@ -34,6 +36,8 @@ public:
   virtual ~WindowApp() {
   }
 protected:
+
+  std::string title_ { "ThreeCpp" };
 
   GLFWwindow* window_ { nullptr };
   int width_ { 640 };
