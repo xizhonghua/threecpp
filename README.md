@@ -52,8 +52,7 @@ int main(void) {
   return BasicWindowApp().init().run();
 }
 ```
-
-<img src="./docs/examples/basic.png" width="800" />
+<kbd><img src="./docs/examples/basic.png" width="800" /></kbd>
 
 ### Current Status
 For demo purpose
