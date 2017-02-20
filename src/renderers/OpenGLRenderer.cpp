@@ -26,9 +26,19 @@ OpenGLRenderer::OpenGLRenderer() {
 OpenGLRenderer::~OpenGLRenderer() {
 }
 
-void OpenGLRenderer::setSize(int width, int height) {
+OpenGLRenderer& OpenGLRenderer::setSize(int width, int height) {
   width_ = width;
   height_ = height;
+
+  glViewport(0, 0, width_ * pixel_ratio_, height_ * pixel_ratio_);
+
+  return *this;
+}
+
+OpenGLRenderer& OpenGLRenderer::setPixelRatio(double pixel_ratio) {
+  this->pixel_ratio_ = pixel_ratio;
+
+  return *this;
 }
 
 void OpenGLRenderer::render(Scene* scene, Camera* camera) {
@@ -52,8 +62,6 @@ void OpenGLRenderer::updateProjectionMatrix(Camera* camera) {
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-
-
 
 //TODO(zxi) use camera up
   glMultMatrixd(

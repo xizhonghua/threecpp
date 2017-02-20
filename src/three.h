@@ -10,6 +10,7 @@
 
 #include <apps/WindowApp.h>
 #include "cameras/Camera.h"
+#include "cameras/OrthographicCamera.h"
 #include "cameras/PerspectiveCamera.h"
 #include "core/Face3.h"
 #include "core/Object3D.h"

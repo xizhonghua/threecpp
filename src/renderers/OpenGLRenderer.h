@@ -23,7 +23,8 @@ public:
   OpenGLRenderer();
   ~OpenGLRenderer();
 
-  void setSize(int width, int height);
+  OpenGLRenderer& setSize(int width, int height);
+  OpenGLRenderer& setPixelRatio(double pixel_ratio);
 
   void render(Scene* scene, Camera* camera);
 
@@ -35,6 +36,7 @@ protected:
 
   int width_ {0};
   int height_ {0};
+  double pixel_ratio_ {1.0};
 
   bool first_ {true};
 };

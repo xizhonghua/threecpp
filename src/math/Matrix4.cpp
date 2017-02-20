@@ -123,6 +123,7 @@ Matrix4& Matrix4::asOrthographic(double left, double right, double top,
   te[11] = 0;
   te[15] = 1;
 
+
   return *this;
 }
 

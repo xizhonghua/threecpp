@@ -65,13 +65,20 @@ WindowApp& WindowApp::init() {
   /* Make the window's context current */
   glfwMakeContextCurrent(window_);
 
-// bind key callback
+  // bind key callback
   glfwSetKeyCallback(window_, GLFkeyCallback);
 
   glShadeModel(GL_SMOOTH);
   glClearColor(1.0, 1.0, 1.0, 1.0);
   glfwSwapInterval(1);
 
+  GLint m_viewport[4];
+  glGetIntegerv( GL_VIEWPORT, m_viewport);
+
+  // Get device pixel ratio
+  this->pixel_ratio_ = m_viewport[2] / width_;
+
+  // Call derived class
   this->initScene();
 
   return *this;

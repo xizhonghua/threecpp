@@ -13,6 +13,8 @@ class GLFWwindow;
 
 #include <string>
 #include <unordered_map>
+#include <iostream>
+using namespace std;
 
 namespace three {
 
@@ -31,14 +33,20 @@ public:
   WindowApp& init();
   int run();
 
+  double getPixelRatio() const {
+    return pixel_ratio_;
+  }
+
   // Clients need to implement following methods
   virtual void initScene()=0;
   virtual void animate() = 0;
 
   // Call WindowApp.onKeyXXX() in derived method first for default behavior.
   virtual void onKeyPress(int key, bool shift, bool ctrl, bool alt, bool super);
-  virtual void onKeyRelease(int key, bool shift, bool ctrl, bool alt, bool super);
-  virtual void onKeyRepeat(int key, bool shift, bool ctrl, bool alt, bool super);
+  virtual void onKeyRelease(int key, bool shift, bool ctrl, bool alt,
+      bool super);
+  virtual void onKeyRepeat(int key, bool shift, bool ctrl, bool alt,
+      bool super);
 
   static WindowApp* getApp(GLFWwindow* window) {
     return windows_map_[window];
@@ -51,6 +59,7 @@ protected:
   GLFWwindow* window_ { nullptr };
   int width_ { 640 };
   int height_ { 640 };
+  double pixel_ratio_ { 1.0 };
 private:
   // Map GLFWindows to apps
   static std::unordered_map<GLFWwindow*, WindowApp*> windows_map_;
