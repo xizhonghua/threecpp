@@ -58,8 +58,8 @@ int main(void) {
 For demo purpose
 
 ### TODOs
-* Lighting Feb, 2017
-* Materials Mar, 2017
+* Feb, 2017: Cameras, Keyboard Event, Lighting
+* Mar, 2017: Materials
 
 ### Contact
 xizhonghua AT gmail
