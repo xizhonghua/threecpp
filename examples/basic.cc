@@ -11,15 +11,16 @@ using namespace three;
 class BasicWindowApp: public WindowApp {
 private:
   Scene scene;
-  PerspectiveCamera camera { 75, width_ * 1.0 / height_, 1, 10000 };
+  PerspectiveCamera camera { 60, width_ * 1.0 / height_, 1, 10000 };
   BoxGeometry geometry { 200, 200, 200 };
-  MeshBasicMaterial material;
-  Mesh mesh { &geometry, &material };
+  MeshBasicMaterial material1, material2;
+  Mesh mesh1 { &geometry, &material1 };
+  Mesh mesh2 { &geometry, &material2 };
   OpenGLRenderer renderer;
 
 public:
   BasicWindowApp() :
-      WindowApp(500, 500) {
+      WindowApp(800, 450) {
   }
 
   virtual ~BasicWindowApp() {
@@ -27,14 +28,26 @@ public:
 
   void initScene() override {
     renderer.setSize(width_, height_);
-    camera.position.z = 500;
-    material.color(Color(0x0000ff)).wireframe(true);
-    scene.add(&mesh);
+
+    camera.position.z = 800;
+
+    mesh1.position.x -= 300;
+    mesh2.position.x += 300;
+
+    material1.color(Color(0x0000ff)).wireframe(true);
+    material2.color(Color(0xff0000)).wireframe(false);
+
+    scene.add(&mesh1);
+    scene.add(&mesh2);
   }
 
   void animate() override {
-    mesh.rotation.x += 0.5;
-    mesh.rotation.y += 1.0;
+    mesh1.rotation.x += 0.5;
+    mesh1.rotation.y += 1.0;
+
+    mesh2.rotation.x += 1.0;
+    mesh2.rotation.y += 0.5;
+
     renderer.render(&scene, &camera);
   }
 };

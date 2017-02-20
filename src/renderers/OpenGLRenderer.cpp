@@ -14,6 +14,7 @@
 #include <GL/glu.h>
 
 #include "three.h"
+#include "glExtension.h"
 
 using namespace std;
 
@@ -63,13 +64,18 @@ void OpenGLRenderer::updateProjectionMatrix(Camera* camera) {
 void OpenGLRenderer::renderObject(Object3D* object) {
 
   glPushMatrix();
-  glRotated(object->rotation.x, 1, 0, 0);
-  glRotated(object->rotation.y, 0, 1, 0);
-  glRotated(object->rotation.z, 0, 0, 1);
 
   Mesh* mesh = dynamic_cast<Mesh*>(object);
 
   if (mesh != nullptr) {
+    glTranslated(mesh->position);
+  }
+
+  glRotated(object->rotation.x, 1, 0, 0);
+  glRotated(object->rotation.y, 0, 1, 0);
+  glRotated(object->rotation.z, 0, 0, 1);
+
+  if(mesh != nullptr) {
     this->renderMesh(mesh);
   }
 
@@ -86,22 +92,27 @@ void OpenGLRenderer::renderMesh(Mesh* mesh) {
 
   prepareMaterial(mesh->getMaterial());
 
+  GLenum state;
+
+  if (mesh->getMaterial()->wireframe()) {
+    state = GL_LINE_LOOP;
+  } else {
+    state = GL_TRIANGLES;
+  }
+
   Geometry* const geom = mesh->getGeomtry();
-  glBegin(GL_LINES);
 
   for (const Face3& f : geom->faces) {
     std::vector<Vector3*> vs = { &(geom->vertices[f.a]), &(geom->vertices[f.b]),
         &(geom->vertices[f.c]) };
 
-    for (int i = 1; i <= 3; ++i) {
-      const auto v0 = vs[i - 1];
-      const auto v1 = vs[i % 3];
-      glVertex3d(v0->x, v0->y, v0->z);
-      glVertex3d(v1->x, v1->y, v1->z);
+    glBegin(state);
+    for (Vector3* const v : vs) {
+      glVertex3d(v);
     }
+    glEnd();
   }
 
-  glEnd();
 }
 
 } /* namespace three */

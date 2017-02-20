@@ -162,10 +162,9 @@ public:
   Vector3 operator*(const Quaternion& q) const;
   Vector3& operator*=(const Quaternion& q);
 
-  double x = 0;
-  double y = 0;
-  double z = 0;
-
+  double x { 0 };
+  double y { 0 };
+  double z { 0 };
 
   friend std::ostream& operator<<(std::ostream& out, const Vector3& v);
 };
