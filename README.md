@@ -57,5 +57,9 @@ int main(void) {
 ### Current Status
 For demo purpose
 
+### TODOs
+* Lighting Feb, 2017
+* Materials Mar, 2017
+
 ### Contact
 xizhonghua AT gmail
