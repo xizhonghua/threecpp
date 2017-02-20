@@ -12,29 +12,38 @@
 class GLFWwindow;
 
 #include <string>
+#include <unordered_map>
 
 namespace three {
 
 class WindowApp {
 public:
   WindowApp() {
-
   }
 
   WindowApp(int width, int height, std::string title = "ThreeCpp") :
       width_(width), height_(height), title_(title) {
+  }
 
+  virtual ~WindowApp() {
   }
 
   WindowApp& init();
   int run();
 
-  // implement following methods
+  // Clients need to implement following methods
   virtual void initScene()=0;
   virtual void animate() = 0;
 
-  virtual ~WindowApp() {
+  // Call WindowApp.onKeyXXX() in derived method first for default behavior.
+  virtual void onKeyPress(int key, bool shift, bool ctrl, bool alt, bool super);
+  virtual void onKeyRelease(int key, bool shift, bool ctrl, bool alt, bool super);
+  virtual void onKeyRepeat(int key, bool shift, bool ctrl, bool alt, bool super);
+
+  static WindowApp* getApp(GLFWwindow* window) {
+    return windows_map_[window];
   }
+
 protected:
 
   std::string title_ { "ThreeCpp" };
@@ -42,6 +51,9 @@ protected:
   GLFWwindow* window_ { nullptr };
   int width_ { 640 };
   int height_ { 640 };
+private:
+  // Map GLFWindows to apps
+  static std::unordered_map<GLFWwindow*, WindowApp*> windows_map_;
 };
 
 } /* namespace three */
