@@ -13,10 +13,8 @@ private:
   Scene scene;
   PerspectiveCamera camera { 60, width_ * 1.0 / height_, 1, 10000 };
   BoxGeometry geometry { 200, 200, 200 };
-  MeshBasicMaterial material1;
-  MeshBasicMaterial material2;
-  Mesh mesh1 { &geometry, &material1 };
-  Mesh mesh2 { &geometry, &material2 };
+  MeshBasicMaterial material1, material2;
+  Mesh mesh1 { &geometry, &material1 }, mesh2 { &geometry, &material2 };
   OpenGLRenderer renderer;
 
 public:
