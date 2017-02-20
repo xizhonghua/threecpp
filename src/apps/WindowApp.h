@@ -41,12 +41,21 @@ public:
   virtual void initScene()=0;
   virtual void animate() = 0;
 
-  // Call WindowApp.onKeyXXX() in derived method first for default behavior.
+  /////////////////////////////////////////////////////////////////////////////
+  // Callback
+  /////////////////////////////////////////////////////////////////////////////
+
+  // Call WindowApp.onKeyXXX() at the last of the derived method for default
+  // behavior.
   virtual void onKeyPress(int key, bool shift, bool ctrl, bool alt, bool super);
   virtual void onKeyRelease(int key, bool shift, bool ctrl, bool alt,
       bool super);
   virtual void onKeyRepeat(int key, bool shift, bool ctrl, bool alt,
       bool super);
+  virtual void onResize(int width, int height);
+
+
+  /////////////////////////////////////////////////////////////////////////////
 
   static WindowApp* getApp(GLFWwindow* window) {
     return windows_map_[window];

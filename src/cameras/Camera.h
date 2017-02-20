@@ -16,7 +16,7 @@ namespace three {
 class Camera: public Object3D {
 public:
   Camera();
-  ~Camera();
+  virtual ~Camera();
 
   Camera& lookAt(const Vector3& target);
 
@@ -24,10 +24,16 @@ public:
     return projectionMatrix_;
   }
 
+  virtual void updateProjectionMatrix() = 0;
+
+  // public properties
+  double zoom { 1.0 };
+  double aspect { 1.0 };
+
 protected:
   Matrix4 projectionMatrix_;
   Matrix4 matrixWorldInverse_;
-  double zoom_ { 1.0 };
+
 };
 
 } /* namespace three */

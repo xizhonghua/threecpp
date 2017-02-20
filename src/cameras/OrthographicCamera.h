@@ -17,16 +17,21 @@ public:
   OrthographicCamera(double left, double right, double top, double bottom,
       double near = 0.1, double far = 2000);
   ~OrthographicCamera();
+
+  void updateProjectionMatrix() override;
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Properties
+  // need to call updateProjectionMatrix() after setting
+  /////////////////////////////////////////////////////////////////////////////
+  double left;
+  double right;
+  double top;
+  double bottom;
+  double near;
+  double far;
 private:
 
-  void updateProjectionMatrix();
-
-  double left_;
-  double right_;
-  double top_;
-  double bottom_;
-  double near_;
-  double far_;
 };
 
 } /* namespace three */

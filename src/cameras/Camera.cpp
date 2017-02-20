@@ -25,4 +25,5 @@ Camera& Camera::lookAt(const Vector3& target) {
   return *this;
 }
 
+
 } /* namespace three */

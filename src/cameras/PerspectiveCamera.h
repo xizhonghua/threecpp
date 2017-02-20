@@ -19,7 +19,11 @@ public:
   ~PerspectiveCamera() {
   }
 
-  void updateProjectionMatrix();
+  void updateProjectionMatrix() override;
+
+  double fov { 0.0 };
+  double near { 0.1 };
+  double far { 2000 };
 
 private:
 
@@ -29,10 +33,6 @@ private:
   // horizontal film offset (same unit as gauge)
   double filmOffset { 0 };
 
-  double fov_ { 0.0 };
-  double aspect_ { 1.0 };
-  double near_ { 0.1 };
-  double far_ { 2000 };
 };
 
 } /* namespace three */

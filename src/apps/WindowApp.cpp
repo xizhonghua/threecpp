@@ -15,7 +15,7 @@
 #include <GLFW/glfw3.h>
 
 namespace {
-void GLFkeyCallback(GLFWwindow* window, int key, int scancode, int action,
+void GLFWKeyCallback(GLFWwindow* window, int key, int scancode, int action,
     int mods) {
 
   three::WindowApp* app = three::WindowApp::getApp(window);
@@ -28,9 +28,6 @@ void GLFkeyCallback(GLFWwindow* window, int key, int scancode, int action,
   const bool alt = mods & GLFW_MOD_ALT;
   const bool super = mods & GLFW_MOD_SUPER;
 
-//  std::cout << "key = " << key << " shift = " << shift << " control = "
-//      << control << " alt = " << alt << " super = " << super << std::endl;
-
   if (action == GLFW_PRESS) {
     app->onKeyPress(key, shift, control, alt, super);
   } else if (action == GLFW_RELEASE) {
@@ -40,7 +37,17 @@ void GLFkeyCallback(GLFWwindow* window, int key, int scancode, int action,
   }
 }
 
+void GLFWResizeCallback(GLFWwindow* window, int width, int height) {
+
+  three::WindowApp* app = three::WindowApp::getApp(window);
+
+  if (!app)
+    return;
+
+  app->onResize(width, height);
 }
+
+} // namespace
 
 namespace three {
 
@@ -66,7 +73,8 @@ WindowApp& WindowApp::init() {
   glfwMakeContextCurrent(window_);
 
   // bind key callback
-  glfwSetKeyCallback(window_, GLFkeyCallback);
+  glfwSetKeyCallback(window_, GLFWKeyCallback);
+  glfwSetWindowSizeCallback(window_, GLFWResizeCallback);
 
   glShadeModel(GL_SMOOTH);
   glClearColor(1.0, 1.0, 1.0, 1.0);
@@ -82,6 +90,11 @@ WindowApp& WindowApp::init() {
   this->initScene();
 
   return *this;
+}
+
+void WindowApp::onResize(int width, int height) {
+  //TODO(zxi)
+
 }
 
 void WindowApp::onKeyPress(int key, bool shift, bool ctrl, bool alt,
