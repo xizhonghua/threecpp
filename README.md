@@ -52,9 +52,14 @@ int main(void) {
   return BasicWindowApp().init().run();
 }
 ```
+<kbd><img src="./docs/examples/basic.png" width="800" /></kbd>
 
 ### Current Status
 For demo purpose
+
+### TODOs
+* Feb, 2017: Cameras, Keyboard Event, Lighting
+* Mar, 2017: Materials
 
 ### Contact
 xizhonghua AT gmail
