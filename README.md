@@ -53,7 +53,7 @@ int main(void) {
 }
 ```
 
-<img src="./docs/examples/basic.png" width="400" />
+<img src="./docs/examples/basic.png" width="800" />
 
 ### Current Status
 For demo purpose
