@@ -79,10 +79,9 @@ void OpenGLRenderer::renderObject(Object3D* object) {
 }
 
 void OpenGLRenderer::prepareMaterial(Material* material) {
-  if (dynamic_cast<MeshBasicMaterial*>(material) != nullptr) {
-    MeshBasicMaterial* mat = dynamic_cast<MeshBasicMaterial*>(material);
-    glColor3f(mat->color().r, mat->color().g, mat->color().b);
-  }
+
+  glColor3f(material->color().r, material->color().g, material->color().b);
+
 }
 
 void OpenGLRenderer::renderMesh(Mesh* mesh) {

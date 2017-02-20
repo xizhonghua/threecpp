@@ -9,13 +9,5 @@
 
 namespace three {
 
-Material::Material() {
-  // TODO Auto-generated constructor stub
-
-}
-
-Material::~Material() {
-  // TODO Auto-generated destructor stub
-}
 
 } /* namespace three */
