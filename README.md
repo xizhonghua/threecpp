@@ -23,7 +23,7 @@ public:
   }
 
   void initScene() override {
-    renderer.setSize(width_, height_);
+    renderer.setPixelRatio(this->getPixelRatio()).setSize(width_, height_);
 
     camera.position.z = 800;
 
