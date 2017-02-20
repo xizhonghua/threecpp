@@ -53,6 +53,8 @@ int main(void) {
 }
 ```
 
+![Screenshot](docs/examples/basic.png | width=600) 
+
 ### Current Status
 For demo purpose
 
