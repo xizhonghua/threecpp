@@ -23,7 +23,7 @@ public:
   }
 
   void initScene() override {
-    renderer.setSize(width_, height_);
+    renderer.setPixelRatio(getPixelRatio()).setSize(width_, height_);
 
     camera.position.z = 800;
 
@@ -58,7 +58,7 @@ int main(void) {
 For demo purpose
 
 ### TODOs
-* Feb, 2017: Cameras, Keyboard Event, Lighting
+* Feb, 2017: ~~Cameras~~, ~~Keyboard Event~~, Lighting
 * Mar, 2017: Materials
 
 ### Contact
