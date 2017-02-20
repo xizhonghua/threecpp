@@ -132,6 +132,8 @@ public:
 
   Matrix4& asPerspective(double left, double right, double top, double bottom,
       double near, double far);
+  Matrix4& asOrthographic(double left, double right, double top, double bottom, double near, double far);
+
   Matrix4& asLookAt(const Vector3& eye, const Vector3& target,
       const Vector3& up);
 
@@ -147,6 +149,7 @@ public:
   static Matrix4 makeTranslation(const Vector3& t);
   static Matrix4 makePerspective(double left, double right, double top,
       double bottom, double near, double far);
+  static Matrix4 makeOrthographic(double left, double right, double top, double bottom, double near, double far);
   static Matrix4 makeLookAt(const Vector3& eye, const Vector3& target,
       const Vector3& up);
 

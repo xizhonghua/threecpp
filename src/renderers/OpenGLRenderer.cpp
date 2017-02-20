@@ -53,31 +53,30 @@ void OpenGLRenderer::updateProjectionMatrix(Camera* camera) {
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
-  //TODO(zxi) use camera up
+
+
+//TODO(zxi) use camera up
   glMultMatrixd(
       Matrix4::makeLookAt(camera->position, Vector3 { 0, 0, 0 }, Vector3 { 0, 1,
           0 }).elements);
+  glRotated(camera->rotation);
 
 //  GLKMatrix4MakeLookAt()
 }
 
 void OpenGLRenderer::renderObject(Object3D* object) {
 
+  Mesh* mesh = dynamic_cast<Mesh*>(object);
+  if (mesh == nullptr)
+    return;
+
   glPushMatrix();
 
-  Mesh* mesh = dynamic_cast<Mesh*>(object);
+  glTranslated(mesh->position);
 
-  if (mesh != nullptr) {
-    glTranslated(mesh->position);
-  }
+  glRotated(mesh->rotation);
 
-  glRotated(object->rotation.x, 1, 0, 0);
-  glRotated(object->rotation.y, 0, 1, 0);
-  glRotated(object->rotation.z, 0, 0, 1);
-
-  if(mesh != nullptr) {
-    this->renderMesh(mesh);
-  }
+  this->renderMesh(mesh);
 
   glPopMatrix();
 }

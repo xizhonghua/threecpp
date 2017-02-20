@@ -27,6 +27,7 @@ public:
 protected:
   Matrix4 projectionMatrix_;
   Matrix4 matrixWorldInverse_;
+  double zoom_ { 1.0 };
 };
 
 } /* namespace three */

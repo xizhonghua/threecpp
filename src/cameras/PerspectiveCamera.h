@@ -21,18 +21,18 @@ public:
 
   void updateProjectionMatrix();
 
-  double fov { 0.0 };
-  double zoom { 1.0 };
-  double aspect { 1.0 };
-  double near { 0.1 };
-  double far { 2000 };
-
 private:
+
   // width of the film (default in millimeters)
   double filmGauge { 35 };
 
   // horizontal film offset (same unit as gauge)
   double filmOffset { 0 };
+
+  double fov_ { 0.0 };
+  double aspect_ { 1.0 };
+  double near_ { 0.1 };
+  double far_ { 2000 };
 };
 
 } /* namespace three */

@@ -11,6 +11,7 @@
 #include <GLFW/glfw3.h>
 
 #include <math/Vector3.h>
+#include <math/Euler.h>
 
 using namespace three;
 
@@ -28,6 +29,12 @@ inline void glTranslated(const Vector3& v) {
 
 inline void glTranslated(Vector3* const v) {
   glTranslated(*v);
+}
+
+inline void glRotated(const Euler& rotation) {
+  glRotated(rotation.x, 1, 0, 0);
+  glRotated(rotation.y, 0, 1, 0);
+  glRotated(rotation.z, 0, 0, 1);
 }
 
 #endif /* SRC_RENDERERS_GLEXTENSION_H_ */

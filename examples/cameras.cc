@@ -1,7 +1,7 @@
 /*
- * basic.cc
+ * cameras.cc
  *
- *  Created on: Feb 11, 2017
+ *  Created on: Feb 19, 2017
  *      Author: zxi
  */
 
@@ -9,7 +9,7 @@
 using namespace three;
 
 namespace {
-class BasicWindowApp: public WindowApp {
+class CameraExample: public WindowApp {
 private:
   Scene scene;
   PerspectiveCamera camera { 60, width_ * 1.0 / height_, 1, 10000 };
@@ -19,8 +19,8 @@ private:
   OpenGLRenderer renderer;
 
 public:
-  BasicWindowApp() :
-      WindowApp(800, 450, "examples/Basic") {
+  CameraExample() :
+      WindowApp(800, 450, "examples/cameras") {
   }
 
   void initScene() override {
@@ -39,11 +39,8 @@ public:
   }
 
   void animate() override {
-    mesh1.rotation.x += 0.5;
-    mesh1.rotation.y += 1.0;
-
-    mesh2.rotation.x += 1.0;
-    mesh2.rotation.y += 0.5;
+//    camera.rotation.x += 0.1;
+    camera.rotation.y += 0.2;
 
     renderer.render(&scene, &camera);
   }
@@ -51,5 +48,6 @@ public:
 }
 
 int main(void) {
-  return BasicWindowApp().init().run();
+  return CameraExample().init().run();
 }
+
