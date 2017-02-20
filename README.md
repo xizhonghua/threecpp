@@ -58,7 +58,7 @@ int main(void) {
 For demo purpose
 
 ### TODOs
-* Feb, 2017: Cameras, Keyboard Event, Lighting
+* Feb, 2017: ~~Cameras~~, ~~Keyboard Event~~, Lighting
 * Mar, 2017: Materials
 
 ### Contact
