@@ -53,7 +53,7 @@ int main(void) {
 }
 ```
 
-![Screenshot](docs/examples/basic.png | width=600) 
+<img src="./docs/examples/basic.png" width="400" />
 
 ### Current Status
 For demo purpose
