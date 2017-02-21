@@ -5,9 +5,9 @@
  *      Author: zxi
  */
 
-#include "math/Vector2.h"
+#include <three/math/Vector2.h>
 
-#include "test/catch.hpp"
+#include <test/catch.hpp>
 
 using three::Vector2;
 

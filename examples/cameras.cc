@@ -5,7 +5,7 @@
  *      Author: zxi
  */
 
-#include "three.h"
+#include <three/three.h>
 using namespace three;
 
 #include <ctime>
