@@ -12,6 +12,7 @@ namespace three {
 Light::Light(Color color, double intensity) :
     color(color), intensity(intensity) {
   this->type_ = "Light";
+  this->isLight_ = true;
 }
 
 Light::~Light() {

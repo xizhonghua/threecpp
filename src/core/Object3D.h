@@ -42,6 +42,26 @@ public:
     return this->isCamera_;
   }
 
+  bool isLight() const {
+    return this->isLight_;
+  }
+
+  bool isLine() const {
+    return this->isLine_;
+  }
+
+  bool isMesh() const {
+    return this->isMesh_;
+  }
+
+  bool isPoint() const {
+    return this->isPoint_;
+  }
+
+  unsigned long long id() const {
+    return this->id_;
+  }
+
   bool visible { true };
   Vector3 position { 0, 0, 0 };
   Vector3 up { defaultUp };
@@ -60,12 +80,21 @@ public:
   // Default is {0, 1, 0}
   const static Vector3 defaultUp;
 
-  static long long object3DId;
+  static unsigned long long object3DId;
 
 protected:
 
   std::string type_ { "Object3D" };
+
+  unsigned long long id_ { 0 };
+
+  // Object categories
   bool isCamera_ { false };
+  bool isLight_ { false };
+  bool isLine_ { false };
+  bool isMesh_ { false };
+  bool isPoint_ { false };
+
 };
 
 } /* namespace three */

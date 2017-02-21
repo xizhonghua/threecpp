@@ -122,4 +122,54 @@ void OpenGLRenderer::renderMesh(Mesh* mesh) {
 
 }
 
-} /* namespace three */
+void OpenGLRenderer::projectObject(Object3D* object, Camera* camera) {
+  if (object->visible)
+    return;
+
+  //TODO(zxi) check object/camera layer id
+  bool visible = true;
+  if (!visible)
+    goto SKIP;
+
+  if (object->isLight()) {
+    //TODO(zxi)
+  } else if (object->isMesh() || object->isLine() || object->isPoint()) {
+    //TODO(zxi) get geometry and material of the object
+
+    Geometry* geometry = nullptr;
+    Material* material = nullptr;
+
+  }
+
+  SKIP: for (auto child : object->children) {
+    projectObject(child, camera);
+  }
+}
+
+void OpenGLRenderer::pushRenderItem(Object3D* object, Geometry* geometry,
+    Material* material, double z) {
+
+  std::vector<RenderItem>* array = nullptr;
+  int index = 0;
+
+  if (material->transparent()) {
+    array = &transparentObjects;
+    index = ++transparentObjectsLastIndex;
+  } else {
+    array = &opaqueObjects_;
+    index = ++opaqueObjectsLastIndex;
+  }
+
+  while (index < array->size()) {
+    array->push_back(RenderItem());
+  }
+
+  // Reuse
+  RenderItem& renderItem = (*array)[index];
+
+  renderItem = {object->id(), object,geometry,material, z};
+
+}
+
+}
+/* namespace three */

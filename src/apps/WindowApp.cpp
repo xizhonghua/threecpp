@@ -80,7 +80,7 @@ WindowApp& WindowApp::init() {
   glfwSetWindowSizeCallback(window_, GLFWResizeCallback);
 
   glShadeModel(GL_SMOOTH);
-  glClearColor(1.0, 1.0, 1.0, 1.0);
+  glClearColor (0.0, 0.0, 0.0, 0.0);
   glfwSwapInterval(1);
 
   GLint m_viewport[4];

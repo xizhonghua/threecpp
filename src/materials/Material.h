@@ -51,9 +51,19 @@ public:
     return *this;
   }
 
+  bool transparent() const {
+    return transparent_;
+  }
+
+  Material& transparent(bool transparent) {
+    this->transparent_ = transparent;
+    return *this;
+  }
+
 private:
   Color color_;
   bool wireframe_ { false };
+  bool transparent_ { false };
   float wireframeLinewidth_ { 1 };
   bool lights_ { false };
 };
