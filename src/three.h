@@ -25,6 +25,7 @@
 #include "math/Vector3.h"
 #include "math/Vector4.h"
 #include "objects/Mesh.h"
+#include "objects/RenderableObject.h"
 #include "renderers/OpenGLRenderer.h"
 #include "scenes/Scene.h"
 

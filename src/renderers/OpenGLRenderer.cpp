@@ -6,6 +6,7 @@
  */
 
 #include <renderers/OpenGLRenderer.h>
+#include <objects/RenderableObject.h>
 
 #include <cmath>
 #include <iostream>
@@ -43,15 +44,50 @@ OpenGLRenderer& OpenGLRenderer::setPixelRatio(double pixel_ratio) {
 
 void OpenGLRenderer::render(Scene* scene, Camera* camera) {
 
+  // update projection
   updateProjectionMatrix(camera);
 
-  glMatrixMode(GL_MODELVIEW);
+//TODO(zxi) pre-render
 
-  auto f = [=](Object3D* object) {
-    this->renderObject(object);
-  };
+// Reset count
+  this->opaqueObjectsLastIndex_ = -1;
+  this->transparentObjectsLastIndex_ = -1;
 
-  scene->traverseVisible(f);
+  //TODO(zxi) clipping...
+
+  // Project objects
+  projectObject(scene, camera);
+
+  //TODO(zxi) sorting
+  //TODO(zxi) setup shadow
+  //TODO(zxi) setup lights
+
+  //TODO(zxi) background
+
+  //TOOD(zxi) set blend mode
+
+  // opaque pass (front-to-back order)
+  this->renderObjects(opaqueObjects_, scene, camera);
+
+  // transparent pass (back-to-front order)
+  this->renderObjects(transparentObjects_, scene, camera);
+
+  // set test bits
+//  state.setDepthTest(true);
+//  state.setDepthWrite(true);
+//  state.setColorWrite(true);
+
+}
+
+void OpenGLRenderer::renderObjects(const std::vector<RenderItem>& objects,
+    Scene* scene, Camera* camera) {
+
+  for (const RenderItem& object : objects) {
+    //TODO(zxi)
+    // temp
+    this->renderObject(dynamic_cast<RenderableObject*>(object.object));
+  }
+
 }
 
 void OpenGLRenderer::updateProjectionMatrix(Camera* camera) {
@@ -69,45 +105,28 @@ void OpenGLRenderer::updateProjectionMatrix(Camera* camera) {
           0 }).elements);
   glRotated(camera->rotation);
 
-//  GLKMatrix4MakeLookAt()
+  glMatrixMode(GL_MODELVIEW);
 }
 
-void OpenGLRenderer::renderObject(Object3D* object) {
-
-  Mesh* mesh = dynamic_cast<Mesh*>(object);
-  if (mesh == nullptr)
-    return;
+void OpenGLRenderer::renderObject(RenderableObject* object) {
 
   glPushMatrix();
 
-  glTranslated(mesh->position);
+  glTranslated(object->position);
 
-  glRotated(mesh->rotation);
+  glRotated(object->rotation);
 
-  this->renderMesh(mesh);
-
-  glPopMatrix();
-}
-
-void OpenGLRenderer::prepareMaterial(Material* material) {
-
-  glColor3f(material->color().r, material->color().g, material->color().b);
-
-}
-
-void OpenGLRenderer::renderMesh(Mesh* mesh) {
-
-  prepareMaterial(mesh->getMaterial());
+  prepareMaterial(object->getMaterial());
 
   GLenum state;
 
-  if (mesh->getMaterial()->wireframe()) {
+  if (object->getMaterial()->wireframe()) {
     state = GL_LINE_LOOP;
   } else {
     state = GL_TRIANGLES;
   }
 
-  Geometry* const geom = mesh->getGeomtry();
+  Geometry* const geom = object->getGeomtry();
 
   for (const Face3& f : geom->faces) {
     std::vector<Vector3*> vs = { &(geom->vertices[f.a]), &(geom->vertices[f.b]),
@@ -120,10 +139,18 @@ void OpenGLRenderer::renderMesh(Mesh* mesh) {
     glEnd();
   }
 
+  glPopMatrix();
+}
+
+void OpenGLRenderer::prepareMaterial(Material* material) {
+
+  glColor3f(material->color().r, material->color().g, material->color().b);
+
 }
 
 void OpenGLRenderer::projectObject(Object3D* object, Camera* camera) {
-  if (object->visible)
+
+  if (!object->visible)
     return;
 
   //TODO(zxi) check object/camera layer id
@@ -134,10 +161,21 @@ void OpenGLRenderer::projectObject(Object3D* object, Camera* camera) {
   if (object->isLight()) {
     //TODO(zxi)
   } else if (object->isMesh() || object->isLine() || object->isPoint()) {
-    //TODO(zxi) get geometry and material of the object
 
-    Geometry* geometry = nullptr;
-    Material* material = nullptr;
+    RenderableObject* renderable = dynamic_cast<RenderableObject*>(object);
+
+    // TODO(zxi) update geometry
+    Geometry* geometry = renderable->getGeomtry();
+    // TODO(zxi) support material group
+    Material* material = renderable->getMaterial();
+
+    // TODO(zxi) compute z
+    double z = 0;
+
+    if (material->visiable()) {
+
+      this->pushRenderItem(object, geometry, material, z);
+    }
 
   }
 
@@ -153,14 +191,14 @@ void OpenGLRenderer::pushRenderItem(Object3D* object, Geometry* geometry,
   int index = 0;
 
   if (material->transparent()) {
-    array = &transparentObjects;
-    index = ++transparentObjectsLastIndex;
+    array = &transparentObjects_;
+    index = ++transparentObjectsLastIndex_;
   } else {
     array = &opaqueObjects_;
-    index = ++opaqueObjectsLastIndex;
+    index = ++opaqueObjectsLastIndex_;
   }
 
-  while (index < array->size()) {
+  while (index + 1 > array->size()) {
     array->push_back(RenderItem());
   }
 

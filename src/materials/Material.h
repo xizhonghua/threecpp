@@ -60,10 +60,20 @@ public:
     return *this;
   }
 
+  bool visiable() const {
+    return visiable_;
+  }
+
+  Material& visiable(bool visiable) {
+    this->visiable_ = visiable;
+    return *this;
+  }
+
 private:
   Color color_;
   bool wireframe_ { false };
   bool transparent_ { false };
+  bool visiable_ { true };
   float wireframeLinewidth_ { 1 };
   bool lights_ { false };
 };

@@ -14,6 +14,8 @@
 
 namespace three {
 
+class RenderableObject;
+
 class OpenGLRenderer {
 public:
   OpenGLRenderer();
@@ -26,13 +28,15 @@ public:
 
 protected:
 
+
   void projectObject(Object3D* object, Camera* camera);
   void pushRenderItem(Object3D* object, Geometry* geometry, Material* material,
       double z);
 
+  void renderObjects(const std::vector<RenderItem>& objects, Scene* scene, Camera* camera);
+
   void prepareMaterial(Material* material);
-  void renderObject(Object3D* object);
-  void renderMesh(Mesh* mesh);
+  void renderObject(RenderableObject* object);
   void updateProjectionMatrix(Camera* camera);
 
   int width_ { 0 };
@@ -42,10 +46,10 @@ protected:
   bool first_ { true };
 
   // render queues
-  int opaqueObjectsLastIndex { -1 };
-  int transparentObjectsLastIndex { -1 };
+  int opaqueObjectsLastIndex_ { -1 };
+  int transparentObjectsLastIndex_ { -1 };
   std::vector<RenderItem> opaqueObjects_;
-  std::vector<RenderItem> transparentObjects;
+  std::vector<RenderItem> transparentObjects_;
 
 };
 
