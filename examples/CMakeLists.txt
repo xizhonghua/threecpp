@@ -1,13 +1,3 @@
-# add_executable(basic
-#   basic.cc)
-  
-# add_dependencies(basic threecpp)
-
-# target_link_libraries(basic 
-#   threecpp 
-#   ${OPENGL_glu_LIBRARY}
-#   ${GLFW_LIBRARIES})
-
 file( GLOB APP_SOURCES *.cc )
 foreach( src ${APP_SOURCES} )
     get_filename_component( example_name ${src} NAME)

@@ -14,6 +14,8 @@ OrthographicCamera::OrthographicCamera(double left, double right, double top,
     left(left), right(right), top(top), bottom(bottom), near(near), far(
         far) {
 
+  this->type_ = "OrthographicCamera";
+
   this->updateProjectionMatrix();
 }
 

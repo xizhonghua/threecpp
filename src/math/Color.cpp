@@ -9,14 +9,16 @@
 
 namespace three {
 
+Color::Color() {
+  this->setRGB(0, 0, 0);
+}
+
 Color::Color(float r, float g, float b) {
   this->setRGB(r, g, b);
 }
 
 Color::Color(int hex) {
-  r = ((hex >> 16) & 0xff) / 255.0;
-  g = ((hex >> 8) & 0xff) / 255.0;
-  b = (hex & 0xff) / 255.0;
+  this->setHex(hex);
 }
 
 Color& Color::setRGB(float r, float g, float b) {
@@ -26,8 +28,20 @@ Color& Color::setRGB(float r, float g, float b) {
   return *this;
 }
 
+Color& Color::setHex(int hex) {
+  this->r = ((hex >> 16) & 0xff) / 255.0;
+  this->g = ((hex >> 8) & 0xff) / 255.0;
+  this->b = (hex & 0xff) / 255.0;
+  return *this;
+}
+
+Color& Color::operator=(int hex) {
+  this->setHex(hex);
+  return *this;
+}
+
 Color::~Color() {
-  // TODO Auto-generated destructor stub
+
 }
 
 } /* namespace three */

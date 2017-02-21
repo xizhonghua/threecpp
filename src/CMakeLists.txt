@@ -6,6 +6,7 @@ add_subdirectory(apps)
 add_subdirectory(cameras)
 add_subdirectory(core)
 add_subdirectory(geometries)
+add_subdirectory(lights)
 add_subdirectory(materials)
 add_subdirectory(math)
 add_subdirectory(objects)
@@ -17,6 +18,7 @@ set(LIBS
   cameras
   core
   geometries
+  lights
   materials
   math
   objects

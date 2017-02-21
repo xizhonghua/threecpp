@@ -10,6 +10,9 @@
 namespace three {
 
 Camera::Camera() {
+
+  this->type_ = "Camera";
+  this->isCamera_ = true;
 }
 
 Camera::~Camera() {
@@ -24,6 +27,5 @@ Camera& Camera::lookAt(const Vector3& target) {
 
   return *this;
 }
-
 
 } /* namespace three */

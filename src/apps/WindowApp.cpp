@@ -14,7 +14,10 @@
 
 #include <GLFW/glfw3.h>
 
-namespace {
+namespace three {
+
+std::unordered_map<GLFWwindow*, WindowApp*> WindowApp::windows_map_;
+
 void GLFWKeyCallback(GLFWwindow* window, int key, int scancode, int action,
     int mods) {
 
@@ -44,14 +47,14 @@ void GLFWResizeCallback(GLFWwindow* window, int width, int height) {
   if (!app)
     return;
 
+  app->width_ = width;
+  app->height_ = height;
+  app->aspect_ = width*1.0 / height;
+
   app->onResize(width, height);
 }
 
-} // namespace
 
-namespace three {
-
-std::unordered_map<GLFWwindow*, WindowApp*> WindowApp::windows_map_;
 
 WindowApp& WindowApp::init() {
 
@@ -93,8 +96,6 @@ WindowApp& WindowApp::init() {
 }
 
 void WindowApp::onResize(int width, int height) {
-  //TODO(zxi)
-
 }
 
 void WindowApp::onKeyPress(int key, bool shift, bool ctrl, bool alt,

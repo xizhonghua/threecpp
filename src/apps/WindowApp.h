@@ -16,15 +16,15 @@ class GLFWwindow;
 #include <iostream>
 using namespace std;
 
+
 namespace three {
 
 class WindowApp {
 public:
-  WindowApp() {
-  }
 
   WindowApp(int width, int height, std::string title = "ThreeCpp") :
       width_(width), height_(height), title_(title) {
+    aspect_ = width_ * 1.0 / height_;
   }
 
   virtual ~WindowApp() {
@@ -35,6 +35,10 @@ public:
 
   double getPixelRatio() const {
     return pixel_ratio_;
+  }
+
+  double getAspect() const {
+    return aspect_;
   }
 
   // Clients need to implement following methods
@@ -52,8 +56,9 @@ public:
       bool super);
   virtual void onKeyRepeat(int key, bool shift, bool ctrl, bool alt,
       bool super);
-  virtual void onResize(int width, int height);
 
+
+  virtual void onResize(int width, int height);
 
   /////////////////////////////////////////////////////////////////////////////
 
@@ -69,9 +74,15 @@ protected:
   int width_ { 640 };
   int height_ { 640 };
   double pixel_ratio_ { 1.0 };
+  double aspect_ { 1.0 };
+
+  friend void GLFWResizeCallback(GLFWwindow* window, int width, int height);
+
 private:
   // Map GLFWindows to apps
   static std::unordered_map<GLFWwindow*, WindowApp*> windows_map_;
+
+
 };
 
 } /* namespace three */

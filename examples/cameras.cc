@@ -15,12 +15,11 @@ using namespace three;
 namespace {
 class CameraExample: public WindowApp {
 private:
-  double aspect { width_ * 1.0 / height_ };
   double frustumSize = 500;
   Scene scene;
-  PerspectiveCamera cameraP { 60, aspect, 1, 10000 };
-  OrthographicCamera cameraO { -0.5 * frustumSize * aspect, 0.5 * frustumSize
-      * aspect, frustumSize / 2, frustumSize / -2, 0.1, 10000 };
+  PerspectiveCamera cameraP { 60, aspect_, 1, 10000 };
+  OrthographicCamera cameraO { -0.5 * frustumSize * aspect_, 0.5 * frustumSize
+      * aspect_, frustumSize / 2, frustumSize / -2, 0.1, 10000 };
 
   BoxGeometry geometry1 { 50, 50, 50 };
   BoxGeometry geometry2 { 200, 200, 200 };
@@ -44,8 +43,8 @@ public:
 
     cameraP.position.z = cameraO.position.z = 1000;
 
-    material1.color(Color(0x0000ff)).wireframe(true);
-    material2.color(Color(0xff0000)).wireframe(true);
+    material1.color(0x0000ff).wireframe(true);
+    material2.color(0xff0000).wireframe(true);
 
     scene.add(&mesh1);
     scene.add(&mesh2);
@@ -89,13 +88,12 @@ public:
   }
 
   void onResize(int width, int height) override {
-    double aspect = width * 1.0 / height;
 
-    cameraP.aspect = aspect;
+    cameraP.aspect = aspect_;
     cameraP.updateProjectionMatrix();
 
-    cameraO.left = -0.5 * frustumSize * aspect;
-    cameraO.right = 0.5 * frustumSize * aspect;
+    cameraO.left = -0.5 * frustumSize * aspect_;
+    cameraO.right = 0.5 * frustumSize * aspect_;
     cameraO.top = frustumSize / 2;
     cameraO.bottom = -frustumSize / 2;
     cameraO.updateProjectionMatrix();

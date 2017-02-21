@@ -10,7 +10,9 @@
 
 #include <vector>
 #include <functional>
+#include <string>
 
+#include "core/Object3D.h"
 #include "math/Euler.h"
 #include "math/Quaternion.h"
 #include "math/Vector3.h"
@@ -31,6 +33,15 @@ public:
   // Traverse the object and all its children recursively if visible
   void traverseVisible(std::function<void(Object3D* object)> callback);
 
+  // Type of the object
+  std::string type() const {
+    return this->type_;
+  }
+
+  bool isCamera() const {
+    return this->isCamera_;
+  }
+
   bool visible { true };
   Vector3 position { 0, 0, 0 };
   Vector3 up { defaultUp };
@@ -42,10 +53,19 @@ public:
   Object3D* parent { nullptr };
   std::vector<Object3D*> children;
 
+  /////////////////////////////////////////////////////////////////////////////
+  // Static members
+  /////////////////////////////////////////////////////////////////////////////
+
   // Default is {0, 1, 0}
   const static Vector3 defaultUp;
 
   static long long object3DId;
+
+protected:
+
+  std::string type_ { "Object3D" };
+  bool isCamera_ { false };
 };
 
 } /* namespace three */

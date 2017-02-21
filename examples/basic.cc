@@ -12,7 +12,7 @@ namespace {
 class BasicWindowApp: public WindowApp {
 private:
   Scene scene;
-  PerspectiveCamera camera { 60, width_ * 1.0 / height_, 1, 10000 };
+  PerspectiveCamera camera { 60, aspect_, 1, 10000 };
   BoxGeometry geometry { 200, 200, 200 };
   MeshBasicMaterial material1, material2;
   Mesh mesh1 { &geometry, &material1 }, mesh2 { &geometry, &material2 };
@@ -28,8 +28,8 @@ public:
 
     camera.position.z = 800;
 
-    material1.color(Color(0x0000ff)).wireframe(true);
-    material2.color(Color(0xff0000)).wireframe(false);
+    material1.color(0x0000ff).wireframe(true);
+    material2.color(0xff0000).wireframe(false);
 
     mesh1.position.x -= 300;
     mesh2.position.x += 300;
@@ -46,6 +46,11 @@ public:
     mesh2.rotation.y += 0.5;
 
     renderer.render(&scene, &camera);
+  }
+
+  void onResize(int width, int height) override {
+    camera.aspect = aspect_;
+    camera.updateProjectionMatrix();
   }
 };
 }

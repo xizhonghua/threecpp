@@ -8,10 +8,11 @@
 #ifndef SRC_THREE_H_
 #define SRC_THREE_H_
 
-#include <apps/WindowApp.h>
+#include "apps/WindowApp.h"
 #include "cameras/Camera.h"
 #include "cameras/OrthographicCamera.h"
 #include "cameras/PerspectiveCamera.h"
+#include "constants.h"
 #include "core/Face3.h"
 #include "core/Object3D.h"
 #include "core/Geometry.h"
