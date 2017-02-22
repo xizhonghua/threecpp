@@ -21,7 +21,5 @@ RenderableObject::RenderableObject(Geometry* geometry, Material* material) :
 
 }
 
-RenderableObject::~RenderableObject() {
-}
 
 } /* namespace three */

@@ -5,4 +5,4 @@
  *      Author: zxi
  */
 
-#include "three.h"
+#include <three/three.h>

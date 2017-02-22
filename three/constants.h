@@ -5,8 +5,8 @@
  *      Author: zxi
  */
 
-#ifndef SRC_CONSTANTS_H_
-#define SRC_CONSTANTS_H_
+#ifndef THREE_CONSTANTS_H_
+#define THREE_CONSTANTS_H_
 
 enum class SideMode {
   FrontSide, BackSide, DoubleSide
@@ -43,4 +43,4 @@ enum TextureCombineMode {
   MultiplyOperation, MixOperation, AddOperation
 };
 
-#endif /* SRC_CONSTANTS_H_ */
+#endif /* THREE_CONSTANTS_H_ */

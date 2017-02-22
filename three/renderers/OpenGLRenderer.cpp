@@ -7,7 +7,6 @@
 
 #include <three/renderers/OpenGLRenderer.h>
 
-
 #include <cmath>
 #include <iostream>
 
@@ -53,6 +52,10 @@ void OpenGLRenderer::render(Scene* scene, Camera* camera) {
   this->opaqueObjectsLastIndex_ = -1;
   this->transparentObjectsLastIndex_ = -1;
 
+  // Reset object list
+  this->opaqueObjects_.clear();
+  this->transparentObjects_.clear();
+
   //TODO(zxi) clipping...
 
   // Project objects
@@ -79,13 +82,17 @@ void OpenGLRenderer::render(Scene* scene, Camera* camera) {
 
 }
 
-void OpenGLRenderer::renderObjects(const std::vector<RenderItem>& objects,
+void OpenGLRenderer::renderObjects(const std::vector<RenderItem>& items,
     Scene* scene, Camera* camera) {
 
-  for (const RenderItem& object : objects) {
-    //TODO(zxi)
-    // temp
-    this->renderObject(dynamic_cast<RenderableObject*>(object.object));
+  for (const RenderItem& item : items) {
+
+    auto object = item.object;
+    auto geometry = item.geometry;
+    auto material = item.material;
+
+    //TODO(zxi) pass sepaerate parameters
+    this->renderObject(object);
   }
 
 }
@@ -174,7 +181,7 @@ void OpenGLRenderer::projectObject(Object3D* object, Camera* camera) {
 
     if (material->visiable()) {
 
-      this->pushRenderItem(object, geometry, material, z);
+      this->pushRenderItem(renderable, geometry, material, z);
     }
 
   }
@@ -184,8 +191,8 @@ void OpenGLRenderer::projectObject(Object3D* object, Camera* camera) {
   }
 }
 
-void OpenGLRenderer::pushRenderItem(Object3D* object, Geometry* geometry,
-    Material* material, double z) {
+void OpenGLRenderer::pushRenderItem(RenderableObject* object,
+    Geometry* geometry, Material* material, double z) {
 
   std::vector<RenderItem>* array = nullptr;
   int index = 0;
@@ -198,15 +205,7 @@ void OpenGLRenderer::pushRenderItem(Object3D* object, Geometry* geometry,
     index = ++opaqueObjectsLastIndex_;
   }
 
-  while (index + 1 > array->size()) {
-    array->push_back(RenderItem());
-  }
-
-  // Reuse
-  RenderItem& renderItem = (*array)[index];
-
-  renderItem = {object->id(), object,geometry,material, z};
-
+  array->push_back({ object->id(), object, geometry, material, z });
 }
 
 }

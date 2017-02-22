@@ -15,13 +15,14 @@ class Geometry;
 class Material;
 class Mesh;
 class Object3D;
+class RenderableObject;
 class Scene;
 } // namespace three
 
 namespace three {
 struct RenderItem {
   unsigned long long id;
-  Object3D* object;
+  RenderableObject* object;
   Geometry* geometry;
   Material* material;
   double z;

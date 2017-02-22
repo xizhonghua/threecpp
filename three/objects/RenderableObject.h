@@ -18,8 +18,8 @@ class Material;
 
 class RenderableObject: public Object3D {
 public:
-  RenderableObject(Geometry* geometry, Material* material);
-  virtual ~RenderableObject();
+  virtual ~RenderableObject() {
+  }
 
   Geometry* const getGeomtry() const {
     return geometry_;
@@ -30,6 +30,7 @@ public:
   }
 
 protected:
+  RenderableObject(Geometry* geometry, Material* material);
   Geometry* geometry_;
   Material* material_;
 };

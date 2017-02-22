@@ -28,12 +28,11 @@ public:
 
 protected:
 
-
-  void projectObject(Object3D* object, Camera* camera);
-  void pushRenderItem(Object3D* object, Geometry* geometry, Material* material,
+  void pushRenderItem(RenderableObject* object, Geometry* geometry, Material* material,
       double z);
 
-  void renderObjects(const std::vector<RenderItem>& objects, Scene* scene, Camera* camera);
+  void renderObjects(const std::vector<RenderItem>& items, Scene* scene, Camera* camera);
+  void projectObject(Object3D* object, Camera* camera);
 
   void prepareMaterial(Material* material);
   void renderObject(RenderableObject* object);
