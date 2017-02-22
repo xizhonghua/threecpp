@@ -7,6 +7,8 @@
 
 #include <three/math/Matrix4.h>
 
+#include <three/math/Quaternion.h>
+
 namespace three {
 
 Matrix4::Matrix4() {
@@ -48,6 +50,33 @@ Matrix4& Matrix4::lookAt(const Vector3& eye, const Vector3& target,
   te[10] = z.z;
 
   return *this;
+}
+
+double Matrix4::determinant() const {
+  auto te = this->elements;
+
+  auto n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12];
+  auto n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13];
+  auto n31 = te[2], n32 = te[6], n33 = te[10], n34 = te[14];
+  auto n41 = te[3], n42 = te[7], n43 = te[11], n44 = te[15];
+
+  //TODO: make this more efficient
+  //( based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm )
+
+  return (n41
+      * (+n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33
+          + n13 * n22 * n34 - n12 * n23 * n34)
+      + n42
+          * (+n11 * n23 * n34 - n11 * n24 * n33 + n14 * n21 * n33
+              - n13 * n21 * n34 + n13 * n24 * n31 - n14 * n23 * n31)
+      + n43
+          * (+n11 * n24 * n32 - n11 * n22 * n34 - n14 * n21 * n32
+              + n12 * n21 * n34 + n14 * n22 * n31 - n12 * n24 * n31)
+      + n44
+          * (-n13 * n22 * n31 - n11 * n23 * n32 + n11 * n22 * n33
+              + n13 * n21 * n32 - n12 * n21 * n33 + n12 * n23 * n31)
+
+  );
 }
 
 Matrix4& Matrix4::toArray(std::vector<double>& array, int offset) {
@@ -123,7 +152,6 @@ Matrix4& Matrix4::asOrthographic(double left, double right, double top,
   te[11] = 0;
   te[15] = 1;
 
-
   return *this;
 }
 
@@ -164,6 +192,99 @@ Matrix4& Matrix4::asLookAt(const Vector3& eye, const Vector3& target,
   te[12] = -(x * eye);
   te[13] = -(y * eye);
   te[14] = -(z * eye);
+
+  return *this;
+}
+
+Matrix4& Matrix4::asRotation(const Quaternion& q) {
+  auto te = this->elements;
+
+  auto x = q.x, y = q.y, z = q.z, w = q.w;
+  auto x2 = x + x, y2 = y + y, z2 = z + z;
+  auto xx = x * x2, xy = x * y2, xz = x * z2;
+  auto yy = y * y2, yz = y * z2, zz = z * z2;
+  auto wx = w * x2, wy = w * y2, wz = w * z2;
+
+  te[0] = 1 - (yy + zz);
+  te[4] = xy - wz;
+  te[8] = xz + wy;
+
+  te[1] = xy + wz;
+  te[5] = 1 - (xx + zz);
+  te[9] = yz - wx;
+
+  te[2] = xz - wy;
+  te[6] = yz + wx;
+  te[10] = 1 - (xx + yy);
+
+  // last column
+  te[3] = 0;
+  te[7] = 0;
+  te[11] = 0;
+
+  // bottom row
+  te[12] = 0;
+  te[13] = 0;
+  te[14] = 0;
+  te[15] = 1;
+
+  return *this;
+}
+
+Matrix4& Matrix4::asCompose(const Vector3& position,
+    const Quaternion& quaternion, double scale) {
+
+  this->asRotation(quaternion);
+  this->scale(scale);
+  this->setPosition(position);
+
+  return *this;
+}
+
+Matrix4& Matrix4::decompose(Vector3* position, Quaternion* q, Vector3* scale) {
+  //TODO(zxi)
+  auto te = this->elements;
+
+  auto sx = position->set(te[0], te[1], te[2]).length();
+  auto sy = position->set(te[4], te[5], te[6]).length();
+  auto sz = position->set(te[8], te[9], te[10]).length();
+
+  // if determine is negative, we need to invert one scale
+  auto det = this->determinant();
+  if (det < 0) {
+
+    sx = -sx;
+
+  }
+
+  position->x = te[12];
+  position->y = te[13];
+  position->z = te[14];
+
+  // Copy
+  Matrix4 matrix(*this);
+
+  auto invSX = 1.0 / sx;
+  auto invSY = 1.0 / sy;
+  auto invSZ = 1.0 / sz;
+
+  matrix.elements[0] *= invSX;
+  matrix.elements[1] *= invSX;
+  matrix.elements[2] *= invSX;
+
+  matrix.elements[4] *= invSY;
+  matrix.elements[5] *= invSY;
+  matrix.elements[6] *= invSY;
+
+  matrix.elements[8] *= invSZ;
+  matrix.elements[9] *= invSZ;
+  matrix.elements[10] *= invSZ;
+
+  q->setFromRotationMatrix(matrix);
+
+  scale->x = sx;
+  scale->y = sy;
+  scale->z = sz;
 
   return *this;
 }

@@ -33,7 +33,42 @@ public:
   // Traverse the object and all its children recursively if visible
   void traverseVisible(std::function<void(Object3D* object)> callback);
 
+  // update the matrix of the object
+  void updateMatrix();
+
+  // update the world matrix of the object
+  void updateMatrixWorld(bool force = false);
+
+  Vector3 position { 0, 0, 0 };
+  Vector3 up { DefaultUp };
+
+  Euler rotation { 0, 0, 0, EulerOrder::XYZ };
+  Vector3 scale { 1, 1, 1 };
+  Quaternion quaternion { 0, 0, 0, 1 };
+
+  Matrix4 matrix;
+  Matrix4 matrixWorld;
+
+  bool matrixAutoUpdate { DefaultMatrixAutoUpdate };
+  bool matrixWorldNeedsUpdate { false };
+
+  bool visible { true };
+
+  bool castShadow { false };
+  bool receiveShadow { false };
+
+  bool frustumCulled { true };
+  int renderOrder { 0 };
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Parent/Children
+  /////////////////////////////////////////////////////////////////////////////
+  Object3D* parent { nullptr };
+  std::vector<Object3D*> children;
+
+  /////////////////////////////////////////////////////////////////////////////
   // Type of the object
+  /////////////////////////////////////////////////////////////////////////////
   std::string type() const {
     return this->type_;
   }
@@ -62,23 +97,14 @@ public:
     return this->id_;
   }
 
-  bool visible { true };
-  Vector3 position { 0, 0, 0 };
-  Vector3 up { defaultUp };
-
-  Euler rotation { 0, 0, 0, EulerOrder::XYZ };
-  Vector3 scale { 1, 1, 1 };
-  Quaternion quaternion { 0, 0, 0, 1 };
-
-  Object3D* parent { nullptr };
-  std::vector<Object3D*> children;
-
   /////////////////////////////////////////////////////////////////////////////
   // Static members
   /////////////////////////////////////////////////////////////////////////////
 
   // Default is {0, 1, 0}
-  const static Vector3 defaultUp;
+  const static Vector3 DefaultUp;
+  // Default is true
+  const static bool DefaultMatrixAutoUpdate;
 
   static unsigned long long object3DId;
 

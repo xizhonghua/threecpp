@@ -12,7 +12,9 @@
 
 namespace three {
 
-const Vector3 Object3D::defaultUp { 0, 1, 0 };
+const Vector3 Object3D::DefaultUp { 0, 1, 0 };
+const bool Object3D::DefaultMatrixAutoUpdate { true };
+
 unsigned long long Object3D::object3DId = 0;
 
 Object3D::Object3D() :
@@ -75,4 +77,15 @@ Object3D& Object3D::remove(Object3D* child) {
   return *this;
 }
 
-} /* namespace three */
+///////////////////////////////////////////////////////////////////////////////
+// update the matrix of the object
+void Object3D::updateMatrix() {
+//TODO(zxi)
+}
+
+// update the world matrix of the object
+void Object3D::updateMatrixWorld(bool force) {
+//TODO(zxi)
+}
+
+}/* namespace three */

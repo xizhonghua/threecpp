@@ -34,10 +34,7 @@ public:
     return *this;
   }
 
-  inline Quaternion& setFromRotationMatrix(const Matrix4& m) {
-    //TODO(zxi)
-    return *this;
-  }
+  Quaternion& setFromRotationMatrix(const Matrix4& m);
 
   inline Quaternion& setFromAxisAngle(const Vector3& axis, double angle) {
 

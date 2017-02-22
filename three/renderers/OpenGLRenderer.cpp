@@ -43,6 +43,9 @@ OpenGLRenderer& OpenGLRenderer::setPixelRatio(double pixel_ratio) {
 
 void OpenGLRenderer::render(Scene* scene, Camera* camera) {
 
+
+//  if(scene->autoUpdate)
+
   // update projection
   updateProjectionMatrix(camera);
 
