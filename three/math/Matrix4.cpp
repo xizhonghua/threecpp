@@ -232,12 +232,17 @@ Matrix4& Matrix4::asRotation(const Quaternion& q) {
 }
 
 Matrix4& Matrix4::asCompose(const Vector3& position,
-    const Quaternion& quaternion, double scale) {
+    const Quaternion& quaternion, const Vector3& scale) {
 
   this->asRotation(quaternion);
   this->scale(scale);
   this->setPosition(position);
 
+  return *this;
+}
+
+Matrix4& Matrix4::getInverse(const Matrix4& m) {
+  //TODO(zxi)
   return *this;
 }
 

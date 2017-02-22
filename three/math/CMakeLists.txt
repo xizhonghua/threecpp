@@ -1,6 +1,7 @@
 add_library(math
     Color.cpp
     Euler.cpp
+    Matrix3.cpp
     Matrix4.cpp
     Quaternion.cpp
 	Vector2.cpp

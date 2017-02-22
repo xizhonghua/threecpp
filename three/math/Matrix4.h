@@ -176,6 +176,26 @@ public:
     return ((*this) *= s);
   }
 
+  inline Matrix4& scale(const Vector3& scale) {
+    auto te = this->elements;
+    auto x = scale.x, y = scale.y, z = scale.z;
+
+    te[0] *= x;
+    te[4] *= y;
+    te[8] *= z;
+    te[1] *= x;
+    te[5] *= y;
+    te[9] *= z;
+    te[2] *= x;
+    te[6] *= y;
+    te[10] *= z;
+    te[3] *= x;
+    te[7] *= y;
+    te[11] *= z;
+
+    return *this;
+  }
+
   double determinant() const;
 
   /////////////////////////////////////////////////////////////////////////////
@@ -193,10 +213,13 @@ public:
 
   Matrix4& asRotation(const Quaternion& quaternion);
   Matrix4& asCompose(const Vector3& position, const Quaternion& quaternion,
-      double scale);
+      const Vector3& scale);
 
   // Decompose this matrix into position, rotation(as a Quaternion), and scale.
   Matrix4& decompose(Vector3* position, Quaternion* q, Vector3* scale);
+
+  // Set this to the inverse of m
+  Matrix4& getInverse(const Matrix4& m);
 
   /////////////////////////////////////////////////////////////////////////////
   // Convert to array

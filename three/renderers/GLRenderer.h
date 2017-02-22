@@ -5,8 +5,8 @@
  *      Author: zxi
  */
 
-#ifndef THREE_RENDERERS_OPENGLRENDERER_H_
-#define THREE_RENDERERS_OPENGLRENDERER_H_
+#ifndef THREE_RENDERERS_GLRENDERER_H_
+#define THREE_RENDERERS_GLRENDERER_H_
 
 #include <vector>
 
@@ -16,13 +16,13 @@ namespace three {
 
 class RenderableObject;
 
-class OpenGLRenderer {
+class GLRenderer {
 public:
-  OpenGLRenderer();
-  ~OpenGLRenderer();
+  GLRenderer();
+  ~GLRenderer();
 
-  OpenGLRenderer& setSize(int width, int height);
-  OpenGLRenderer& setPixelRatio(double pixel_ratio);
+  GLRenderer& setSize(int width, int height);
+  GLRenderer& setPixelRatio(double pixel_ratio);
 
   void render(Scene* scene, Camera* camera);
 
@@ -32,6 +32,11 @@ protected:
       double z);
 
   void renderObjects(const std::vector<RenderItem>& items, Scene* scene, Camera* camera);
+
+  void renderBufferDirect(Camera* camera, void* fog, Geometry* geometry, Material* material, RenderableObject* object, void* group);
+
+  void setMaterial(Material* material);
+
   void projectObject(Object3D* object, Camera* camera);
 
   void prepareMaterial(Material* material);
@@ -54,4 +59,4 @@ protected:
 
 } /* namespace three */
 
-#endif /* THREE_RENDERERS_OPENGLRENDERER_H_ */
+#endif /* THREE_RENDERERS_GLRENDERER_H_ */

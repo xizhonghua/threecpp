@@ -5,8 +5,6 @@
  *      Author: zxi
  */
 
-#include <three/renderers/OpenGLRenderer.h>
-
 #include <cmath>
 #include <iostream>
 
@@ -15,18 +13,19 @@
 
 #include <three/three.h>
 #include <three/renderers/glExtension.h>
+#include <three/renderers/GLRenderer.h>
 
 using namespace std;
 
 namespace three {
 
-OpenGLRenderer::OpenGLRenderer() {
+GLRenderer::GLRenderer() {
 }
 
-OpenGLRenderer::~OpenGLRenderer() {
+GLRenderer::~GLRenderer() {
 }
 
-OpenGLRenderer& OpenGLRenderer::setSize(int width, int height) {
+GLRenderer& GLRenderer::setSize(int width, int height) {
   width_ = width;
   height_ = height;
 
@@ -35,18 +34,17 @@ OpenGLRenderer& OpenGLRenderer::setSize(int width, int height) {
   return *this;
 }
 
-OpenGLRenderer& OpenGLRenderer::setPixelRatio(double pixel_ratio) {
+GLRenderer& GLRenderer::setPixelRatio(double pixel_ratio) {
   this->pixel_ratio_ = pixel_ratio;
 
   return *this;
 }
 
-void OpenGLRenderer::render(Scene* scene, Camera* camera) {
-
+void GLRenderer::render(Scene* scene, Camera* camera) {
 
 //  if(scene->autoUpdate)
 
-  // update projection
+// update projection
   updateProjectionMatrix(camera);
 
 //TODO(zxi) pre-render
@@ -85,7 +83,17 @@ void OpenGLRenderer::render(Scene* scene, Camera* camera) {
 
 }
 
-void OpenGLRenderer::renderObjects(const std::vector<RenderItem>& items,
+void GLRenderer::setMaterial(Material* material) {
+  //TODO(zxi)
+}
+
+void GLRenderer::renderBufferDirect(Camera* camera, void* fog,
+    Geometry* geometry, Material* material, RenderableObject* object,
+    void* group) {
+  this->setMaterial(material);
+}
+
+void GLRenderer::renderObjects(const std::vector<RenderItem>& items,
     Scene* scene, Camera* camera) {
 
   for (const RenderItem& item : items) {
@@ -94,13 +102,23 @@ void OpenGLRenderer::renderObjects(const std::vector<RenderItem>& items,
     auto geometry = item.geometry;
     auto material = item.material;
 
+    object->modelViewMatrix = camera->matrixWorldInverse()
+        * object->matrixWorld;
+
+    //TODO(zxi) normalMartix
+//    object->normalMatrix
+
+    //TODO(zxi) onBefore render
+
     //TODO(zxi) pass sepaerate parameters
     this->renderObject(object);
+
+    //TODO(zxi) onAfter render
   }
 
 }
 
-void OpenGLRenderer::updateProjectionMatrix(Camera* camera) {
+void GLRenderer::updateProjectionMatrix(Camera* camera) {
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
@@ -118,7 +136,7 @@ void OpenGLRenderer::updateProjectionMatrix(Camera* camera) {
   glMatrixMode(GL_MODELVIEW);
 }
 
-void OpenGLRenderer::renderObject(RenderableObject* object) {
+void GLRenderer::renderObject(RenderableObject* object) {
 
   glPushMatrix();
 
@@ -152,13 +170,13 @@ void OpenGLRenderer::renderObject(RenderableObject* object) {
   glPopMatrix();
 }
 
-void OpenGLRenderer::prepareMaterial(Material* material) {
+void GLRenderer::prepareMaterial(Material* material) {
 
   glColor3f(material->color().r, material->color().g, material->color().b);
 
 }
 
-void OpenGLRenderer::projectObject(Object3D* object, Camera* camera) {
+void GLRenderer::projectObject(Object3D* object, Camera* camera) {
 
   if (!object->visible)
     return;
@@ -194,7 +212,7 @@ void OpenGLRenderer::projectObject(Object3D* object, Camera* camera) {
   }
 }
 
-void OpenGLRenderer::pushRenderItem(RenderableObject* object,
+void GLRenderer::pushRenderItem(RenderableObject* object,
     Geometry* geometry, Material* material, double z) {
 
   std::vector<RenderItem>* array = nullptr;
@@ -208,7 +226,7 @@ void OpenGLRenderer::pushRenderItem(RenderableObject* object,
     index = ++opaqueObjectsLastIndex_;
   }
 
-  array->push_back({ object->id(), object, geometry, material, z });
+  array->push_back( { object->id(), object, geometry, material, z });
 }
 
 }

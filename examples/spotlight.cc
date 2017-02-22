@@ -19,7 +19,7 @@ private:
 
   MeshBasicMaterial matFloor, matBox;
   Mesh mshFloor { &geoFloor, &matFloor }, mshBox { &geoBox, &matBox };
-  OpenGLRenderer renderer;
+  GLRenderer renderer;
 
 public:
   SpotlightExample() :

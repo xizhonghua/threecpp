@@ -1,5 +1,5 @@
 add_library(renderers
-  OpenGLRenderer)
+  GLRenderer.cpp)
 
 add_dependencies(renderers
   core)

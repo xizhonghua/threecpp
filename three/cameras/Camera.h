@@ -24,6 +24,10 @@ public:
     return projectionMatrix_;
   }
 
+  const Matrix4& matrixWorldInverse() const {
+    return matrixWorldInverse_;
+  }
+
   virtual void updateProjectionMatrix() = 0;
 
   // public properties

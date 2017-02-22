@@ -16,6 +16,9 @@
 #include <three/math/Euler.h>
 #include <three/math/Quaternion.h>
 #include <three/math/Vector3.h>
+#include <three/math/Matrix3.h>
+#include <three/math/Matrix4.h>
+
 
 namespace three {
 
@@ -48,6 +51,9 @@ public:
 
   Matrix4 matrix;
   Matrix4 matrixWorld;
+
+  Matrix4 modelViewMatrix;
+  Matrix3 normalMatrix;
 
   bool matrixAutoUpdate { DefaultMatrixAutoUpdate };
   bool matrixWorldNeedsUpdate { false };

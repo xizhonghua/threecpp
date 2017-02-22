@@ -16,7 +16,7 @@ private:
   BoxGeometry geometry { 200, 200, 200 };
   MeshBasicMaterial material1, material2;
   Mesh mesh1 { &geometry, &material1 }, mesh2 { &geometry, &material2 };
-  OpenGLRenderer renderer;
+  GLRenderer renderer;
 
 public:
   BasicWindowApp() :

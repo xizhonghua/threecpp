@@ -80,7 +80,8 @@ Object3D& Object3D::remove(Object3D* child) {
 ///////////////////////////////////////////////////////////////////////////////
 // update the matrix of the object
 void Object3D::updateMatrix() {
-//TODO(zxi)
+  this->matrix.asCompose(this->position, this->quaternion, this->scale);
+  this->matrixWorldNeedsUpdate = true;
 }
 
 // update the world matrix of the object

@@ -27,7 +27,7 @@ private:
   MeshBasicMaterial material1, material2;
   Mesh mesh1 { &geometry1, &material1 };
   Mesh mesh2 { &geometry2, &material2 };
-  OpenGLRenderer renderer;
+  GLRenderer renderer;
 
   bool perspectiveCamera { true };
   int frames { 0 };

@@ -26,7 +26,7 @@
 #include <three/math/Vector4.h>
 #include <three/objects/Mesh.h>
 #include <three/objects/RenderableObject.h>
-#include <three/renderers/OpenGLRenderer.h>
+#include <three/renderers/GLRenderer.h>
 #include <three/scenes/Scene.h>
 
 
