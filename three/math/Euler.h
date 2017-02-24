@@ -8,6 +8,8 @@
 #ifndef THREE_MATH_EULER_H_
 #define THREE_MATH_EULER_H_
 
+#include <three/core/Property.h>
+
 namespace three {
 
 enum class EulerOrder {
@@ -16,6 +18,7 @@ enum class EulerOrder {
 
 class Euler {
 public:
+
   Euler(double x = 0, double y = 0, double z = 0, EulerOrder order =
       EulerOrder::XYZ) :
       x { x }, y { y }, z { z }, order { order } {
@@ -23,11 +26,11 @@ public:
   }
 
   inline Euler& set(double x, double y, double z, EulerOrder order) {
-    this->x = x;
-    this->y = y;
-    this->z = z;
+    this->x.set(x);
+    this->y.set(y);
+    this->z.set(z);
     this->order = order;
-
+    this->callback_();
     return *this;
   }
 
@@ -35,27 +38,20 @@ public:
 
   }
 
-  // Check whether the object changed or not.
-  bool changed() const {
-    return x != lx_ || y != ly_ || z != lz_;
+  // Only supports one callback
+  void onChanged(CallbackFunc callback) {
+    x.setCallbackFunc(callback);
+    y.setCallbackFunc(callback);
+    z.setCallbackFunc(callback);
+    callback_ = callback;
   }
 
-  // Make the object as fresh
-  void markAsUpdated() {
-    lx_ = x;
-    ly_ = y;
-    lz_ = z;
-  }
-
-  double x { 0 };
-  double y { 0 };
-  double z { 0 };
+  Property<double> x;
+  Property<double> y;
+  Property<double> z;
   EulerOrder order { EulerOrder::XYZ };
-
 private:
-  double lx_ { 0 };
-  double ly_ { 0 };
-  double lz_ { 0 };
+  CallbackFunc callback_;
 };
 
 } /* namespace three */

@@ -21,10 +21,19 @@ Object3D::Object3D() :
     id_(object3DId++) {
 
   //TODO(zxi) UUID
+
+  this->rotation.onChanged([this] {
+    this->quaternion.setFromEular(this->rotation);
+  });
+
+  this->quaternion.onChanged([this]{
+    //TODO(zxi) set rotation fron qu
+  });
 }
 
 Object3D::~Object3D() {
 }
+
 
 Object3D& Object3D::add(Object3D* child) {
   if (child == this) {
@@ -81,10 +90,14 @@ Object3D& Object3D::remove(Object3D* child) {
 // update the matrix of the object
 void Object3D::updateMatrix() {
 
-  if(this->rotation.changed()) {
-    this->quaternion.setFromEular(this->rotation);
-    this->rotation.markAsUpdated();
-  }
+//  // TODO(zxi) Temp solution, non invariant
+//  if (this->rotation.changed()) {
+//    this->quaternion.setFromEular(this->rotation);
+//    this->quaternion.makeAsUpdated();
+//    this->rotation.markAsUpdated();
+//  } else if (this->quaternion.changed()) {
+//    //TODO(zxi) set Eular from Quaternion
+//  }
 
   this->matrix.asCompose(this->position, this->quaternion, this->scale);
   this->matrixWorldNeedsUpdate = true;

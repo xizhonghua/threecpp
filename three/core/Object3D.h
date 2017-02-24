@@ -127,6 +127,8 @@ protected:
   bool isMesh_ { false };
   bool isPoint_ { false };
 
+private:
+
 };
 
 } /* namespace three */
