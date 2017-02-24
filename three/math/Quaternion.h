@@ -43,7 +43,7 @@ public:
   }
 
   Quaternion& setFromRotationMatrix(const Matrix4& m);
-  Quaternion& setFromEular(const Euler& e);
+  Quaternion& setFromEular(const Euler& e, bool update = false);
 
   inline Quaternion& setFromAxisAngle(const Vector3& axis, double angle) {
 
