@@ -39,11 +39,11 @@ public:
   }
 
   void animate() override {
-    mesh1.rotation.x += 0.5;
-    mesh1.rotation.y += 1.0;
+    mesh1.rotation.x += 0.01;
+    mesh1.rotation.y += 0.02;
 
-    mesh2.rotation.x += 1.0;
-    mesh2.rotation.y += 0.5;
+    mesh2.rotation.x += 0.02;
+    mesh2.rotation.y += 0.01;
 
     renderer.render(&scene, &camera);
   }

@@ -35,10 +35,27 @@ public:
 
   }
 
+  // Check whether the object changed or not.
+  bool changed() const {
+    return x != lx_ || y != ly_ || z != lz_;
+  }
+
+  // Make the object as fresh
+  void markAsUpdated() {
+    lx_ = x;
+    ly_ = y;
+    lz_ = z;
+  }
+
   double x { 0 };
   double y { 0 };
   double z { 0 };
   EulerOrder order { EulerOrder::XYZ };
+
+private:
+  double lx_ { 0 };
+  double ly_ { 0 };
+  double lz_ { 0 };
 };
 
 } /* namespace three */

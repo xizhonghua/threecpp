@@ -24,19 +24,17 @@ public:
     return projectionMatrix_;
   }
 
-  const Matrix4& matrixWorldInverse() const {
-    return matrixWorldInverse_;
-  }
-
   virtual void updateProjectionMatrix() = 0;
 
   // public properties
   double zoom { 1.0 };
   double aspect { 1.0 };
 
+  Matrix4 matrixWorldInverse;
+
 protected:
   Matrix4 projectionMatrix_;
-  Matrix4 matrixWorldInverse_;
+
 
 };
 

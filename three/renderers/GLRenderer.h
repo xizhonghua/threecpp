@@ -49,7 +49,13 @@ protected:
 
   bool first_ { true };
 
-  // render queues
+  // Camera matrices cache
+  Matrix4 projScreenMatrix_;
+  Vector3 vector3_;
+  Matrix4 matrix4_;
+  Matrix4 Matrix42_;
+
+  // Render queues
   int opaqueObjectsLastIndex_ { -1 };
   int transparentObjectsLastIndex_ { -1 };
   std::vector<RenderItem> opaqueObjects_;

@@ -8,6 +8,7 @@
 #include <three/math/Quaternion.h>
 
 #include <cmath>
+#include <three/math/Euler.h>
 
 namespace three {
 
@@ -60,8 +61,69 @@ Quaternion& Quaternion::setFromRotationMatrix(const Matrix4& m) {
 
   }
 
-  //TODO(zxi)
-  // on change callback...
+  return *this;
+}
+
+Quaternion& Quaternion::setFromEular(const Euler& e) {
+
+  auto x = e.x, y = e.y, z = e.z;
+  auto order = e.order;
+
+  // http://www.mathworks.com/matlabcentral/fileexchange/
+  //  20696-function-to-convert-between-dcm-euler-angles-quaternions-and-euler-vectors/
+  //  content/SpinCalc.m
+
+  auto c1 = cos(x / 2);
+  auto c2 = cos(y / 2);
+  auto c3 = cos(z / 2);
+
+  auto s1 = sin(x / 2);
+  auto s2 = sin(y / 2);
+  auto s3 = sin(z / 2);
+
+  if (order == EulerOrder::XYZ) {
+
+    this->x = s1 * c2 * c3 + c1 * s2 * s3;
+    this->y = c1 * s2 * c3 - s1 * c2 * s3;
+    this->z = c1 * c2 * s3 + s1 * s2 * c3;
+    this->w = c1 * c2 * c3 - s1 * s2 * s3;
+
+  } else if (order == EulerOrder::YXZ) {
+
+    this->x = s1 * c2 * c3 + c1 * s2 * s3;
+    this->y = c1 * s2 * c3 - s1 * c2 * s3;
+    this->z = c1 * c2 * s3 - s1 * s2 * c3;
+    this->w = c1 * c2 * c3 + s1 * s2 * s3;
+
+  } else if (order == EulerOrder::ZXY) {
+
+    this->x = s1 * c2 * c3 - c1 * s2 * s3;
+    this->y = c1 * s2 * c3 + s1 * c2 * s3;
+    this->z = c1 * c2 * s3 + s1 * s2 * c3;
+    this->w = c1 * c2 * c3 - s1 * s2 * s3;
+
+  } else if (order == EulerOrder::ZYX) {
+
+    this->x = s1 * c2 * c3 - c1 * s2 * s3;
+    this->y = c1 * s2 * c3 + s1 * c2 * s3;
+    this->z = c1 * c2 * s3 - s1 * s2 * c3;
+    this->w = c1 * c2 * c3 + s1 * s2 * s3;
+
+  } else if (order == EulerOrder::YZX) {
+
+    this->x = s1 * c2 * c3 + c1 * s2 * s3;
+    this->y = c1 * s2 * c3 + s1 * c2 * s3;
+    this->z = c1 * c2 * s3 - s1 * s2 * c3;
+    this->w = c1 * c2 * c3 - s1 * s2 * s3;
+
+  } else if (order == EulerOrder::XZY) {
+
+    this->x = s1 * c2 * c3 - c1 * s2 * s3;
+    this->y = c1 * s2 * c3 - s1 * c2 * s3;
+    this->z = c1 * c2 * s3 + s1 * s2 * c3;
+    this->w = c1 * c2 * c3 + s1 * s2 * s3;
+
+  }
 
   return *this;
 }

@@ -80,13 +80,36 @@ Object3D& Object3D::remove(Object3D* child) {
 ///////////////////////////////////////////////////////////////////////////////
 // update the matrix of the object
 void Object3D::updateMatrix() {
+
+  if(this->rotation.changed()) {
+    this->quaternion.setFromEular(this->rotation);
+    this->rotation.markAsUpdated();
+  }
+
   this->matrix.asCompose(this->position, this->quaternion, this->scale);
   this->matrixWorldNeedsUpdate = true;
 }
 
-// update the world matrix of the object
 void Object3D::updateMatrixWorld(bool force) {
-//TODO(zxi)
+  if (this->matrixAutoUpdate)
+    this->updateMatrix();
+
+  if (this->matrixWorldNeedsUpdate || force) {
+    if (this->parent == nullptr) {
+      this->matrixWorld = this->matrix;
+    } else {
+      this->matrixWorld = this->parent->matrixWorld * this->matrix;
+    }
+
+    this->matrixWorldNeedsUpdate = false;
+
+    force = true;
+  }
+
+  // Update children
+  for (auto child : this->children) {
+    child->updateMatrixWorld(force);
+  }
 }
 
 }/* namespace three */

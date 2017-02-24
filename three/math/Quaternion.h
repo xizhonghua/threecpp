@@ -14,6 +14,11 @@
 #include <three/math/Matrix4.h>
 
 namespace three {
+class Euler;
+}
+
+namespace three {
+
 
 class Quaternion {
 public:
@@ -35,6 +40,7 @@ public:
   }
 
   Quaternion& setFromRotationMatrix(const Matrix4& m);
+  Quaternion& setFromEular(const Euler& e);
 
   inline Quaternion& setFromAxisAngle(const Vector3& axis, double angle) {
 
@@ -48,6 +54,8 @@ public:
 
     return *this;
   }
+
+
 
   double x { 0.0 };
   double y { 0.0 };

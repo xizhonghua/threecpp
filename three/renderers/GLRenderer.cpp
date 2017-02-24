@@ -42,10 +42,24 @@ GLRenderer& GLRenderer::setPixelRatio(double pixel_ratio) {
 
 void GLRenderer::render(Scene* scene, Camera* camera) {
 
-//  if(scene->autoUpdate)
+  // Update scene and children's matrix
+  if (scene->autoUpdate)
+    scene->updateMatrixWorld();
+
+  // Update camera matrix
+  if (camera->parent == nullptr)
+    camera->updateMatrixWorld();
+
+  // Pre-compute the inverse of the camara's world matrix
+  camera->matrixWorldInverse.getInverse(camera->matrixWorld);
+
+  this->projScreenMatrix_ = camera->projectionMatrix()
+      * camera->matrixWorldInverse;
 
 // update projection
   updateProjectionMatrix(camera);
+
+  glMatrixMode(GL_MODELVIEW);
 
 //TODO(zxi) pre-render
 
@@ -102,8 +116,9 @@ void GLRenderer::renderObjects(const std::vector<RenderItem>& items,
     auto geometry = item.geometry;
     auto material = item.material;
 
-    object->modelViewMatrix = camera->matrixWorldInverse()
-        * object->matrixWorld;
+    object->modelViewMatrix = camera->matrixWorldInverse * object->matrixWorld;
+
+//    cerr << "id = " << object->id()<<" modelViewMatrix = " << object->modelViewMatrix << endl;
 
     //TODO(zxi) normalMartix
 //    object->normalMatrix
@@ -138,13 +153,17 @@ void GLRenderer::updateProjectionMatrix(Camera* camera) {
 
 void GLRenderer::renderObject(RenderableObject* object) {
 
-  glPushMatrix();
-
-  glTranslated(object->position);
-
-  glRotated(object->rotation);
+//  glPushMatrix();
+//
+//  glTranslated(object->position);
+//
+//  glRotated(object->rotation);
 
   prepareMaterial(object->getMaterial());
+
+  glPushMatrix();
+
+  glMultMatrixd(object->matrixWorld.elements);
 
   GLenum state;
 
@@ -212,8 +231,8 @@ void GLRenderer::projectObject(Object3D* object, Camera* camera) {
   }
 }
 
-void GLRenderer::pushRenderItem(RenderableObject* object,
-    Geometry* geometry, Material* material, double z) {
+void GLRenderer::pushRenderItem(RenderableObject* object, Geometry* geometry,
+    Material* material, double z) {
 
   std::vector<RenderItem>* array = nullptr;
   int index = 0;
