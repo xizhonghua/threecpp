@@ -11,6 +11,9 @@
 
 namespace three {
 
+GLPrograms::ShaderIDs = { { "MeshDepthMaterial", "depth" }, {
+    "MeshNormalMaterial", "normal" }, { "MeshBasicMaterial", "basic" } };
+
 GLPrograms::GLPrograms() {
   // TODO Auto-generated constructor stub
 

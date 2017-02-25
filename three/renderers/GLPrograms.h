@@ -32,6 +32,8 @@ public:
 
 private:
   std::vector<GLProgram*> programs_;
+
+  static std::map<std::string, std::string> ShaderIDs;
 };
 
 } /* namespace three */
