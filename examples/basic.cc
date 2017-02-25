@@ -39,6 +39,9 @@ public:
   }
 
   void animate() override {
+
+    scene.rotation.y += 0.005;
+
     mesh1.rotation.x += 0.01;
     mesh1.rotation.y += 0.02;
 

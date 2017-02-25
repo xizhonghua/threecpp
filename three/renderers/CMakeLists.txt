@@ -1,4 +1,5 @@
 add_library(renderers
+  GLProgram.cpp
   GLRenderer.cpp)
 
 add_dependencies(renderers

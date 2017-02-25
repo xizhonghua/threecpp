@@ -90,15 +90,6 @@ Object3D& Object3D::remove(Object3D* child) {
 // update the matrix of the object
 void Object3D::updateMatrix() {
 
-//  // TODO(zxi) Temp solution, non invariant
-//  if (this->rotation.changed()) {
-//    this->quaternion.setFromEular(this->rotation);
-//    this->quaternion.makeAsUpdated();
-//    this->rotation.markAsUpdated();
-//  } else if (this->quaternion.changed()) {
-//    //TODO(zxi) set Eular from Quaternion
-//  }
-
   this->matrix.asCompose(this->position, this->quaternion, this->scale);
   this->matrixWorldNeedsUpdate = true;
 }

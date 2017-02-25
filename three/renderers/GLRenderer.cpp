@@ -9,10 +9,11 @@
 #include <iostream>
 
 #include <GLFW/glfw3.h>
+#include <three/renderers/GLExtension.h>
+
 #include <GL/glu.h>
 
 #include <three/three.h>
-#include <three/renderers/glExtension.h>
 #include <three/renderers/GLRenderer.h>
 
 using namespace std;
