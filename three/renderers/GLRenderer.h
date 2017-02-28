@@ -10,7 +10,11 @@
 
 #include <vector>
 
+#include <three/math/Matrix4.h>
+#include <three/math/Vector3.h>
 #include <three/renderers/RenderItem.h>
+
+
 
 namespace three {
 

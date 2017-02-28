@@ -5,16 +5,20 @@
  *      Author: zxi
  */
 
+#include <three/renderers/GLRenderer.h>
+
 #include <cmath>
 #include <iostream>
 
 #include <GLFW/glfw3.h>
-#include <three/renderers/GLExtension.h>
+
 
 #include <GL/glu.h>
+#include <three/renderers/GLExtension.h>
 
 #include <three/three.h>
-#include <three/renderers/GLRenderer.h>
+#include <three/renderers/shaders/ShaderLib.h>
+
 
 using namespace std;
 
@@ -100,6 +104,15 @@ void GLRenderer::render(Scene* scene, Camera* camera) {
 
 void GLRenderer::setMaterial(Material* material) {
   //TODO(zxi)
+
+
+  auto& shader = ShaderLib::basic();
+
+  material->uniforms = shader.uniforms;
+  material->vertexGLSL = shader.vertexGLSL;
+  material->fragmentGLSL = shader.fragmentGLSL;
+
+  // ...
 }
 
 void GLRenderer::renderBufferDirect(Camera* camera, void* fog,

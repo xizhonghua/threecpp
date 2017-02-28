@@ -1,6 +1,11 @@
 add_library(renderers
-  GLProgram.cpp
-  GLRenderer.cpp)
+  GLProgram.cpp  
+  GLRenderer.cpp
+  GLShader.cpp
+  GLUniforms.cpp
+  Shader.cpp
+  Shaders/ShaderChunk.cpp
+  Shaders/ShaderLib.cpp)
 
 add_dependencies(renderers
   core)

@@ -8,7 +8,14 @@
 #ifndef THREE_MATERIALS_MATERIAL_H_
 #define THREE_MATERIALS_MATERIAL_H_
 
+#include <string>
+
 #include <three/math/Color.h>
+#include <three/renderers/GLUniforms.h>
+
+namespace three {
+class GLProgram;
+}
 
 namespace three {
 
@@ -68,6 +75,13 @@ public:
     this->visiable_ = visiable;
     return *this;
   }
+
+  // Shaders
+  GLUniforms uniforms;
+  std::string vertexGLSL;
+  std::string fragmentGLSL;
+
+  GLProgram* glProgram { nullptr };
 
 private:
   Color color_;

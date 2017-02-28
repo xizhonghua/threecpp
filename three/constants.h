@@ -8,6 +8,12 @@
 #ifndef THREE_CONSTANTS_H_
 #define THREE_CONSTANTS_H_
 
+
+enum class ShaderType {
+  VertexShader,
+  FragmentShader
+};
+
 enum class SideMode {
   FrontSide, BackSide, DoubleSide
 };

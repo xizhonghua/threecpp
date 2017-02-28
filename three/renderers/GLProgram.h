@@ -13,6 +13,7 @@
 #include <string>
 
 #include <three/materials/Material.h>
+#include <three/renderers/GLShader.h>
 
 namespace three {
 
@@ -40,9 +41,15 @@ public:
 
   uint32_t usedTimes { 1 };
 
-private:
+protected:
+
+  std::string getVertexPrefix(const GLParamtersType& paramters);
+  std::string getFragmentPrefix(const GLParamtersType& paramters);
+
   static uint32_t programIdCount;
 
+  std::unique_ptr<GLShader> glVertexShader;
+  std::unique_ptr<GLShader> glFragmentShader;
   uint32_t id_;
   std::string code_;
   uint32_t program_;
