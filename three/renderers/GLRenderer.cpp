@@ -199,12 +199,12 @@ void GLRenderer::updateProjectionMatrix(Camera* camera) {
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
-  glMultMatrixd(camera->projectionMatrix().elements);
+  glLoadMatrixd(camera->projectionMatrix().elements);
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
-  glMultMatrixd(camera->matrixWorldInverse.elements);
+  glLoadMatrixd(camera->matrixWorldInverse.elements);
 
   glMatrixMode(GL_MODELVIEW);
 }
@@ -221,7 +221,7 @@ void GLRenderer::renderObject(RenderableObject* object) {
 
   glPushMatrix();
 
-  glMultMatrixd(object->matrixWorld.elements);
+  glLoadMatrixd(object->modelViewMatrix.elements);
 
   GLenum state;
 
