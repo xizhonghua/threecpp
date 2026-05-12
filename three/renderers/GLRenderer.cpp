@@ -68,6 +68,8 @@ void GLRenderer::render(Scene* scene, Camera* camera) {
   glMatrixMode(GL_MODELVIEW);
 
 //TODO(zxi) pre-render
+  glClear(GL_DEPTH_BUFFER_BIT);
+  glEnable(GL_DEPTH_TEST);
 
 // Reset count
   this->opaqueObjectsLastIndex_ = -1;
@@ -107,10 +109,13 @@ void GLRenderer::render(Scene* scene, Camera* camera) {
         GLfloat color[] = { (GLfloat)(light->color.r * light->intensity),
                             (GLfloat)(light->color.g * light->intensity),
                             (GLfloat)(light->color.b * light->intensity), 1.0f };
+        GLfloat specular[] = { 0.0f, 0.0f, 0.0f, 1.0f };
         glLightfv(glLightId, GL_DIFFUSE, color);
-        glLightfv(glLightId, GL_SPECULAR, color);
+        glLightfv(glLightId, GL_SPECULAR, specular);
 
-        Vector3 worldPos = Vector3(0, 0, 0) * light->matrixWorld;
+        Vector3 worldPos { light->matrixWorld.elements[12], 
+                           light->matrixWorld.elements[13], 
+                           light->matrixWorld.elements[14] };
         GLfloat position[] = { (GLfloat)worldPos.x, (GLfloat)worldPos.y, (GLfloat)worldPos.z, 1.0f };
         glLightfv(glLightId, GL_POSITION, position);
 
@@ -199,11 +204,7 @@ void GLRenderer::updateProjectionMatrix(Camera* camera) {
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
-//TODO(zxi) use camera up
-  glMultMatrixd(
-      Matrix4::makeLookAt(camera->position, Vector3 { 0, 0, 0 }, Vector3 { 0, 1,
-          0 }).elements);
-  glRotated(camera->rotation);
+  glMultMatrixd(camera->matrixWorldInverse.elements);
 
   glMatrixMode(GL_MODELVIEW);
 }
@@ -245,7 +246,15 @@ void GLRenderer::renderObject(RenderableObject* object) {
       double vx = vs[2]->x - vs[0]->x;
       double vy = vs[2]->y - vs[0]->y;
       double vz = vs[2]->z - vs[0]->z;
-      glNormal3d(uy * vz - uz * vy, uz * vx - ux * vz, ux * vy - uy * vx);
+      
+      double nx = uy * vz - uz * vy;
+      double ny = uz * vx - ux * vz;
+      double nz = ux * vy - uy * vx;
+      double len = std::sqrt(nx * nx + ny * ny + nz * nz);
+      if (len > 0.0) {
+        nx /= len; ny /= len; nz /= len;
+      }
+      glNormal3d(nx, ny, nz);
     } else {
       glNormal3d(f.normal.x, f.normal.y, f.normal.z);
     }

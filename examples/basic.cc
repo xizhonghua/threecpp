@@ -14,7 +14,7 @@ private:
   Scene scene;
   PerspectiveCamera camera { 60, aspect_, 1, 10000 };
   AmbientLight ambientLight { Color(0xffffff), 0.5 };
-  PointLight pointLight { Color(0xffffff), 10.0 };
+  PointLight pointLight { Color(0xffffff), 1.0 };
   BoxGeometry geometry { 200, 200, 200 };
   SphereGeometry sphereGeometry { 100 };
   MeshBasicMaterial material1, material2;
@@ -23,7 +23,7 @@ private:
 
 public:
   BasicWindowApp() :
-      WindowApp(800, 450, "examples/Basic") {
+      WindowApp(800, 600, "examples/Basic") {
   }
 
   void initScene() override {
