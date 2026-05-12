@@ -2175,6 +2175,8 @@ namespace Catch{
         #define CATCH_TRAP() \
                 __asm__("li r0, 20\nsc\nnop\nli r0, 37\nli r4, 2\nsc\nnop\n" \
                 : : : "memory","r0","r3","r4" )
+    #elif defined(__arm64__) || defined(__aarch64__)
+        #define CATCH_TRAP() __asm__("brk #0")
     #else
         #define CATCH_TRAP() __asm__("int $3\n" : : )
     #endif
@@ -6887,7 +6889,7 @@ namespace Catch {
 namespace Catch {
 
     struct RandomNumberGenerator {
-        typedef std::ptrdiff_t result_type;
+        typedef unsigned int result_type;
 
         result_type operator()( result_type n ) const { return std::rand() % n; }
 

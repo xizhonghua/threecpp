@@ -7,7 +7,7 @@
 
 #include <three/renderers/GLProgram.h>
 
-#include <GL/glu.h>
+#include <OpenGL/glu.h>
 
 #include <sstream>
 

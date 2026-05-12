@@ -7,7 +7,7 @@
 
 #include <three/renderers/GLShader.h>
 
-#include <GL/glu.h>
+#include <OpenGL/glu.h>
 
 #include <iostream>
 

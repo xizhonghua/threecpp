@@ -28,4 +28,4 @@ set(LIBS
 # Combine All
 add_library(threecpp three.cc)
 add_dependencies(threecpp ${LIBS})
-target_link_libraries(threecpp ${LIBS})
+target_link_libraries(threecpp ${LIBS} ${GLFW_LIBRARIES})

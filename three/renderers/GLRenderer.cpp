@@ -13,7 +13,7 @@
 #include <GLFW/glfw3.h>
 
 
-#include <GL/glu.h>
+#include <OpenGL/glu.h>
 #include <three/renderers/GLExtension.h>
 
 #include <three/three.h>

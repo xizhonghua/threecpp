@@ -8,7 +8,6 @@ foreach( src ${APP_SOURCES} )
     add_dependencies( ${example_name} threecpp)
     target_link_libraries( ${example_name} 
       threecpp
-      ${OPENGL_glu_LIBRARY}
-      ${GLFW_LIBRARIES})
+      ${OPENGL_glu_LIBRARY})
 
 endforeach( src ${APP_SOURCES} )
