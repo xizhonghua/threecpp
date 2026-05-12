@@ -26,8 +26,7 @@ class CameraExample: public WindowApp {
 private:
   Scene scene;
   PerspectiveCamera cameraP { 60, aspect_, 1, 10000 };
-  OrthographicCamera cameraO { -0.5 * kFrustumSize * aspect_, 0.5 * kFrustumSize
-      * aspect_, kFrustumSize / 2, kFrustumSize / -2, 0.1, 10000 };
+  OrthographicCamera cameraO { kFrustumSize, aspect_, 0.1, 10000 };
   AmbientLight ambientLight { Color(0xffffff), 0.5 };
   PointLight pointLight { Color(0xffffff), 1.0 };
 
@@ -110,14 +109,8 @@ public:
 
   void onResize(int width, int height) override {
 
-    cameraP.aspect = aspect_;
-    cameraP.updateProjectionMatrix();
-
-    cameraO.left = -0.5 * kFrustumSize * aspect_;
-    cameraO.right = 0.5 * kFrustumSize * aspect_;
-    cameraO.top = kFrustumSize / 2;
-    cameraO.bottom = -kFrustumSize / 2;
-    cameraO.updateProjectionMatrix();
+    cameraP.onWindowResize(width, height);
+    cameraO.onWindowResize(width, height);
 
     this->renderer.setSize(width, height);
   }

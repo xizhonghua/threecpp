@@ -55,8 +55,7 @@ public:
   }
 
   void onResize(int width, int height) override {
-    camera.aspect = aspect_;
-    camera.updateProjectionMatrix();
+    camera.onWindowResize(width, height);
   }
 };
 }

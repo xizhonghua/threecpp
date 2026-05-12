@@ -9,13 +9,11 @@
 
 namespace three {
 
-OrthographicCamera::OrthographicCamera(double left, double right, double top,
-    double bottom, double near, double far) :
-    left(left), right(right), top(top), bottom(bottom), near(near), far(
-        far) {
 
+OrthographicCamera::OrthographicCamera(double frustumSize, double aspect, double near,
+      double far): left(-0.5 * frustumSize * aspect), right(0.5 * frustumSize * aspect), top(0.5 * frustumSize), bottom(-0.5 * frustumSize), near(near), far(far) {
+  this->frustumSize = frustumSize;
   this->type_ = "OrthographicCamera";
-
   this->updateProjectionMatrix();
 }
 
@@ -38,5 +36,17 @@ void OrthographicCamera::updateProjectionMatrix()  {
   this->projectionMatrix_.asOrthographic(left, right, top, bottom, this->near,
       this->far);
 }
+
+void OrthographicCamera::onWindowResize(int width, int height) {
+  aspect = static_cast<double>(width) / height;
+  if (frustumSize > 0) {
+    left = -0.5 * frustumSize * aspect;
+    right = 0.5 * frustumSize * aspect;
+    top = frustumSize / 2;
+    bottom = -frustumSize / 2;
+  }
+  updateProjectionMatrix();
+}
+
 
 } /* namespace three */

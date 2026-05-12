@@ -24,6 +24,8 @@ public:
     return projectionMatrix_;
   }
 
+  virtual void onWindowResize(int width, int height);
+  
   virtual void updateProjectionMatrix() = 0;
 
   // public properties

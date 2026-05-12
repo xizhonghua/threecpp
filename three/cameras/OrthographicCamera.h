@@ -14,11 +14,12 @@ namespace three {
 
 class OrthographicCamera: public Camera {
 public:
-  OrthographicCamera(double left, double right, double top, double bottom,
-      double near = 0.1, double far = 2000);
+  OrthographicCamera(double frustumSize, double aspect, double near = 0.1,
+      double far = 2000);
   ~OrthographicCamera();
 
   void updateProjectionMatrix() override;
+  void onWindowResize(int width, int height) override;
 
   /////////////////////////////////////////////////////////////////////////////
   // Properties
@@ -30,6 +31,9 @@ public:
   double bottom;
   double near;
   double far;
+
+  // Unset
+  double frustumSize { -1 };
 private:
 
 };
