@@ -9,7 +9,7 @@
 
 namespace three {
 
-AmbientLight::AmbientLight(Color color, double intensity) :
+AmbientLight::AmbientLight(const Color& color, double intensity) :
     Light(color, intensity) {
   this->type_ = "AmbientLight";
   this->castShadow = false;

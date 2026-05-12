@@ -1,5 +1,7 @@
 add_library(lights
-  Light.cpp)
+  Light.cpp
+  AmbientLight.cpp
+  PointLight.cpp)
 
 add_dependencies(lights
   core)

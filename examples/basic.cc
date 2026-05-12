@@ -13,6 +13,8 @@ class BasicWindowApp: public WindowApp {
 private:
   Scene scene;
   PerspectiveCamera camera { 60, aspect_, 1, 10000 };
+  AmbientLight ambientLight { Color(0xffffff), 0.5 };
+  PointLight pointLight { Color(0xffffff), 10.0 };
   BoxGeometry geometry { 200, 200, 200 };
   SphereGeometry sphereGeometry { 100 };
   MeshBasicMaterial material1, material2;
@@ -35,7 +37,9 @@ public:
     mesh1.position.x -= 300;
     mesh2.position.x += 300;
 
-    scene.add({&mesh1, &mesh2});
+    pointLight.position.set(0, 200, 200);
+
+    scene.add({&mesh1, &mesh2, &ambientLight, &pointLight});
   }
 
   void animate() override {

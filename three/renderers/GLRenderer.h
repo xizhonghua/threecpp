@@ -19,6 +19,7 @@
 namespace three {
 
 class RenderableObject;
+class Light;
 
 class GLRenderer {
 public:
@@ -64,6 +65,7 @@ protected:
   int transparentObjectsLastIndex_ { -1 };
   std::vector<RenderItem> opaqueObjects_;
   std::vector<RenderItem> transparentObjects_;
+  std::vector<Light*> lights_;
 
 };
 

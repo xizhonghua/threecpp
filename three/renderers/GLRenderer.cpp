@@ -15,6 +15,7 @@
 
 #include <OpenGL/glu.h>
 #include <three/renderers/GLExtension.h>
+#include <three/lights/Light.h>
 
 #include <three/three.h>
 #include <three/renderers/shaders/ShaderLib.h>
@@ -75,6 +76,7 @@ void GLRenderer::render(Scene* scene, Camera* camera) {
   // Reset object list
   this->opaqueObjects_.clear();
   this->transparentObjects_.clear();
+  this->lights_.clear();
 
   //TODO(zxi) clipping...
 
@@ -82,8 +84,49 @@ void GLRenderer::render(Scene* scene, Camera* camera) {
   projectObject(scene, camera);
 
   //TODO(zxi) sorting
-  //TODO(zxi) setup shadow
-  //TODO(zxi) setup lights
+  
+  // Setup lights
+  if (!lights_.empty()) {
+    glEnable(GL_LIGHTING);
+    glEnable(GL_COLOR_MATERIAL);
+    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+    glEnable(GL_NORMALIZE); // Normalizes our on-the-fly cross products and scales
+
+    int lightIndex = 0;
+    double ambientR = 0, ambientG = 0, ambientB = 0;
+
+    for (Light* light : lights_) {
+      if (light->type() == "AmbientLight") {
+        ambientR += light->color.r * light->intensity;
+        ambientG += light->color.g * light->intensity;
+        ambientB += light->color.b * light->intensity;
+      } else if (lightIndex < 8) { // Up to GL_LIGHT7
+        int glLightId = GL_LIGHT0 + lightIndex;
+        glEnable(glLightId);
+
+        GLfloat color[] = { (GLfloat)(light->color.r * light->intensity),
+                            (GLfloat)(light->color.g * light->intensity),
+                            (GLfloat)(light->color.b * light->intensity), 1.0f };
+        glLightfv(glLightId, GL_DIFFUSE, color);
+        glLightfv(glLightId, GL_SPECULAR, color);
+
+        Vector3 worldPos = Vector3(0, 0, 0) * light->matrixWorld;
+        GLfloat position[] = { (GLfloat)worldPos.x, (GLfloat)worldPos.y, (GLfloat)worldPos.z, 1.0f };
+        glLightfv(glLightId, GL_POSITION, position);
+
+        lightIndex++;
+      }
+    }
+
+    GLfloat ambient[] = { (GLfloat)ambientR, (GLfloat)ambientG, (GLfloat)ambientB, 1.0f };
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
+
+    for (int i = lightIndex; i < 8; ++i) {
+      glDisable(GL_LIGHT0 + i);
+    }
+  } else {
+    glDisable(GL_LIGHTING);
+  }
 
   //TODO(zxi) background
 
@@ -194,8 +237,21 @@ void GLRenderer::renderObject(RenderableObject* object) {
         &(geom->vertices[f.c]) };
 
     glBegin(state);
+
+    if (f.normal.x == 0 && f.normal.y == 0 && f.normal.z == 0) {
+      double ux = vs[1]->x - vs[0]->x;
+      double uy = vs[1]->y - vs[0]->y;
+      double uz = vs[1]->z - vs[0]->z;
+      double vx = vs[2]->x - vs[0]->x;
+      double vy = vs[2]->y - vs[0]->y;
+      double vz = vs[2]->z - vs[0]->z;
+      glNormal3d(uy * vz - uz * vy, uz * vx - ux * vz, ux * vy - uy * vx);
+    } else {
+      glNormal3d(f.normal.x, f.normal.y, f.normal.z);
+    }
+
     for (Vector3* const v : vs) {
-      glVertex3d(v);
+      glVertex3d(v->x, v->y, v->z);
     }
     glEnd();
   }
@@ -220,7 +276,7 @@ void GLRenderer::projectObject(Object3D* object, Camera* camera) {
     goto SKIP;
 
   if (object->isLight()) {
-    //TODO(zxi)
+    this->lights_.push_back(static_cast<Light*>(object));
   } else if (object->isMesh() || object->isLine() || object->isPoint()) {
 
     RenderableObject* renderable = dynamic_cast<RenderableObject*>(object);

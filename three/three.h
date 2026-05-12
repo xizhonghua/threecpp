@@ -18,6 +18,9 @@
 #include <three/core/Geometry.h>
 #include <three/geometries/BoxGeometry.h>
 #include <three/geometries/SphereGeometry.h>
+#include <three/lights/Light.h>
+#include <three/lights/AmbientLight.h>
+#include <three/lights/PointLight.h>
 #include <three/materials/Material.h>
 #include <three/materials/MeshBasicMaterial.h>
 #include <three/math/Color.h>
