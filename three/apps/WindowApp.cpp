@@ -16,6 +16,8 @@
 
 namespace three {
 
+static std::unordered_map<GLFWwindow*, bool> app_paused_map;
+
 std::unordered_map<GLFWwindow*, WindowApp*> WindowApp::windows_map_;
 
 void GLFWKeyCallback(GLFWwindow* window, int key, int scancode, int action,
@@ -103,6 +105,8 @@ void WindowApp::onKeyPress(int key, bool shift, bool ctrl, bool alt,
 
   if (key == GLFW_KEY_ESCAPE) {
     glfwSetWindowShouldClose(window_, 1);
+  } else if (key == GLFW_KEY_SPACE) {
+    app_paused_map[window_] = !app_paused_map[window_];
   }
 }
 
@@ -119,16 +123,21 @@ void WindowApp::onKeyRepeat(int key, bool shift, bool ctrl, bool alt,
 int WindowApp::run() {
   /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(window_)) {
-    /* Render here */
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    if (app_paused_map[window_]) {
+      // Application is paused, wait for events to save CPU usage
+      glfwWaitEvents();
+    } else {
+      /* Render here */
+      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    this->animate();
+      this->animate();
 
-    /* Swap front and back buffers */
-    glfwSwapBuffers(window_);
+      /* Swap front and back buffers */
+      glfwSwapBuffers(window_);
 
-    /* Poll for and process events */
-    glfwPollEvents();
+      /* Poll for and process events */
+      glfwPollEvents();
+    }
   }
 
   glfwTerminate();
