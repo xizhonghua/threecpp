@@ -19,7 +19,7 @@ public:
   ~OrthographicCamera();
 
   void updateProjectionMatrix() override;
-  void onWindowResize(int width, int height) override;
+  void onResize(int width, int height) override;
 
   /////////////////////////////////////////////////////////////////////////////
   // Properties

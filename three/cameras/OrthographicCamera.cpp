@@ -37,7 +37,7 @@ void OrthographicCamera::updateProjectionMatrix()  {
       this->far);
 }
 
-void OrthographicCamera::onWindowResize(int width, int height) {
+void OrthographicCamera::onResize(int width, int height) {
   aspect = static_cast<double>(width) / height;
   if (frustumSize > 0) {
     left = -0.5 * frustumSize * aspect;

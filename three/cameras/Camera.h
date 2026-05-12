@@ -24,8 +24,10 @@ public:
     return projectionMatrix_;
   }
 
-  virtual void onWindowResize(int width, int height);
+  // Update the camera's projection matrix when the window is resized.
+  virtual void onResize(int width, int height);
   
+  // Update the camera's projection matrix. Should be called after changing properties like aspect, zoom, etc.
   virtual void updateProjectionMatrix() = 0;
 
   // public properties

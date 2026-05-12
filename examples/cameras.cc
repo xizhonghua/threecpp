@@ -109,8 +109,8 @@ public:
 
   void onResize(int width, int height) override {
 
-    cameraP.onWindowResize(width, height);
-    cameraO.onWindowResize(width, height);
+    cameraP.onResize(width, height);
+    cameraO.onResize(width, height);
 
     this->renderer.setSize(width, height);
   }

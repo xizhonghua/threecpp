@@ -55,7 +55,7 @@ public:
   }
 
   void onResize(int width, int height) override {
-    camera.onWindowResize(width, height);
+    camera.onResize(width, height);
   }
 };
 }

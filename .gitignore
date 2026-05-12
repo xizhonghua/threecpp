@@ -4,3 +4,4 @@ build/*
 .settings/*
 src/.settings/*
 .DS_Store
+.vscode/*

@@ -28,7 +28,7 @@ Camera& Camera::lookAt(const Vector3& target) {
   return *this;
 }
 
-void Camera::onWindowResize(int width, int height) {
+void Camera::onResize(int width, int height) {
   aspect = static_cast<double>(width) / height;
   updateProjectionMatrix();
 }
