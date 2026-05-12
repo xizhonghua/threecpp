@@ -1,5 +1,6 @@
 add_library(geometries
-  BoxGeometry.cpp)
+  BoxGeometry.cpp
+  SphereGeometry.cpp)
 
 add_dependencies(geometries
   core)

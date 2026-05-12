@@ -1,3 +1,5 @@
+add_compile_definitions(GL_SILENCE_DEPRECATION)
+
 file( GLOB APP_SOURCES *.cc )
 foreach( src ${APP_SOURCES} )
     get_filename_component( example_name ${src} NAME)

@@ -11,18 +11,24 @@ namespace three {
 
 BoxGeometry::BoxGeometry(double width, double height, double depth,
     int widthSegments, int heightSegments, int depthSegments) :
-    width(width), height(height), depth(depth), widthSegments(widthSegments), heightSegments(
-        heightSegments), depthSegments(depthSegments) {
+    width_(width), height_(height), depth_(depth), widthSegments_(widthSegments), heightSegments_(
+        heightSegments), depthSegments_(depthSegments) {
+  generateGeometry();
+}
 
+BoxGeometry::~BoxGeometry() {
+}
+
+void BoxGeometry::generateGeometry() {
   Vector3 v0 { 0, 0, 0 };
-  Vector3 v1 { width, 0, 0 };
-  Vector3 v2 { width, height, 0 };
-  Vector3 v3 { 0, height, 0 };
+  Vector3 v1 { width_, 0, 0 };
+  Vector3 v2 { width_, height_, 0 };
+  Vector3 v3 { 0, height_, 0 };
 
-  Vector3 v4 { 0, 0, depth };
-  Vector3 v5 { width, 0, depth };
-  Vector3 v6 { width, height, depth };
-  Vector3 v7 { 0, height, depth };
+  Vector3 v4 { 0, 0, depth_ };
+  Vector3 v5 { width_, 0, depth_ };
+  Vector3 v6 { width_, height_, depth_ };
+  Vector3 v7 { 0, height_, depth_ };
 
   this->vertices = {v0, v1, v2, v3, v4, v5, v6, v7};
 
@@ -54,13 +60,45 @@ BoxGeometry::BoxGeometry(double width, double height, double depth,
 
   // Translate center to (0,0,0);
   Matrix4 m = Matrix4::makeTranslation(
-      Vector3(-width / 2, -height / 2, -depth / 2));
+      Vector3(-width_ / 2, -height_ / 2, -depth_ / 2));
 
   this->applyMatrix(m);
-
 }
 
-BoxGeometry::~BoxGeometry() {
+BoxGeometry& BoxGeometry::width(double width) {
+  this->width_ = width;
+  generateGeometry();
+  return *this;
+}
+
+BoxGeometry& BoxGeometry::height(double height) {
+  this->height_ = height;
+  generateGeometry();
+  return *this;
+}
+
+BoxGeometry& BoxGeometry::depth(double depth) {
+  this->depth_ = depth;
+  generateGeometry();
+  return *this;
+}
+
+BoxGeometry& BoxGeometry::widthSegments(int widthSegments) {
+  this->widthSegments_ = widthSegments;
+  generateGeometry();
+  return *this;
+}
+
+BoxGeometry& BoxGeometry::heightSegments(int heightSegments) {
+  this->heightSegments_ = heightSegments;
+  generateGeometry();
+  return *this;
+}
+
+BoxGeometry& BoxGeometry::depthSegments(int depthSegments) {
+  this->depthSegments_ = depthSegments;
+  generateGeometry();
+  return *this;
 }
 
 } /* namespace three */

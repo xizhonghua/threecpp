@@ -17,6 +17,7 @@
 #include <three/core/Object3D.h>
 #include <three/core/Geometry.h>
 #include <three/geometries/BoxGeometry.h>
+#include <three/geometries/SphereGeometry.h>
 #include <three/materials/Material.h>
 #include <three/materials/MeshBasicMaterial.h>
 #include <three/math/Color.h>

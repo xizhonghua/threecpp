@@ -1,3 +1,5 @@
+add_compile_definitions(GL_SILENCE_DEPRECATION)
+
 add_library(renderers
   GLProgram.cpp  
   GLRenderer.cpp

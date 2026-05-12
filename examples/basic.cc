@@ -14,8 +14,9 @@ private:
   Scene scene;
   PerspectiveCamera camera { 60, aspect_, 1, 10000 };
   BoxGeometry geometry { 200, 200, 200 };
+  SphereGeometry sphereGeometry { 100 };
   MeshBasicMaterial material1, material2;
-  Mesh mesh1 { &geometry, &material1 }, mesh2 { &geometry, &material2 };
+  Mesh mesh1 { &geometry, &material1 }, mesh2 { &sphereGeometry, &material2 };
   GLRenderer renderer;
 
 public:
@@ -28,8 +29,8 @@ public:
 
     camera.position.z = 800;
 
-    material1.color(0x0000ff).wireframe(true);
-    material2.color(0xff0000).wireframe(false);
+    material1.color(0x0000ff).wireframe(false);
+    material2.color(0xff0000).wireframe(true);
 
     mesh1.position.x -= 300;
     mesh2.position.x += 300;
