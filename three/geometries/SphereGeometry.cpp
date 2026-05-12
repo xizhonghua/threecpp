@@ -20,7 +20,7 @@ SphereGeometry::SphereGeometry(double radius, int widthSegments, int heightSegme
 SphereGeometry::~SphereGeometry() {
 }
 
-void SphereGeometry::generateGeometry() {
+SphereGeometry& SphereGeometry::generateGeometry() {
   this->vertices.clear();
   this->faces.clear();
 
@@ -41,7 +41,7 @@ void SphereGeometry::generateGeometry() {
       double y = radius_ * cosTheta;
       double z = radius_ * sinPhi * sinTheta;
 
-      this->vertices.push_back(Vector3(x, y, z));
+      this->vertices.emplace_back(x, y, z);
     }
   }
 
@@ -55,52 +55,47 @@ void SphereGeometry::generateGeometry() {
       int c = (i + 1) * (widthSegments_ + 1) + j + 1;
       int d = i * (widthSegments_ + 1) + j + 1;
 
-      this->faces.push_back(Face3(a, b, d));
-      this->faces.push_back(Face3(b, c, d));
+      this->faces.emplace_back(a, b, d);
+      this->faces.emplace_back(b, c, d);
     }
   }
+
+  return *this;
 }
 
 SphereGeometry& SphereGeometry::radius(double radius) {
   this->radius_ = radius;
-  generateGeometry();
-  return *this;
+  return generateGeometry();
 }
 
 SphereGeometry& SphereGeometry::widthSegments(int widthSegments) {
   this->widthSegments_ = widthSegments;
-  generateGeometry();
-  return *this;
+  return generateGeometry();
 }
 
 SphereGeometry& SphereGeometry::heightSegments(int heightSegments) {
   this->heightSegments_ = heightSegments;
-  generateGeometry();
-  return *this;
+  return generateGeometry();
 }
 
 SphereGeometry& SphereGeometry::phiStart(double phiStart) {
   this->phiStart_ = phiStart;
-  generateGeometry();
-  return *this;
+  return generateGeometry();
 }
 
 SphereGeometry& SphereGeometry::phiLength(double phiLength) {
   this->phiLength_ = phiLength;
-  generateGeometry();
-  return *this;
+  return generateGeometry();
 }
 
 SphereGeometry& SphereGeometry::thetaStart(double thetaStart) {
   this->thetaStart_ = thetaStart;
-  generateGeometry();
-  return *this;
+  return generateGeometry();
 }
 
 SphereGeometry& SphereGeometry::thetaLength(double thetaLength) {
   this->thetaLength_ = thetaLength;
-  generateGeometry();
-  return *this;
+  return generateGeometry();
 }
 
 } /* namespace three */

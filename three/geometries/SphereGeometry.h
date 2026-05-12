@@ -58,7 +58,7 @@ public:
   SphereGeometry& thetaLength(double thetaLength);
 
 private:
-  void generateGeometry();
+  SphereGeometry& generateGeometry();
 
   double radius_;
   int widthSegments_;
