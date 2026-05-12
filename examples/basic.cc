@@ -35,8 +35,7 @@ public:
     mesh1.position.x -= 300;
     mesh2.position.x += 300;
 
-    scene.add(&mesh1);
-    scene.add(&mesh2);
+    scene.add({&mesh1, &mesh2});
   }
 
   void animate() override {

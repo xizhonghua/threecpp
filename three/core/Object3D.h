@@ -28,6 +28,7 @@ public:
   virtual ~Object3D();
 
   Object3D& add(Object3D* child);
+  Object3D& add(std::initializer_list<Object3D*> children);
   Object3D& remove(Object3D* child);
 
   // Traverse the object and all its children recursively

@@ -13,6 +13,14 @@ using namespace three;
 #include <GLFW/glfw3.h>
 
 namespace {
+
+void PrintHelp() {
+  std::cout << "Press `?` to print this help message." << std::endl;
+  std::cout << "Press `O` to switch to orthographic camera, `P` to switch to perspective camera." << std::endl;
+  std::cout << "Press `+/-` to zoom in/out." << std::endl;
+  std::cout << "Press `Esc` to quit." << std::endl;
+}
+
 class CameraExample: public WindowApp {
 private:
   double frustumSize = 500;
@@ -28,6 +36,8 @@ private:
   Mesh mesh1 { &geometry1, &material1 };
   Mesh mesh2 { &geometry2, &material2 };
   GLRenderer renderer;
+  // Current camera
+  Camera* camera { nullptr };
 
   bool perspectiveCamera { true };
   int frames { 0 };
@@ -46,8 +56,7 @@ public:
     material1.color(0x0000ff).wireframe(true);
     material2.color(0xff0000).wireframe(true);
 
-    scene.add(&mesh1);
-    scene.add(&mesh2);
+    scene.add({&mesh1, &mesh2});
   }
 
   void animate() override {
@@ -63,7 +72,6 @@ public:
     mesh1.position.y = 300 * sin(r);
     mesh1.position.z = 300 * sin(r);
 
-    Camera* camera = nullptr;
     if (perspectiveCamera)
       camera = &cameraP;
     else
@@ -80,6 +88,17 @@ public:
       break;
     case GLFW_KEY_P:
       perspectiveCamera = true;
+      break;
+    case GLFW_KEY_EQUAL:
+      camera->position.z /= 1.1;
+      break;
+    case GLFW_KEY_MINUS:
+      camera->position.z *= 1.1;
+      break;
+    case GLFW_KEY_SLASH:
+      if (shift) {
+        PrintHelp();
+      }
       break;
 
     default:

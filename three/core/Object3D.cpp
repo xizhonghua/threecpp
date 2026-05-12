@@ -56,6 +56,13 @@ Object3D& Object3D::add(Object3D* child) {
   return *this;
 }
 
+Object3D& Object3D::add(std::initializer_list<Object3D*> children) {
+  for (Object3D* child : children) {
+    this->add(child);
+  }
+  return *this;
+}
+
 void Object3D::traverse(std::function<void(Object3D* object)> callback) {
   callback(this);
 
