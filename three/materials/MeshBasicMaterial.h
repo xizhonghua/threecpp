@@ -17,6 +17,7 @@ namespace three {
 class MeshBasicMaterial: public Material {
 public:
   MeshBasicMaterial();
+  explicit MeshBasicMaterial(const Color& color, bool wireframe = false);
   ~MeshBasicMaterial();
 };
 

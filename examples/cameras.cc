@@ -13,6 +13,7 @@ using namespace three;
 #include <GLFW/glfw3.h>
 
 namespace {
+constexpr double kFrustumSize = 1000;
 
 void PrintHelp() {
   std::cout << "Press `?` to print this help message." << std::endl;
@@ -23,18 +24,20 @@ void PrintHelp() {
 
 class CameraExample: public WindowApp {
 private:
-  double frustumSize = 500;
   Scene scene;
   PerspectiveCamera cameraP { 60, aspect_, 1, 10000 };
-  OrthographicCamera cameraO { -0.5 * frustumSize * aspect_, 0.5 * frustumSize
-      * aspect_, frustumSize / 2, frustumSize / -2, 0.1, 10000 };
+  OrthographicCamera cameraO { -0.5 * kFrustumSize * aspect_, 0.5 * kFrustumSize
+      * aspect_, kFrustumSize / 2, kFrustumSize / -2, 0.1, 10000 };
+  AmbientLight ambientLight { Color(0xffffff), 0.5 };
+  PointLight pointLight { Color(0xffffff), 1.0 };
 
   BoxGeometry geometry1 { 50, 50, 50 };
   BoxGeometry geometry2 { 200, 200, 200 };
-
-  MeshBasicMaterial material1, material2;
+  MeshBasicMaterial material1 { Color(0x0000ff) };
+  MeshBasicMaterial material2 { Color(0xff0000) };
   Mesh mesh1 { &geometry1, &material1 };
   Mesh mesh2 { &geometry2, &material2 };
+
   GLRenderer renderer;
   // Current camera
   Camera* camera { nullptr };
@@ -44,7 +47,7 @@ private:
 
 public:
   CameraExample() :
-      WindowApp(800, 450, "examples/cameras") {
+      WindowApp(800, 600, "examples/cameras") {
   }
 
   void initScene() override {
@@ -53,18 +56,17 @@ public:
 
     cameraP.position.z = cameraO.position.z = 1000;
 
-    material1.color(0x0000ff).wireframe(true);
-    material2.color(0xff0000).wireframe(true);
+    pointLight.position.set(0, 200, 200);
 
-    scene.add({&mesh1, &mesh2});
+    scene.add({&mesh1, &mesh2, &ambientLight, &pointLight});
   }
 
   void animate() override {
 
     ++frames;
 
-    cameraP.rotation.y += 0.2;
-    cameraO.rotation = cameraP.rotation;
+    mesh1.rotation.y += 0.005;
+    mesh2.rotation.y += 0.005;
 
     double r = frames * 0.01;
 
@@ -111,10 +113,10 @@ public:
     cameraP.aspect = aspect_;
     cameraP.updateProjectionMatrix();
 
-    cameraO.left = -0.5 * frustumSize * aspect_;
-    cameraO.right = 0.5 * frustumSize * aspect_;
-    cameraO.top = frustumSize / 2;
-    cameraO.bottom = -frustumSize / 2;
+    cameraO.left = -0.5 * kFrustumSize * aspect_;
+    cameraO.right = 0.5 * kFrustumSize * aspect_;
+    cameraO.top = kFrustumSize / 2;
+    cameraO.bottom = -kFrustumSize / 2;
     cameraO.updateProjectionMatrix();
 
     this->renderer.setSize(width, height);
@@ -123,6 +125,6 @@ public:
 } // namespace
 
 int main(void) {
+  PrintHelp();
   return CameraExample().init().run();
 }
-

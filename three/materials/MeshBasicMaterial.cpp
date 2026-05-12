@@ -12,6 +12,11 @@ namespace three {
 MeshBasicMaterial::MeshBasicMaterial() {
 }
 
+MeshBasicMaterial::MeshBasicMaterial(const Color& color, bool wireframe) {
+  this->color(color);
+  this->wireframe(wireframe);
+}
+
 MeshBasicMaterial::~MeshBasicMaterial() {
 }
 
