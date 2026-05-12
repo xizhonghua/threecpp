@@ -11,6 +11,8 @@
 
 #include <iostream>
 #include <functional>
+#include <deque>
+#include <string>
 
 #include <GLFW/glfw3.h>
 
@@ -121,6 +123,9 @@ void WindowApp::onKeyRepeat(int key, bool shift, bool ctrl, bool alt,
 }
 
 int WindowApp::run() {
+  double last_fps_update_time = glfwGetTime();
+  std::deque<double> frame_times;
+
   /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(window_)) {
     if (app_paused_map[window_]) {
@@ -137,6 +142,23 @@ int WindowApp::run() {
 
       /* Poll for and process events */
       glfwPollEvents();
+
+      double current_time = glfwGetTime();
+      frame_times.push_back(current_time);
+
+      // Remove frames older than 5 seconds
+      while (!frame_times.empty() && frame_times.front() < current_time - 5.0) {
+        frame_times.pop_front();
+      }
+
+      // Update window title every 1 second
+      if (current_time - last_fps_update_time >= 1.0) {
+        double time_span = current_time - frame_times.front();
+        double fps = time_span > 0.0 ? frame_times.size() / time_span : 0.0;
+        std::string new_title = title_ + " - " + std::to_string(static_cast<int>(fps + 0.5)) + " FPS";
+        glfwSetWindowTitle(window_, new_title.c_str());
+        last_fps_update_time = current_time;
+      }
     }
   }
 

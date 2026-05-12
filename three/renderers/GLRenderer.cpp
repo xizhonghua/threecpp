@@ -109,9 +109,8 @@ void GLRenderer::render(Scene* scene, Camera* camera) {
         GLfloat color[] = { (GLfloat)(light->color.r * light->intensity),
                             (GLfloat)(light->color.g * light->intensity),
                             (GLfloat)(light->color.b * light->intensity), 1.0f };
-        GLfloat specular[] = { 0.0f, 0.0f, 0.0f, 1.0f };
         glLightfv(glLightId, GL_DIFFUSE, color);
-        glLightfv(glLightId, GL_SPECULAR, specular);
+        glLightfv(glLightId, GL_SPECULAR, color);
 
         Vector3 worldPos { light->matrixWorld.elements[12], 
                            light->matrixWorld.elements[13], 
@@ -272,6 +271,19 @@ void GLRenderer::prepareMaterial(Material* material) {
 
   glColor3f(material->color().r, material->color().g, material->color().b);
 
+  if (auto phong = dynamic_cast<MeshPhongMaterial*>(material)) {
+    GLfloat specular[] = { (GLfloat)phong->specular().r, (GLfloat)phong->specular().g, (GLfloat)phong->specular().b, 1.0f };
+    GLfloat emissive[] = { (GLfloat)phong->emissive().r, (GLfloat)phong->emissive().g, (GLfloat)phong->emissive().b, 1.0f };
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emissive);
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, phong->shininess());
+  } else {
+    GLfloat specular[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    GLfloat emissive[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emissive);
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 0.0f);
+  }
 }
 
 void GLRenderer::projectObject(Object3D* object, Camera* camera) {
