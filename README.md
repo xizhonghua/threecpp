@@ -3,6 +3,13 @@
 Another C++ version of [three.js](https://threejs.org/)
 
 
+### Build
+```bash
+./gen.sh
+cd build/release
+make -j8
+```
+
 ### Example
 ```c++
 #include <three/three.h>
@@ -34,8 +41,7 @@ public:
     mesh1.position.x -= 300;
     mesh2.position.x += 300;
 
-    scene.add(&mesh1);
-    scene.add(&mesh2);
+    scene.add({&mesh1, &mesh2});
   }
 
   void animate() override {
