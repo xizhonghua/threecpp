@@ -135,7 +135,7 @@ int WindowApp::run() {
       /* Render here */
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-      this->animate();
+      this->animate(static_cast<int64_t>(glfwGetTime() * 1000000.0));
 
       /* Swap front and back buffers */
       glfwSwapBuffers(window_);

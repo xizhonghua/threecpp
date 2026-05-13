@@ -19,8 +19,6 @@ private:
   Mesh mesh2 { &sphereGeometry, &material };
   GLRenderer renderer;
 
-  int frames { 0 };
-
 public:
   DepthExample() :
       WindowApp(800, 600, "examples/depth") {
@@ -37,8 +35,7 @@ public:
     scene.add({&mesh1, &mesh2});
   }
 
-  void animate() override {
-    ++frames;
+  void animate(int64_t time_us) override {
 
     mesh1.rotation.x += 0.01;
     mesh1.rotation.y += 0.02;
@@ -46,10 +43,8 @@ public:
     mesh2.rotation.x += 0.02;
     mesh2.rotation.y += 0.01;
 
-    double t = frames * 0.02;
-
-    mesh1.position.z = std::sin(t) * 400;
-    mesh2.position.z = std::cos(t) * 400;
+    mesh1.position.z = std::sin(time_us * 1e-6) * 400;
+    mesh2.position.z = std::cos(time_us * 1e-6) * 400;
 
     renderer.render(&scene, &camera);
   }

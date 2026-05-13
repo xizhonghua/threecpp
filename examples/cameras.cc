@@ -42,7 +42,6 @@ private:
   Camera* camera { nullptr };
 
   bool perspectiveCamera { true };
-  int frames { 0 };
 
 public:
   CameraExample() :
@@ -60,14 +59,12 @@ public:
     scene.add({&mesh1, &mesh2, &ambientLight, &pointLight});
   }
 
-  void animate() override {
-
-    ++frames;
+  void animate(int64_t time_us) override {
 
     mesh1.rotation.y += 0.005;
     mesh2.rotation.y += 0.005;
 
-    double r = frames * 0.01;
+    const double r = time_us * 1e-6;
 
     mesh1.position.x = 300 * cos(r);
     mesh1.position.y = 300 * sin(r);

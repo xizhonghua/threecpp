@@ -41,7 +41,7 @@ public:
     scene.add(&mshBox);
   }
 
-  void animate() override {
+  void animate(int64_t time_us) override {
     renderer.render(&scene, &camera);
   }
 };

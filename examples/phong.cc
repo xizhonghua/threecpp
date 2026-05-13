@@ -31,7 +31,7 @@ public:
     scene.add({&mesh, &ambientLight, &pointLight});
   }
 
-  void animate() override {
+  void animate(int64_t time_us) override {
     mesh.rotation.x += 0.005;
     mesh.rotation.y += 0.01;
 

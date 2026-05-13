@@ -12,6 +12,7 @@
 class GLFWwindow;
 
 #include <string>
+#include <cstdint>
 #include <unordered_map>
 #include <iostream>
 using namespace std;
@@ -43,7 +44,7 @@ public:
 
   // Clients need to implement following methods
   virtual void initScene()=0;
-  virtual void animate() = 0;
+  virtual void animate(int64_t time_us) = 0;
 
   /////////////////////////////////////////////////////////////////////////////
   // Callback
