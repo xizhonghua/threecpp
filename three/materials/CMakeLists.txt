@@ -1,7 +1,9 @@
-add_library(materials 
+add_library(materials
   Material.cpp
   MeshBasicMaterial.cpp
-  MeshPhongMaterial.cpp)
+  MeshNormalMaterial.cpp
+  MeshPhongMaterial.cpp
+)
 
 add_dependencies(materials
   core)

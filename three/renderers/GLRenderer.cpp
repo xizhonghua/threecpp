@@ -218,6 +218,11 @@ void GLRenderer::renderObject(RenderableObject* object) {
 
   prepareMaterial(object->getMaterial());
 
+  bool isMeshNormalMaterial = dynamic_cast<MeshNormalMaterial*>(object->getMaterial()) != nullptr;
+  if (isMeshNormalMaterial) {
+    glDisable(GL_LIGHTING);
+  }
+
   glPushMatrix();
 
   glLoadMatrixd(object->modelViewMatrix.elements);
@@ -238,7 +243,11 @@ void GLRenderer::renderObject(RenderableObject* object) {
 
     glBegin(state);
 
-    if (f.normal.x == 0 && f.normal.y == 0 && f.normal.z == 0) {
+    double nx = f.normal.x;
+    double ny = f.normal.y;
+    double nz = f.normal.z;
+
+    if (nx == 0 && ny == 0 && nz == 0) {
       double ux = vs[1]->x - vs[0]->x;
       double uy = vs[1]->y - vs[0]->y;
       double uz = vs[1]->z - vs[0]->z;
@@ -246,16 +255,19 @@ void GLRenderer::renderObject(RenderableObject* object) {
       double vy = vs[2]->y - vs[0]->y;
       double vz = vs[2]->z - vs[0]->z;
       
-      double nx = uy * vz - uz * vy;
-      double ny = uz * vx - ux * vz;
-      double nz = ux * vy - uy * vx;
+      nx = uy * vz - uz * vy;
+      ny = uz * vx - ux * vz;
+      nz = ux * vy - uy * vx;
       double len = std::sqrt(nx * nx + ny * ny + nz * nz);
       if (len > 0.0) {
         nx /= len; ny /= len; nz /= len;
       }
-      glNormal3d(nx, ny, nz);
-    } else {
-      glNormal3d(f.normal.x, f.normal.y, f.normal.z);
+    }
+
+    glNormal3d(nx, ny, nz);
+
+    if (isMeshNormalMaterial) {
+      glColor3d((nx + 1.0) / 2.0, (ny + 1.0) / 2.0, (nz + 1.0) / 2.0);
     }
 
     for (Vector3* const v : vs) {
@@ -265,6 +277,10 @@ void GLRenderer::renderObject(RenderableObject* object) {
   }
 
   glPopMatrix();
+
+  if (isMeshNormalMaterial && !lights_.empty()) {
+    glEnable(GL_LIGHTING);
+  }
 }
 
 void GLRenderer::prepareMaterial(Material* material) {

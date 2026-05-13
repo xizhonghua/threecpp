@@ -23,6 +23,7 @@
 #include <three/lights/PointLight.h>
 #include <three/materials/Material.h>
 #include <three/materials/MeshBasicMaterial.h>
+#include <three/materials/MeshNormalMaterial.h>
 #include <three/materials/MeshPhongMaterial.h>
 #include <three/math/Color.h>
 #include <three/math/Matrix4.h>
