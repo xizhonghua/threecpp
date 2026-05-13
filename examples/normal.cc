@@ -13,7 +13,7 @@ private:
 
 public:
   NormalExample() :
-      WindowApp(800, 600, "examples/normal") {
+      WindowApp(800, 600, "examples/normal", {&camera}) {
   }
 
   void initScene() override {
@@ -30,10 +30,6 @@ public:
     mesh.rotation.y += 0.01;
 
     renderer.render(&scene, &camera);
-  }
-
-  void onResize(int width, int height) override {
-    camera.onResize(width, height);
   }
 };
 }

@@ -45,7 +45,7 @@ private:
 
 public:
   CameraExample() :
-      WindowApp(800, 600, "examples/cameras") {
+      WindowApp(800, 600, "examples/cameras", {&cameraP, &cameraO}) {
   }
 
   void initScene() override {
@@ -102,14 +102,6 @@ public:
     default:
       WindowApp::onKeyPress(key, shift, ctrl, alt, super);
     }
-  }
-
-  void onResize(int width, int height) override {
-
-    cameraP.onResize(width, height);
-    cameraO.onResize(width, height);
-
-    this->renderer.setSize(width, height);
   }
 };
 } // namespace

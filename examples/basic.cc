@@ -25,7 +25,7 @@ private:
 
 public:
   BasicWindowApp() :
-      WindowApp(800, 600, "examples/Basic") {
+      WindowApp(800, 600, "examples/Basic", {&camera}) {
   }
 
   void initScene() override {
@@ -52,10 +52,6 @@ public:
     mesh2.rotation.y += 0.01;
 
     renderer.render(&scene, &camera);
-  }
-
-  void onResize(int width, int height) override {
-    camera.onResize(width, height);
   }
 };
 }

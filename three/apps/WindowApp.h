@@ -14,17 +14,20 @@ class GLFWwindow;
 #include <string>
 #include <cstdint>
 #include <unordered_map>
+#include <vector>
 #include <iostream>
 using namespace std;
 
 
 namespace three {
 
+class Camera;
+
 class WindowApp {
 public:
 
-  WindowApp(int width, int height, std::string title = "ThreeCpp") :
-      width_(width), height_(height), title_(title) {
+  WindowApp(int width, int height, std::string title = "ThreeCpp", std::vector<Camera*> cameras = {}) :
+      width_(width), height_(height), title_(title), cameras_(cameras) {
     aspect_ = width_ * 1.0 / height_;
   }
 
@@ -76,6 +79,7 @@ protected:
   int height_ { 640 };
   double pixel_ratio_ { 1.0 };
   double aspect_ { 1.0 };
+  std::vector<Camera*> cameras_;
 
   friend void GLFWResizeCallback(GLFWwindow* window, int width, int height);
 

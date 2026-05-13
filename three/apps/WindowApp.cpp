@@ -14,6 +14,8 @@
 #include <deque>
 #include <string>
 
+#include <three/cameras/Camera.h>
+
 #include <GLFW/glfw3.h>
 
 namespace three {
@@ -100,6 +102,11 @@ WindowApp& WindowApp::init() {
 }
 
 void WindowApp::onResize(int width, int height) {
+  for (Camera* camera : cameras_) {
+    if (camera) {
+      camera->onResize(width, height);
+    }
+  }
 }
 
 void WindowApp::onKeyPress(int key, bool shift, bool ctrl, bool alt,

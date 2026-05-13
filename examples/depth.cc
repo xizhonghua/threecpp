@@ -21,7 +21,7 @@ private:
 
 public:
   DepthExample() :
-      WindowApp(800, 600, "examples/depth") {
+      WindowApp(800, 600, "examples/depth", {&camera}) {
   }
 
   void initScene() override {
@@ -47,10 +47,6 @@ public:
     mesh2.position.z = std::cos(time_us * 1e-6) * 400;
 
     renderer.render(&scene, &camera);
-  }
-
-  void onResize(int width, int height) override {
-    camera.onResize(width, height);
   }
 };
 }

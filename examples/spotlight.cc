@@ -23,7 +23,7 @@ private:
 
 public:
   SpotlightExample() :
-      WindowApp(800, 450, "examples/Basic") {
+      WindowApp(800, 450, "examples/Basic", {&camera}) {
   }
 
   void initScene() override {
