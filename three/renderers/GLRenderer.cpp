@@ -219,7 +219,8 @@ void GLRenderer::renderObject(RenderableObject* object) {
   prepareMaterial(object->getMaterial());
 
   bool isMeshNormalMaterial = dynamic_cast<MeshNormalMaterial*>(object->getMaterial()) != nullptr;
-  if (isMeshNormalMaterial) {
+  bool isMeshDepthMaterial = dynamic_cast<MeshDepthMaterial*>(object->getMaterial()) != nullptr;
+  if (isMeshNormalMaterial || isMeshDepthMaterial) {
     glDisable(GL_LIGHTING);
   }
 
@@ -271,6 +272,16 @@ void GLRenderer::renderObject(RenderableObject* object) {
     }
 
     for (Vector3* const v : vs) {
+      if (isMeshDepthMaterial) {
+        Vector3 eyePos(*v);
+        eyePos *= object->modelViewMatrix;
+        double z = -eyePos.z;
+        double depthColor = z / 1200.0;
+        if (depthColor < 0.0) depthColor = 0.0;
+        if (depthColor > 1.0) depthColor = 1.0;
+        depthColor = 1.0 - depthColor;
+        glColor3d(depthColor, depthColor, depthColor);
+      }
       glVertex3d(v->x, v->y, v->z);
     }
     glEnd();
@@ -278,7 +289,7 @@ void GLRenderer::renderObject(RenderableObject* object) {
 
   glPopMatrix();
 
-  if (isMeshNormalMaterial && !lights_.empty()) {
+  if ((isMeshNormalMaterial || isMeshDepthMaterial) && !lights_.empty()) {
     glEnable(GL_LIGHTING);
   }
 }
