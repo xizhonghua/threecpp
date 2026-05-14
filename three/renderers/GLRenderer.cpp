@@ -228,64 +228,75 @@ void GLRenderer::renderObject(RenderableObject* object) {
 
   glLoadMatrixd(object->modelViewMatrix.elements);
 
-  GLenum state;
-
-  if (object->getMaterial()->wireframe()) {
-    state = GL_LINE_LOOP;
-  } else {
-    state = GL_TRIANGLES;
-  }
-
   Geometry* const geom = object->getGeomtry();
 
-  for (const Face3& f : geom->faces) {
-    std::vector<Vector3*> vs = { &(geom->vertices[f.a]), &(geom->vertices[f.b]),
-        &(geom->vertices[f.c]) };
-
-    glBegin(state);
-
-    double nx = f.normal.x;
-    double ny = f.normal.y;
-    double nz = f.normal.z;
-
-    if (nx == 0 && ny == 0 && nz == 0) {
-      double ux = vs[1]->x - vs[0]->x;
-      double uy = vs[1]->y - vs[0]->y;
-      double uz = vs[1]->z - vs[0]->z;
-      double vx = vs[2]->x - vs[0]->x;
-      double vy = vs[2]->y - vs[0]->y;
-      double vz = vs[2]->z - vs[0]->z;
-      
-      nx = uy * vz - uz * vy;
-      ny = uz * vx - ux * vz;
-      nz = ux * vy - uy * vx;
-      double len = std::sqrt(nx * nx + ny * ny + nz * nz);
-      if (len > 0.0) {
-        nx /= len; ny /= len; nz /= len;
-      }
-    }
-
-    glNormal3d(nx, ny, nz);
-
-    if (isMeshNormalMaterial) {
-      glColor3d((nx + 1.0) / 2.0, (ny + 1.0) / 2.0, (nz + 1.0) / 2.0);
-    }
-
-    for (Vector3* const v : vs) {
-      if (isMeshDepthMaterial) {
-        Vector3 eyePos(*v);
-        eyePos *= object->modelViewMatrix;
-        double z = -eyePos.z;
-        double depthColor = z / 1200.0;
-        if (depthColor < 0.0) depthColor = 0.0;
-        if (depthColor > 1.0) depthColor = 1.0;
-        depthColor = 1.0 - depthColor;
-        glColor3d(depthColor, depthColor, depthColor);
-      }
-      glVertex3d(v->x, v->y, v->z);
-    }
-    glEnd();
+  if (geom->normalsArray.empty() && !geom->vertices.empty()) {
+    geom->computeVertexNormals();
   }
+  if (geom->verticesArray.empty() && !geom->vertices.empty()) {
+    geom->computeVerticesArray();
+  }
+  if (geom->facesArray.empty() && !geom->faces.empty()) {
+    geom->computeFacesArray();
+  }
+  if (isMeshNormalMaterial && geom->colorsArray.empty() && !geom->normalsArray.empty()) {
+    geom->computeColorsArray();
+  }
+
+  std::vector<float> depthColors;
+  if (isMeshDepthMaterial) {
+    depthColors.reserve(geom->vertices.size() * 3);
+    for (const Vector3& v : geom->vertices) {
+      Vector3 eyePos(v);
+      eyePos *= object->modelViewMatrix;
+      double z = -eyePos.z;
+      double depthColor = z / 1200.0;
+      if (depthColor < 0.0) depthColor = 0.0;
+      if (depthColor > 1.0) depthColor = 1.0;
+      depthColor = 1.0 - depthColor;
+      depthColors.push_back(static_cast<float>(depthColor));
+      depthColors.push_back(static_cast<float>(depthColor));
+      depthColors.push_back(static_cast<float>(depthColor));
+    }
+  }
+
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glVertexPointer(3, GL_FLOAT, 0, geom->verticesArray.data());
+
+  if (!geom->normalsArray.empty()) {
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glNormalPointer(GL_FLOAT, 0, geom->normalsArray.data());
+  }
+
+  if (isMeshNormalMaterial) {
+    glEnableClientState(GL_COLOR_ARRAY);
+    glColorPointer(3, GL_FLOAT, 0, geom->colorsArray.data());
+  } else if (isMeshDepthMaterial) {
+    glEnableClientState(GL_COLOR_ARRAY);
+    glColorPointer(3, GL_FLOAT, 0, depthColors.data());
+  }
+
+  if (object->getMaterial()->wireframe()) {
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  } else {
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+  }
+
+  glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(geom->facesArray.size()), GL_UNSIGNED_INT, geom->facesArray.data());
+
+  if (object->getMaterial()->wireframe()) {
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+  }
+
+  if (isMeshNormalMaterial || isMeshDepthMaterial) {
+    glDisableClientState(GL_COLOR_ARRAY);
+  }
+
+  if (!geom->normalsArray.empty()) {
+    glDisableClientState(GL_NORMAL_ARRAY);
+  }
+
+  glDisableClientState(GL_VERTEX_ARRAY);
 
   glPopMatrix();
 

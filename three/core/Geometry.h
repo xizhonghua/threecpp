@@ -25,9 +25,20 @@ public:
 
   Geometry& applyMatrix(const Matrix4& m);
 
+  virtual void computeVertexNormals();
+  virtual void computeVerticesArray();
+  virtual void computeFacesArray();
+  virtual void computeColorsArray();
+
   std::vector<Vector3> vertices;
   std::vector<Face3> faces;
   std::vector<Color> colors;
+
+  // Computed arrays for rendering
+  std::vector<float> normalsArray;
+  std::vector<float> verticesArray;
+  std::vector<unsigned int> facesArray;
+  std::vector<float> colorsArray;
 };
 
 } /* namespace three */

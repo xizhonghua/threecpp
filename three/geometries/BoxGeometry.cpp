@@ -20,6 +20,9 @@ BoxGeometry::~BoxGeometry() {
 }
 
 void BoxGeometry::generateGeometry() {
+  this->vertices.clear();
+  this->faces.clear();
+
   Vector3 v0 { 0, 0, 0 };
   Vector3 v1 { width_, 0, 0 };
   Vector3 v2 { width_, height_, 0 };
@@ -30,33 +33,35 @@ void BoxGeometry::generateGeometry() {
   Vector3 v6 { width_, height_, depth_ };
   Vector3 v7 { 0, height_, depth_ };
 
-  this->vertices = {v0, v1, v2, v3, v4, v5, v6, v7};
-
   // Back
-  Face3 f0 { 0, 2, 1 };
-  Face3 f1 { 0, 3, 2 };
+  this->vertices.insert(this->vertices.end(), {v0, v1, v2, v3});
+  this->faces.emplace_back(0, 2, 1);
+  this->faces.emplace_back(0, 3, 2);
 
   // Left
-  Face3 f2 { 0, 7, 3 };
-  Face3 f3 { 0, 4, 7 };
+  this->vertices.insert(this->vertices.end(), {v0, v4, v7, v3});
+  this->faces.emplace_back(4, 6, 7);
+  this->faces.emplace_back(4, 5, 6);
 
   // Front
-  Face3 f4 { 4, 6, 7 };
-  Face3 f5 { 4, 5, 6 };
+  this->vertices.insert(this->vertices.end(), {v4, v5, v6, v7});
+  this->faces.emplace_back(8, 10, 11);
+  this->faces.emplace_back(8, 9, 10);
 
-  // bottom
-  Face3 f6 { 0, 1, 5 };
-  Face3 f7 { 0, 5, 4 };
+  // Bottom
+  this->vertices.insert(this->vertices.end(), {v0, v1, v5, v4});
+  this->faces.emplace_back(12, 13, 14);
+  this->faces.emplace_back(12, 14, 15);
 
   // Top
-  Face3 f8 { 7, 2, 3 };
-  Face3 f9 { 7, 6, 2 };
+  this->vertices.insert(this->vertices.end(), {v3, v2, v6, v7});
+  this->faces.emplace_back(19, 17, 16);
+  this->faces.emplace_back(19, 18, 17);
 
   // Right
-  Face3 f10 { 6, 5, 1 };
-  Face3 f11 { 6, 1, 2 };
-
-  this->faces = {f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11};
+  this->vertices.insert(this->vertices.end(), {v1, v5, v6, v2});
+  this->faces.emplace_back(22, 21, 20);
+  this->faces.emplace_back(22, 20, 23);
 
   // Translate center to (0,0,0);
   Matrix4 m = Matrix4::makeTranslation(
