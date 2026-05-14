@@ -23,9 +23,11 @@ SphereGeometry::~SphereGeometry() {
 SphereGeometry& SphereGeometry::generateGeometry() {
   this->vertices.clear();
   this->faces.clear();
+  this->normalsArray.clear();
 
   int vertexCount = (heightSegments_ + 1) * (widthSegments_ + 1);
   this->vertices.reserve(vertexCount);
+  this->normalsArray.reserve(vertexCount * 3);
 
   for (int i = 0; i <= heightSegments_; ++i) {
     double theta = thetaStart_ + i * thetaLength_ / heightSegments_;
@@ -42,6 +44,14 @@ SphereGeometry& SphereGeometry::generateGeometry() {
       double z = radius_ * sinPhi * sinTheta;
 
       this->vertices.emplace_back(x, y, z);
+
+      double length = std::sqrt(x * x + y * y + z * z);
+      double nx = length > 0.0 ? x / length : 0.0;
+      double ny = length > 0.0 ? y / length : 0.0;
+      double nz = length > 0.0 ? z / length : 0.0;
+      this->normalsArray.push_back(static_cast<float>(nx));
+      this->normalsArray.push_back(static_cast<float>(ny));
+      this->normalsArray.push_back(static_cast<float>(nz));
     }
   }
 
